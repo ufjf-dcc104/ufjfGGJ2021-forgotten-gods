@@ -4,6 +4,10 @@ import Sacrifice from "./Sacrifice.mjs";
 import Sacrifices from "./Sacrifices.mjs";
 
 window.onload = () => {
+  const game = {
+    reputation: 5,
+    grace: 5,
+  };
   const canvas = document.createElement("canvas");
   canvas.width = 640;
   canvas.height = 480;
@@ -13,8 +17,6 @@ window.onload = () => {
   canvas.onmouseup = mouseup;
   canvas.onclick = click;
   canvas.onmousemove = mousemove;
-  let reputation = 5;
-  let grace = 5;
 
   let dragging = null;
 
@@ -39,14 +41,14 @@ window.onload = () => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    sacrifices.expire(dt);
+    sacrifices.expire(dt, game);
     sacrifices.draw(ctx);
     ready.draw(ctx);
 
     ctx.font = "20px bold monospace";
     ctx.fillStyle = "white";
-    ctx.fillText(`Grace ${grace}`, 10, 20);
-    ctx.fillText(`Reputation ${reputation}`, 10, 40);
+    ctx.fillText(`Grace ${game.grace}`, 10, 20);
+    ctx.fillText(`Reputation ${game.reputation}`, 10, 40);
     requestAnimationFrame(step);
     t0 = t;
   }
@@ -68,7 +70,7 @@ window.onload = () => {
       dragging.y = y;
       const s = sacrifices.check(x, y);
       if (s) {
-        grace += s.type === dragging.type ? 1 : -1;
+        game.grace += s.type === dragging.type ? 1 : -1;
         ready.people.delete(dragging);
         sacrifices.delete(s);
         dragging = null;

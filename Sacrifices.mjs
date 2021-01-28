@@ -23,10 +23,14 @@ export default class Sacrifices {
     }
   }
 
-  expire(dt) {
+  expire(dt, game) {
     for (let s = 0; s < Math.min(this.sacrifices.length, 2); s++) {
       const sacrifice = this.sacrifices[s];
-      sacrifice.expire -= Math.min(1 * dt, sacrifice.expire);
+      sacrifice.expire -= 1 * dt;
+      if (sacrifice.expire <= 0) {
+        this.delete(sacrifice);
+        game.grace--;
+      }
     }
   }
 
