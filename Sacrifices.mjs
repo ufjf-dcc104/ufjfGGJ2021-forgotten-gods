@@ -17,4 +17,10 @@ export default class Sacrifices {
       p.draw(ctx);
     });
   }
+
+  expire(dt) {
+    this.sacrifices.forEach((p) => {
+      p.expire -= Math.min(1*dt, p.expire);
+    });
+  }
 }

@@ -32,9 +32,12 @@ window.onload = () => {
   let dt;
   requestAnimationFrame(step);
   function step(t) {
+    t0 = t0 ?? t;
+    dt = (t - t0) / 1000;
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    sacrifices.expire(dt);
     sacrifices.draw(ctx);
     ready.draw(ctx);
 
@@ -43,6 +46,7 @@ window.onload = () => {
     ctx.fillText(`Grace ${grace}`, 10, 20);
     ctx.fillText(`Reputation ${reputation}`, 10, 40);
     requestAnimationFrame(step);
+    t0 = t;
   }
 
   function mousedown(e) {
@@ -68,7 +72,6 @@ window.onload = () => {
     const y = e.pageY - canvas.offsetTop;
     ready.people.forEach((p) => {
       if (p.hasPoint({ x, y })) {
-        p.type = 0;
       }
     });
   }
