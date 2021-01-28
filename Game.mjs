@@ -2,6 +2,7 @@ import Sprite from "./Sprite.mjs";
 import Ready from "./Ready.mjs";
 import Sacrifice from "./Sacrifice.mjs";
 import Sacrifices from "./Sacrifices.mjs";
+import Area from "./Area.mjs";
 
 window.onload = () => {
   const game = {
@@ -26,7 +27,17 @@ window.onload = () => {
   sacrifices.add(new Sacrifice(2, 6));
   sacrifices.add(new Sacrifice(3, 3));
   const ready = new Ready(50);
-  
+  const died = new Area(350, 300);
+  const resting = new Area(350, 150);
+  const available = new Area(0, 400);
+
+  available.add(new Sprite(0));
+  available.add(new Sprite(1));
+  available.add(new Sprite(2));
+  available.add(new Sprite(3));
+
+  const newTurn = new Sprite(0);
+  Object.assign(newTurn, { x: 500, y: 300, w: 100, h: 30 });
   ready.add(new Sprite(0));
   ready.add(new Sprite(1));
   ready.add(new Sprite(2));
@@ -44,6 +55,10 @@ window.onload = () => {
     sacrifices.expire(dt, game);
     sacrifices.draw(ctx);
     ready.draw(ctx);
+    died.draw(ctx);
+    available.draw(ctx);
+    resting.draw(ctx);
+    newTurn.draw(ctx);
 
     ctx.font = "20px bold monospace";
     ctx.fillStyle = "white";
@@ -70,8 +85,14 @@ window.onload = () => {
       dragging.y = y;
       const s = sacrifices.check(x, y);
       if (s) {
-        game.grace += s.type === dragging.type ? 1 : -1;
-        ready.people.delete(dragging);
+        if (s.type === dragging.type) {
+          game.grace++;
+        } else {
+          game.grace--;
+          game.reputation--;
+        }
+        died.add(dragging);
+        ready.delete(dragging);
         sacrifices.delete(s);
         dragging = null;
       }
@@ -81,10 +102,10 @@ window.onload = () => {
   function click(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
-    ready.people.forEach((p) => {
-      if (p.hasPoint({ x, y })) {
-      }
-    });
+
+    if (newTurn.hasPoint({ x, y })) {
+      
+    }
   }
   function mousemove(e) {
     const x = e.pageX - canvas.offsetLeft;
