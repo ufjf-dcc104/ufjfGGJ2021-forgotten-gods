@@ -20,13 +20,13 @@ window.onload = () => {
 
   let dragging = null;
 
-  const sprites = [];
   const sacrifices = new Sacrifices();
   sacrifices.add(new Sacrifice(0, 10));
   sacrifices.add(new Sacrifice(1, 7));
   sacrifices.add(new Sacrifice(2, 6));
   sacrifices.add(new Sacrifice(3, 3));
   const ready = new Ready(50);
+  
   ready.add(new Sprite(0));
   ready.add(new Sprite(1));
   ready.add(new Sprite(2));
