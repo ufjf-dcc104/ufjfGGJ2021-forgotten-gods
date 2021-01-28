@@ -64,6 +64,13 @@ window.onload = () => {
     if (dragging) {
       dragging.x = x;
       dragging.y = y;
+      const s = sacrifices.check(x, y, dragging);
+      if (s?.type === dragging.type) {
+        grace++;
+        ready.people.delete(dragging)
+        sacrifices.delete(s);
+        dragging = null;
+    }
       dragging = null;
     }
   }

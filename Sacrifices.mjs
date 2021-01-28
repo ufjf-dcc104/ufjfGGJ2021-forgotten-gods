@@ -5,11 +5,15 @@ export default class Sacrifices {
     this.sacrifices = [];
   }
 
-  add(sacrifice){
-      this.sacrifices.push(sacrifice);
-      sacrifice.x = this.x + sacrifice.w * this.sacrifices.length;
-      sacrifice.y = this.y;
-      sacrifice.draggable = false;
+  add(sacrifice) {
+    this.sacrifices.push(sacrifice);
+    sacrifice.x = this.x + sacrifice.w * this.sacrifices.length;
+    sacrifice.y = this.y;
+    sacrifice.draggable = false;
+  }
+  delete(sacrifice){
+    const idx = this.sacrifices.indexOf(sacrifice);
+    this.sacrifices.splice(idx, 1);
   }
 
   draw(ctx) {
@@ -20,7 +24,17 @@ export default class Sacrifices {
 
   expire(dt) {
     this.sacrifices.forEach((p) => {
-      p.expire -= Math.min(1*dt, p.expire);
+      p.expire -= Math.min(1 * dt, p.expire);
     });
+  }
+
+  check(x, y, people) {
+    let found = null;
+    this.sacrifices.forEach((s) => {
+      if (s.hasPoint({ x, y })) {
+        found = s;
+      }
+    });
+    return found;
   }
 }
