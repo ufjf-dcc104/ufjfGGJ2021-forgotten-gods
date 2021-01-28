@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgotten Gods</title>
+    <script src="Game.mjs" type="module"></script>
+    <script src="Sprite.mjs" type="module"></script>
 </head>
 <style>
     * {
@@ -15,31 +17,6 @@
 </style>
 
 <body>
-    <script type="module">
-        const canvas = document.createElement("canvas");
-        canvas.width = 640;
-        canvas.height = 480;
-        document.body.appendChild(canvas);
-        const ctx = canvas.getContext("2d");
-        let reputation = 5;
-        let grace = 5;
-        
-
-        let t0;
-        let dt;
-        requestAnimationFrame(step);
-        function step(t) {
-            ctx.fillStyle = "black";
-            ctx.fillRect(0,0, canvas.width, canvas.height);    
-        
-            ctx.font="20px bold monospace";
-            ctx.fillStyle = "white";
-            ctx.fillText(`Grace ${grace}`, 10, 20);
-            ctx.fillText(`Reputation ${reputation}`, 10, 40);
-            requestAnimationFrame(step);
-        }
-
-    </script>
 
 </body>
 
