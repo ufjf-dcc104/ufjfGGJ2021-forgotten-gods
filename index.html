@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgotten Gods</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Courier New', Courier, monospace;
+    }
+</style>
+
+<body>
+    <script type="module">
+        const canvas = document.createElement("canvas");
+        canvas.width = 640;
+        canvas.height = 480;
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext("2d");
+        let reputation = 5;
+        let grace = 5;
+        
+
+        let t0;
+        let dt;
+        requestAnimationFrame(step);
+        function step(t) {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0,0, canvas.width, canvas.height);    
+        
+            ctx.fillText(`Grace ${grace}`, 10, 10);
+            ctx.fillText(`Reputation ${reputation}`, 10, 30);
+            requestAnimationFrame(step);
+        }
+
+    </script>
+
+</body>
+
+</html>
