@@ -9,8 +9,11 @@ window.onload = () => {
   canvas.onmousedown = mousedown;
   canvas.onmouseup = mouseup;
   canvas.onclick = click;
+  canvas.onmousemove = mousemove;
   let reputation = 5;
   let grace = 5;
+
+  let dragging = null;
 
   const sprites = [];
   sprites.push(new Sprite(50, 50, 10, 10));
@@ -33,16 +36,34 @@ window.onload = () => {
   function mousedown(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
+    sprites
+      .filter((s) => s.draggable && s.hasPoint({ x, y }))
+      .forEach((sprite) => {
+        dragging = sprite;
+      });
   }
   function mouseup(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
+    if (dragging) {
+      dragging.x = x;
+      dragging.y = y;
+      dragging = null;
+    }
   }
   function click(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
     if (sprites[0].hasPoint({ x, y })) {
       sprites[0].color = "red";
+    }
+  }
+  function mousemove(e) {
+    const x = e.pageX - canvas.offsetLeft;
+    const y = e.pageY - canvas.offsetTop;
+    if (dragging) {
+      dragging.x = x;
+      dragging.y = y;
     }
   }
 };

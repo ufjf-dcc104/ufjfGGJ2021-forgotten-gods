@@ -4,6 +4,7 @@ export default class Sprite {
     this.y = y;
     this.w = w;
     this.h = h;
+    this.draggable = true;
     this.color = "white";
   }
   draw(ctx) {
