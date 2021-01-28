@@ -32,8 +32,10 @@
             ctx.fillStyle = "black";
             ctx.fillRect(0,0, canvas.width, canvas.height);    
         
-            ctx.fillText(`Grace ${grace}`, 10, 10);
-            ctx.fillText(`Reputation ${reputation}`, 10, 30);
+            ctx.font="20px bold monospace";
+            ctx.fillStyle = "white";
+            ctx.fillText(`Grace ${grace}`, 10, 20);
+            ctx.fillText(`Reputation ${reputation}`, 10, 40);
             requestAnimationFrame(step);
         }
 
