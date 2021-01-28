@@ -20,8 +20,10 @@ window.onload = () => {
 
   const sprites = [];
   const sacrifices = new Sacrifices();
-  sacrifices.add(new Sacrifice(1, 10));
-  sacrifices.add(new Sacrifice(2, 7));
+  sacrifices.add(new Sacrifice(0, 10));
+  sacrifices.add(new Sacrifice(1, 7));
+  sacrifices.add(new Sacrifice(2, 6));
+  sacrifices.add(new Sacrifice(3, 3));
   const ready = new Ready(50);
   ready.add(new Sprite(0));
   ready.add(new Sprite(1));
@@ -64,7 +66,7 @@ window.onload = () => {
     if (dragging) {
       dragging.x = x;
       dragging.y = y;
-      const s = sacrifices.check(x, y, dragging);
+      const s = sacrifices.check(x, y);
       if (s?.type === dragging.type) {
         grace++;
         ready.people.delete(dragging)
