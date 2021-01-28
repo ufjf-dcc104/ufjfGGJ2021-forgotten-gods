@@ -6,6 +6,9 @@ window.onload = () => {
   canvas.height = 480;
   document.body.appendChild(canvas);
   const ctx = canvas.getContext("2d");
+  canvas.onmousedown = mousedown;
+  canvas.onmouseup = mouseup;
+  canvas.onclick = click;
   let reputation = 5;
   let grace = 5;
 
@@ -25,5 +28,21 @@ window.onload = () => {
     ctx.fillText(`Grace ${grace}`, 10, 20);
     ctx.fillText(`Reputation ${reputation}`, 10, 40);
     requestAnimationFrame(step);
+  }
+
+  function mousedown(e) {
+    const x = e.pageX - canvas.offsetLeft;
+    const y = e.pageY - canvas.offsetTop;
+  }
+  function mouseup(e) {
+    const x = e.pageX - canvas.offsetLeft;
+    const y = e.pageY - canvas.offsetTop;
+  }
+  function click(e) {
+    const x = e.pageX - canvas.offsetLeft;
+    const y = e.pageY - canvas.offsetTop;
+    if (sprites[0].hasPoint({ x, y })) {
+      sprites[0].color = "red";
+    }
   }
 };
