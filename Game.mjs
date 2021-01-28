@@ -1,4 +1,5 @@
 import Sprite from "./Sprite.mjs";
+import Ready from "./Ready.mjs";
 
 window.onload = () => {
   const canvas = document.createElement("canvas");
@@ -16,7 +17,11 @@ window.onload = () => {
   let dragging = null;
 
   const sprites = [];
-  sprites.push(new Sprite(50, 50, 10, 10));
+  const ready = new Ready(50);
+  ready.add(new Sprite(0));
+  ready.add(new Sprite(1));
+  ready.add(new Sprite(2));
+  ready.add(new Sprite(3));
 
   let t0;
   let dt;
@@ -25,7 +30,7 @@ window.onload = () => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    sprites[0].draw(ctx);
+    ready.draw(ctx);
     ctx.font = "20px bold monospace";
     ctx.fillStyle = "white";
     ctx.fillText(`Grace ${grace}`, 10, 20);
@@ -36,11 +41,11 @@ window.onload = () => {
   function mousedown(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
-    sprites
-      .filter((s) => s.draggable && s.hasPoint({ x, y }))
-      .forEach((sprite) => {
-        dragging = sprite;
-      });
+    ready.people.forEach((s) => {
+      if (s.draggable && s.hasPoint({ x, y })) {
+        dragging = s;
+      }
+    });
   }
   function mouseup(e) {
     const x = e.pageX - canvas.offsetLeft;
@@ -54,9 +59,11 @@ window.onload = () => {
   function click(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
-    if (sprites[0].hasPoint({ x, y })) {
-      sprites[0].color = "red";
-    }
+    ready.people.forEach((p) => {
+      if (p.hasPoint({ x, y })) {
+        p.type = 0;
+      }
+    });
   }
   function mousemove(e) {
     const x = e.pageX - canvas.offsetLeft;
