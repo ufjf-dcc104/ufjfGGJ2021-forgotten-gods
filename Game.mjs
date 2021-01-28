@@ -1,5 +1,7 @@
 import Sprite from "./Sprite.mjs";
 import Ready from "./Ready.mjs";
+import Sacrifice from "./Sacrifice.mjs";
+import Sacrifices from "./Sacrifices.mjs";
 
 window.onload = () => {
   const canvas = document.createElement("canvas");
@@ -17,6 +19,9 @@ window.onload = () => {
   let dragging = null;
 
   const sprites = [];
+  const sacrifices = new Sacrifices();
+  sacrifices.add(new Sacrifice(1, 10));
+  sacrifices.add(new Sacrifice(2, 7));
   const ready = new Ready(50);
   ready.add(new Sprite(0));
   ready.add(new Sprite(1));
@@ -30,7 +35,9 @@ window.onload = () => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    sacrifices.draw(ctx);
     ready.draw(ctx);
+
     ctx.font = "20px bold monospace";
     ctx.fillStyle = "white";
     ctx.fillText(`Grace ${grace}`, 10, 20);

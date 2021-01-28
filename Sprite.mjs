@@ -1,4 +1,4 @@
-const TYPE_COLOR = ["white", "red", "green", "blue"];
+export const TYPE_COLOR = ["white", "red", "green", "blue"];
 
 export default class Sprite {
   constructor(type = 0) {
