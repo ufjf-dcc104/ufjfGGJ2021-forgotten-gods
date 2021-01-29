@@ -11,9 +11,11 @@ export default class Sprite {
     this.color = "white";
   }
   draw(ctx) {
+    ctx.beginPath();
     ctx.fillStyle = TYPE_COLOR[this.type];
     ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);    
-    ctx.strokeStyle = "gray";
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
   }
   hasPoint(point) {

@@ -33,7 +33,7 @@ export default class Activity extends Sprite {
       ctx.fill();
     });
 
-    ctx.fillStyle = `hsl(${(130 * this.expire) / this.total}deg, 50%, 40%)`;
+    ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 30%)`;
     ctx.fillRect(
       this.x - this.w / 2,
       this.y + this.h / 2 + 5,

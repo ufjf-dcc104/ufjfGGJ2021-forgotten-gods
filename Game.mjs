@@ -1,6 +1,5 @@
 import Sprite from "./Sprite.mjs";
 import Ready from "./Ready.mjs";
-import Sacrifice from "./Sacrifice.mjs";
 import Sacrifices from "./Sacrifices.mjs";
 import Activities from "./Activities.mjs";
 import Activity from "./Activity.mjs";
@@ -14,8 +13,8 @@ window.onload = () => {
     grace: 5,
   };
   const canvas = document.createElement("canvas");
-  canvas.width = 640;
-  canvas.height = 480;
+  canvas.width = 320;
+  canvas.height = 560;
   document.body.appendChild(canvas);
   const ctx = canvas.getContext("2d");
   canvas.onmousedown = mousedown;
@@ -25,18 +24,18 @@ window.onload = () => {
 
   let dragging = null;
 
-  const sacrifices = new Sacrifices();
+  const sacrifices = new Sacrifices(130, 100);
   sacrifices.loadAll(ALL_SACRIFICES);
 
-  const ready = new Ready("Ready", 50);
-  const died = new Area("Died", 350, 300);
-  const resting = new Area("Resting", 350, 150);
+  const ready = new Ready("Ready", 80, canvas.height - 170);
+  const died = new Area("Died", 60, canvas.height - 100, false);
+  const resting = new Area("Resting", 60, canvas.height - 100, false);
 
-  const available = new Area("Available", 40, 400);
+  const available = new Area("Available", 60, canvas.height - 100);
   available.loadAll(ALL_AVAILABLE);
   game.available = available;
 
-  const activities = new Activities();
+  const activities = new Activities(80, canvas.height -300);
   activities.add(new Activity(0, 10));
   activities.add(new Activity(1, 7));
   activities.add(new Activity(2, 6));
@@ -44,8 +43,8 @@ window.onload = () => {
 
   const newTurn = new Sprite(0);
   Object.assign(newTurn, {
-    x: canvas.width - 70,
-    y: canvas.height - 40,
+    x: canvas.width /2,
+    y: canvas.height - 230,
     w: 100,
     h: 30,
   });
@@ -61,7 +60,7 @@ window.onload = () => {
   function step(t) {
     t0 = t0 ?? t;
     dt = (t - t0) / 1000;
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "#d2d6d8";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     sacrifices.expire(dt, game);
@@ -75,7 +74,7 @@ window.onload = () => {
     newTurn.draw(ctx);
 
     ctx.font = "20px bold monospace";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "black";
     ctx.fillText(`Grace ${game.grace}`, 10, 20);
     ctx.fillText(`Reputation ${game.reputation}`, 10, 40);
     requestAnimationFrame(step);

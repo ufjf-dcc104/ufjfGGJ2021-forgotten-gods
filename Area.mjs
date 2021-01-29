@@ -1,12 +1,13 @@
 import Sprite from "./Sprite.mjs";
 
 export default class Area {
-  constructor(title = "", x = 0, y = 300) {
+  constructor(title = "", x = 0, y = 300, visible = true) {
     this.x = x;
     this.y = y;
     this.people = [];
     this.title = title;
-    this.max = 8;
+    this.max = 5;
+    this.visible = visible;
   }
 
   loadAll(people) {
@@ -22,15 +23,16 @@ export default class Area {
     const l = Math.floor(n / this.max);
     const c = n % this.max;
     people.x = this.x + (people.w + 8) * c + (l % 2 === 0 ? 0 : people.w / 2);
-    people.y = this.y + (people.h / 2) * l;
+    people.y = this.y + (people.h / 3) * l;
     people.draggable = false;
     this.people.push(people);
   }
 
   draw(ctx) {
+    if (!this.visible) return;
     ctx.fillStyle = "white";
-    ctx.font = "25px monospace";
-    ctx.fillText(this.title, this.x, this.y - 50);
+    //ctx.font = "25px monospace";
+    //ctx.fillText(this.title, this.x, this.y - 50);
     this.people.forEach((p) => {
       p.draw(ctx);
     });

@@ -15,7 +15,7 @@ export default class Sacrifice extends Sprite {
     ctx.lineWidth = 3;
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.fillStyle = "white";
-    ctx.fillStyle = `hsl(${130*this.expire/this.total}deg, 50%, 40%)`;
+    ctx.fillStyle = `hsl(${120*this.expire/this.total}deg, 100%, 30%)`;
     ctx.fillRect(this.x - this.w / 2, this.y + this.h / 2+5, this.w*this.expire/this.total, 10);
     ctx.font = "10px monospace";
     ctx.fillText(this.expire.toFixed(2), this.x - this.w / 2, this.y + this.h / 2+25);

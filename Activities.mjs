@@ -3,6 +3,7 @@ export default class Activities {
       this.x = x;
       this.y = y;
       this.activities = [];
+      this.max = 3;
     }
   
     add(activity) {
@@ -15,9 +16,9 @@ export default class Activities {
     }
   
     draw(ctx) {
-        for (let s = 0; s < Math.min(this.activities.length, 2); s++) {
+        for (let s = 0; s < Math.min(this.activities.length, this.max); s++) {
             const activity = this.activities[s];
-            activity.x = this.x + activity.w * s;
+            activity.x = this.x + (activity.w+8) * s;
             activity.y = this.y;
             activity.draw(ctx);
       }

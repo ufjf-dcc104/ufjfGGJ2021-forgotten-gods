@@ -1,7 +1,7 @@
 import Sacrifice from "./Sacrifice.mjs";
 
 export default class Sacrifices {
-  constructor(x = 80, y = 120) {
+  constructor(x = 120, y = 20) {
     this.x = x;
     this.y = y;
     this.sacrifices = [];
@@ -25,7 +25,7 @@ export default class Sacrifices {
   draw(ctx) {
     for (let s = 0; s < Math.min(this.sacrifices.length, 2); s++) {
       const sacrifice = this.sacrifices[s];
-      sacrifice.x = this.x + sacrifice.w * s;
+      sacrifice.x = this.x + (sacrifice.w+8) * s;
       sacrifice.y = this.y;
       sacrifice.draw(ctx);
     }
