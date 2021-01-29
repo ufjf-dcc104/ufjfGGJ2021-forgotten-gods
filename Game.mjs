@@ -9,6 +9,7 @@ import { ALL_AVAILABLE } from "./AllCards.mjs";
 
 window.onload = () => {
   const game = {
+    expire: 180,
     reputation: 5,
     grace: 5,
   };
@@ -76,8 +77,13 @@ window.onload = () => {
     resting.draw(ctx);
     newTurn.draw(ctx);
 
-    ctx.font = "20px bold monospace";
+    game.expire -= 1*dt;
+    const min = Math.floor(game.expire / 60);
+    const seg = Math.floor(game.expire % 60); 
+    ctx.font = "30px bold monospace";
     ctx.fillStyle = "black";
+    ctx.fillText(`${min}:${seg}`, 130, 35);
+    ctx.font = "20px bold monospace";
     ctx.fillText(`Grace ${game.grace}`, 10, 20);
     ctx.fillText(`Reputation ${game.reputation}`, 10, 40);
     requestAnimationFrame(step);
