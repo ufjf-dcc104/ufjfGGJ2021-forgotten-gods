@@ -3,6 +3,8 @@ import Ready from "./Ready.mjs";
 import Sacrifice from "./Sacrifice.mjs";
 import Sacrifices from "./Sacrifices.mjs";
 import Area from "./Area.mjs";
+import { ALL_SACRIFICES } from "./AllCards.mjs";
+import { ALL_AVAILABLE } from "./AllCards.mjs";
 
 window.onload = () => {
   const game = {
@@ -22,28 +24,16 @@ window.onload = () => {
   let dragging = null;
 
   const sacrifices = new Sacrifices();
-  sacrifices.add(new Sacrifice(0, 10));
-  sacrifices.add(new Sacrifice(1, 7));
-  sacrifices.add(new Sacrifice(2, 6));
-  sacrifices.add(new Sacrifice(3, 3));
+  sacrifices.loadAll(ALL_SACRIFICES);
+  
   const ready = new Ready("Ready", 50);
   const died = new Area("Died", 350, 300);
   const resting = new Area("Resting", 350, 150);
-  const available = new Area("Avaiable", 0, 400);
+  const available = new Area("Available", 40, 400);
+  available.loadAll(ALL_AVAILABLE);
 
-  available.add(new Sprite(0));
-  available.add(new Sprite(0));
-  available.add(new Sprite(1));
-  available.add(new Sprite(1));
-  available.add(new Sprite(2));
-  available.add(new Sprite(2));
-  available.add(new Sprite(3));
-  available.add(new Sprite(3));
-  available.add(new Sprite(1));
-  available.add(new Sprite(2));
-  available.add(new Sprite(2));
-  available.add(new Sprite(3));
-  available.add(new Sprite(3));
+
+  
 
   const newTurn = new Sprite(0);
   Object.assign(newTurn, { x: 500, y: 300, w: 100, h: 30 });

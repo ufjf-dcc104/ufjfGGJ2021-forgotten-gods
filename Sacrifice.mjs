@@ -1,13 +1,14 @@
 import Sprite, { TYPE_COLOR } from "./Sprite.mjs";
 
 export default class Sacrifice extends Sprite {
-  constructor(type = 0, expire = 10) {
+  constructor(type = 0, expire = 10, effect= (game)=>{} ) {
     super();
     this.type = type;
     this.w = 60;
     this.h = 100;
     this.expire = expire;
     this.total = expire;
+    this.effect = effect;
   }
   draw(ctx) {
     ctx.strokeStyle = TYPE_COLOR[this.type];

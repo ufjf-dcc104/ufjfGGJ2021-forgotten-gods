@@ -1,8 +1,16 @@
+import Sacrifice from "./Sacrifice.mjs";
+
 export default class Sacrifices {
   constructor(x = 80, y = 120) {
     this.x = x;
     this.y = y;
     this.sacrifices = [];
+  }
+
+  loadAll(sacrifices) {
+    sacrifices.forEach((s) => {
+      this.add(new Sacrifice(s.type, s.expire, s.effect));
+    });
   }
 
   add(sacrifice) {
