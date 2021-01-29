@@ -21,6 +21,7 @@ window.onload = () => {
   canvas.onmouseup = mouseup;
   canvas.onclick = click;
   canvas.onmousemove = mousemove;
+  canvas.onmouseout = mouseout;
 
   let dragging = null;
 
@@ -35,7 +36,7 @@ window.onload = () => {
   available.loadAll(ALL_AVAILABLE);
   game.available = available;
 
-  const activities = new Activities(80, canvas.height -300);
+  const activities = new Activities(80, canvas.height - 300);
   activities.add(new Activity(0, 10));
   activities.add(new Activity(1, 7));
   activities.add(new Activity(2, 6));
@@ -43,7 +44,7 @@ window.onload = () => {
 
   const newTurn = new Sprite(0);
   Object.assign(newTurn, {
-    x: canvas.width /2,
+    x: canvas.width / 2,
     y: canvas.height - 230,
     w: 100,
     h: 30,
@@ -60,8 +61,10 @@ window.onload = () => {
   function step(t) {
     t0 = t0 ?? t;
     dt = (t - t0) / 1000;
-    ctx.fillStyle = "#d2d6d8";
+    ctx.fillStyle = "hsl(200, 7%, 84%)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "hsl(200, 7%, 74%)";
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
     sacrifices.expire(dt, game);
     sacrifices.draw(ctx);
@@ -87,13 +90,15 @@ window.onload = () => {
     ready.people.forEach((s) => {
       if (s.draggable && s.hasPoint({ x, y })) {
         dragging = s;
+        dragging.oldx = dragging.x;
+        dragging.oldy = dragging.y;
       }
     });
   }
   function mouseup(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
-    if (dragging) {
+    if (dragging !== null) {
       dragging.x = x;
       dragging.y = y;
       const s = sacrifices.check(x, y);
@@ -110,26 +115,30 @@ window.onload = () => {
         ready.delete(dragging);
         sacrifices.delete(s);
         dragging = null;
+        return;
       }
       if (a) {
         if (a.deliver(dragging.type)) {
         } else {
-            game.reputation--;
+          game.reputation--;
         }
         resting.add(dragging);
         ready.delete(dragging);
-        if(a.demands.length ===0){
-            game.reputation++;
-            activities.delete(a);
+        if (a.demands.length === 0) {
+          game.reputation++;
+          activities.delete(a);
         }
         dragging = null;
+        return;
       }
+      dragging.x = dragging?.oldx;
+      dragging.y = dragging?.oldy;
+      dragging = null;
     }
   }
   function click(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
-    console.log(x, y);
     if (newTurn.hasPoint({ x, y })) {
       resting.addAll(ready);
 
@@ -151,6 +160,13 @@ window.onload = () => {
     if (dragging) {
       dragging.x = x;
       dragging.y = y;
+    }
+  }
+  function mouseout(e) {
+    if (dragging) {
+      dragging.x = dragging?.oldx;
+      dragging.y = dragging?.oldy;
+      dragging = null;
     }
   }
 };
