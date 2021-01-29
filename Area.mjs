@@ -8,7 +8,7 @@ export default class Area {
     this.title = title;
     this.max = 5;
     this.visible = visible;
-    this.gap=2;
+    this.gap = 2;
   }
 
   loadAll(people) {
@@ -23,7 +23,8 @@ export default class Area {
     const n = this.people.length;
     const l = Math.floor(n / this.max);
     const c = n % this.max;
-    people.x = this.x + (people.w + this.gap) * c + (l % 2 === 0 ? 0 : people.w / 2);
+    people.x =
+      this.x + (people.w + this.gap) * c + (l % 2 === 0 ? 0 : people.w / 2);
     people.y = this.y + (people.h / 3) * l;
     people.draggable = false;
     this.people.push(people);
@@ -57,5 +58,21 @@ export default class Area {
 
   size() {
     return this.people.length;
+  }
+
+  countPeople() {
+    let count = [0, 0, 0, 0];
+    this.people.forEach((person) => {
+      count[person.type]++;
+    });
+    return count;
+  }
+
+  drawCount(ctx) {
+    let counts = this.countPeople();
+    for (let i = 0; i < counts.length; i++) {
+      ctx.font = "25px monospace";
+      ctx.fillText(counts[i], this.people[i].x - 10, this.people[i].y + 25);
+    }
   }
 }

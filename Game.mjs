@@ -36,9 +36,11 @@ window.onload = () => {
 
   const ready = new Ready("Ready", 62, canvas.height - 148);
   const died = new Area("Died", 60, canvas.height - 100, false);
-  const resting = new Area("Resting", 60, canvas.height - 100, false);
+  
+  const resting = new Area("Resing", 47, canvas.height - 53, false);
+  const available = new Area("Availabe", 47, canvas.height - 53, true);
+  const cardCount = new Area("CardCount", 47, canvas.height - 53, true);
 
-  const available = new Area("Available", 60, canvas.height - 100, false);
   available.loadAll(ALL_AVAILABLE);
   game.available = available;
 
@@ -49,10 +51,24 @@ window.onload = () => {
   activities.add(new Activity(3, 3));
 
   const newTurn = new Sprite(0);
+  const showResting = new Sprite(0);
+  const showAvailable = new Sprite(0);
   Object.assign(newTurn, {
     x: canvas.width / 2,
     y: canvas.height - 230,
     w: 100,
+    h: 30,
+  });
+  Object.assign(showResting, {
+    x: canvas.width - 59,
+    y: canvas.height - 70,
+    w: 75,
+    h: 30,
+  });
+  Object.assign(showAvailable, {
+    x: canvas.width - 59,
+    y: canvas.height - 38,
+    w: 75,
     h: 30,
   });
   ready.add(new People(0));
@@ -60,6 +76,11 @@ window.onload = () => {
   ready.add(new People(2));
   ready.add(new People(3));
   ready.add(new People(0));
+
+  cardCount.add(new People(0));
+  cardCount.add(new People(1));
+  cardCount.add(new People(2));
+  cardCount.add(new People(3));
 
   let t0;
   let dt;
@@ -79,9 +100,12 @@ window.onload = () => {
     activities.draw(ctx);
     ready.draw(ctx);
     died.draw(ctx);
-    available.draw(ctx);
     resting.draw(ctx);
     newTurn.draw(ctx);
+    showAvailable.draw(ctx);
+    showResting.draw(ctx);
+    cardCount.draw(ctx);
+    available.drawCount(ctx);
 
     game.expire -= Math.min(game.expire, 1 * dt);
     const min = padzero(Math.floor(game.expire / 60), 2);
