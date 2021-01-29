@@ -66,10 +66,16 @@ export default class Game {
     this.areas.ready.add(new People(3));
     this.areas.ready.add(new People(0));
 
-    this.areas.CardCount.add(new People(0));
-    this.areas.CardCount.add(new People(1));
-    this.areas.CardCount.add(new People(2));
-    this.areas.CardCount.add(new People(3));
+    this.areas.cardCount.add(new People(0));
+    this.areas.cardCount.add(new People(1));
+    this.areas.cardCount.add(new People(2));
+    this.areas.cardCount.add(new People(3));
+
+    this.areas.activities.add(new Activity(0, 10));
+    this.areas.activities.add(new Activity(1, 7));
+    this.areas.activities.add(new Activity(2, 6));
+    this.areas.activities.add(new Activity(3, 3));
+
   }
 
   step(t) {
@@ -89,7 +95,7 @@ export default class Game {
     this.areas.died.draw(this.ctx);
     this.areas.available.draw(this.ctx);
     this.areas.resting.draw(this.ctx);
-    this.areas.CardCount.draw(this.ctx);
+    this.areas.cardCount.draw(this.ctx);
     this.newTurn.draw(this.ctx);
 
     this.expire -= Math.min(this.expire, 1 * this.dt);
@@ -112,7 +118,7 @@ export default class Game {
     this.areas.sacrifices.loadAll(ALL_SACRIFICES);
 
     this.areas.ready = new Ready("Ready", 62, this.canvas.height - 148);
-    this.areas.CardCount = new Area(
+    this.areas.cardCount = new Area(
       "Card Count",
       47,
       this.canvas.height - 53,
@@ -140,14 +146,6 @@ export default class Game {
     this.areas.available.loadAll(ALL_AVAILABLE);
 
     this.areas.activities = new Activities(80, this.canvas.height - 300);
-    this.areas.activities.add(new Activity(0, 10));
-    this.areas.activities.add(new Activity(1, 7));
-    this.areas.activities.add(new Activity(2, 6));
-    this.areas.activities.add(new Activity(3, 3));
-    this.areas.CardCount.add(new People(0));
-    this.areas.CardCount.add(new People(1));
-    this.areas.CardCount.add(new People(2));
-    this.areas.CardCount.add(new People(3));
     this.newTurn = new Button( this.canvas.width / 2,
       this.canvas.height - 230,
        100,
