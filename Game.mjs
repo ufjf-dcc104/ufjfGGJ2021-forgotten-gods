@@ -27,22 +27,28 @@ window.onload = () => {
 
   const sacrifices = new Sacrifices();
   sacrifices.loadAll(ALL_SACRIFICES);
-  
+
   const ready = new Ready("Ready", 50);
   const died = new Area("Died", 350, 300);
   const resting = new Area("Resting", 350, 150);
 
   const available = new Area("Available", 40, 400);
   available.loadAll(ALL_AVAILABLE);
+  game.available = available;
 
   const activities = new Activities();
   activities.add(new Activity(0, 10));
   activities.add(new Activity(1, 7));
   activities.add(new Activity(2, 6));
   activities.add(new Activity(3, 3));
-  
+
   const newTurn = new Sprite(0);
-  Object.assign(newTurn, { x: canvas.width - 70, y: canvas.height - 40, w: 100, h: 30 });
+  Object.assign(newTurn, {
+    x: canvas.width - 70,
+    y: canvas.height - 40,
+    w: 100,
+    h: 30,
+  });
   ready.add(new Sprite(0));
   ready.add(new Sprite(1));
   ready.add(new Sprite(2));
@@ -92,9 +98,11 @@ window.onload = () => {
       dragging.x = x;
       dragging.y = y;
       const s = sacrifices.check(x, y);
+      const a = activities.check(x, y);
       if (s) {
         if (s.type === dragging.type) {
           game.grace++;
+          s.effect(game);
         } else {
           game.grace--;
           game.reputation--;
@@ -104,7 +112,19 @@ window.onload = () => {
         sacrifices.delete(s);
         dragging = null;
       }
-      dragging = null;
+      if (a) {
+        if (a.deliver(dragging.type)) {
+        } else {
+            game.reputation--;
+        }
+        resting.add(dragging);
+        ready.delete(dragging);
+        if(a.demands.length ===0){
+            game.reputation++;
+            activities.delete(a);
+        }
+        dragging = null;
+      }
     }
   }
   function click(e) {
@@ -113,10 +133,10 @@ window.onload = () => {
     console.log(x, y);
     if (newTurn.hasPoint({ x, y })) {
       resting.addAll(ready);
-    
+
       if (available.size() <= 5) {
-          ready.addAll(available);
-          available.addAll(resting);
+        ready.addAll(available);
+        available.addAll(resting);
       }
       while (ready.size() < 5 && available.size() > 0) {
         const r = Math.floor(Math.random() * available.size());

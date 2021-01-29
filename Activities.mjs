@@ -1,5 +1,5 @@
 export default class Activities {
-    constructor(x = 400, y = 120) {
+    constructor(x = 300, y = 120) {
       this.x = x;
       this.y = y;
       this.activities = [];
@@ -29,7 +29,7 @@ export default class Activities {
         activity.expire -= 1 * dt;
         if (activity.expire <= 0) {
           this.delete(activity);
-          game.grace--;
+          game.reputation--;
         }
       }
     }
