@@ -2,6 +2,8 @@ import Sprite from "./Sprite.mjs";
 import Ready from "./Ready.mjs";
 import Sacrifice from "./Sacrifice.mjs";
 import Sacrifices from "./Sacrifices.mjs";
+import Activities from "./Activities.mjs";
+import Activity from "./Activity.mjs";
 import Area from "./Area.mjs";
 import { ALL_SACRIFICES } from "./AllCards.mjs";
 import { ALL_AVAILABLE } from "./AllCards.mjs";
@@ -29,14 +31,18 @@ window.onload = () => {
   const ready = new Ready("Ready", 50);
   const died = new Area("Died", 350, 300);
   const resting = new Area("Resting", 350, 150);
+
   const available = new Area("Available", 40, 400);
   available.loadAll(ALL_AVAILABLE);
 
-
+  const activities = new Activities();
+  activities.add(new Activity(0, 10));
+  activities.add(new Activity(1, 7));
+  activities.add(new Activity(2, 6));
+  activities.add(new Activity(3, 3));
   
-
   const newTurn = new Sprite(0);
-  Object.assign(newTurn, { x: 500, y: 300, w: 100, h: 30 });
+  Object.assign(newTurn, { x: canvas.width - 70, y: canvas.height - 40, w: 100, h: 30 });
   ready.add(new Sprite(0));
   ready.add(new Sprite(1));
   ready.add(new Sprite(2));
@@ -54,6 +60,8 @@ window.onload = () => {
 
     sacrifices.expire(dt, game);
     sacrifices.draw(ctx);
+    activities.expire(dt, game);
+    activities.draw(ctx);
     ready.draw(ctx);
     died.draw(ctx);
     available.draw(ctx);
