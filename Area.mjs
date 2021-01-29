@@ -22,15 +22,23 @@ export default class Area {
     });
   }
 
-  transfer(otherArea, quantity = 2){
-    let transferPeople = this.people.splice(0, quantity);
+  transfer(sourceArea, quantity = 2){
+    let transferPeople = sourceArea.people.splice(0, quantity);
     transferPeople.forEach(person => {
-      otherArea.add(person);
+      this.add(person);
     })
+  }
+
+  addAll(sourceArea){
+    this.transfer(sourceArea, sourceArea.size());
   }
 
   delete(people) {
     const idx = this.people.indexOf(people);
     this.people.splice(idx, 1);
+  }
+
+  size(){
+    return this.people.length;
   }
 }

@@ -32,8 +32,17 @@ window.onload = () => {
   const available = new Area("Avaiable", 0, 400);
 
   available.add(new Sprite(0));
+  available.add(new Sprite(0));
+  available.add(new Sprite(1));
   available.add(new Sprite(1));
   available.add(new Sprite(2));
+  available.add(new Sprite(2));
+  available.add(new Sprite(3));
+  available.add(new Sprite(3));
+  available.add(new Sprite(1));
+  available.add(new Sprite(2));
+  available.add(new Sprite(2));
+  available.add(new Sprite(3));
   available.add(new Sprite(3));
 
   const newTurn = new Sprite(0);
@@ -105,7 +114,18 @@ window.onload = () => {
     const y = e.pageY - canvas.offsetTop;
     console.log(x, y);
     if (newTurn.hasPoint({ x, y })) {
-      ready.transfer(resting, 1);
+      resting.addAll(ready);
+    
+      if (available.size() <= 5) {
+          ready.addAll(available);
+          available.addAll(resting);
+      }
+      while (ready.size() < 5 && available.size() > 0) {
+        const r = Math.floor(Math.random() * available.size());
+        const p = available.people[r];
+        ready.add(p);
+        available.delete(p);
+      }
     }
   }
   function mousemove(e) {
