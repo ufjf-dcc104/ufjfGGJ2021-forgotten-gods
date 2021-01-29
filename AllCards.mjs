@@ -1,11 +1,11 @@
-import Sprite from "./Sprite.mjs";
+import People from "./People.mjs";
 
 export const ALL_SACRIFICES = [
   { type: 0, expire: 15 },
   { type: 1, expire: 10 },
   { type: 2, expire: 12 },
   { type: 3, expire: 15, effect: (game) => {
-      game.available.add(new Sprite(0));
+      game.available.add(new People(0));
   } },
 ];
 

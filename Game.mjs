@@ -6,9 +6,13 @@ import Activity from "./Activity.mjs";
 import Area from "./Area.mjs";
 import { ALL_SACRIFICES } from "./AllCards.mjs";
 import { ALL_AVAILABLE } from "./AllCards.mjs";
+import People from "./People.mjs";
+
+export const bg = new Image();
+bg.src = "./assets/gamejam.png";
 
 window.onload = () => {
-    const padzero = (num, places) => String(num).padStart(places, '0')
+  const padzero = (num, places) => String(num).padStart(places, "0");
   const game = {
     expire: 180,
     reputation: 5,
@@ -27,17 +31,14 @@ window.onload = () => {
 
   let dragging = null;
 
-  const bg = new Image();
-  bg.src="./assets/gamejam.png";
-
   const sacrifices = new Sacrifices(130, 100);
   sacrifices.loadAll(ALL_SACRIFICES);
 
-  const ready = new Ready("Ready", 80, canvas.height - 170);
+  const ready = new Ready("Ready", 62, canvas.height - 148);
   const died = new Area("Died", 60, canvas.height - 100, false);
   const resting = new Area("Resting", 60, canvas.height - 100, false);
 
-  const available = new Area("Available", 60, canvas.height - 100);
+  const available = new Area("Available", 60, canvas.height - 100, false);
   available.loadAll(ALL_AVAILABLE);
   game.available = available;
 
@@ -54,11 +55,11 @@ window.onload = () => {
     w: 100,
     h: 30,
   });
-  ready.add(new Sprite(0));
-  ready.add(new Sprite(1));
-  ready.add(new Sprite(2));
-  ready.add(new Sprite(3));
-  ready.add(new Sprite(0));
+  ready.add(new People(0));
+  ready.add(new People(1));
+  ready.add(new People(2));
+  ready.add(new People(3));
+  ready.add(new People(0));
 
   let t0;
   let dt;
@@ -70,7 +71,7 @@ window.onload = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "hsl(200, 7%, 74%)";
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(bg, 0,0, canvas.width, canvas.height);
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
     sacrifices.expire(dt, game);
     sacrifices.draw(ctx);
@@ -83,8 +84,8 @@ window.onload = () => {
     newTurn.draw(ctx);
 
     game.expire -= Math.min(game.expire, 1 * dt);
-    const min = padzero(Math.floor(game.expire / 60),2);
-    const seg = padzero(Math.floor(game.expire % 60),2);
+    const min = padzero(Math.floor(game.expire / 60), 2);
+    const seg = padzero(Math.floor(game.expire % 60), 2);
     ctx.font = "30px bold monospace";
     ctx.fillStyle = "black";
     ctx.fillText(`${min}:${seg}`, 130, 25);

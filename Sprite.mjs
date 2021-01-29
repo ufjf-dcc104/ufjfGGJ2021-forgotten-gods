@@ -5,7 +5,7 @@ export default class Sprite {
     this.type = type;
     this.x = 0;
     this.y = 0;
-    this.w = 32;
+    this.w = 64*0.75;
     this.h = 64;
     this.draggable = true;
     this.color = "white";

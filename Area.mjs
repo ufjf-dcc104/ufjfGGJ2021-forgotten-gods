@@ -1,4 +1,4 @@
-import Sprite from "./Sprite.mjs";
+import People from "./People.mjs";
 
 export default class Area {
   constructor(title = "", x = 0, y = 300, visible = true) {
@@ -8,12 +8,13 @@ export default class Area {
     this.title = title;
     this.max = 5;
     this.visible = visible;
+    this.gap=2;
   }
 
   loadAll(people) {
     people.forEach((p) => {
       for (let c = 0; c < p.qty; c++) {
-        this.add(new Sprite(p.type));
+        this.add(new People(p.type));
       }
     });
   }
@@ -22,7 +23,7 @@ export default class Area {
     const n = this.people.length;
     const l = Math.floor(n / this.max);
     const c = n % this.max;
-    people.x = this.x + (people.w + 8) * c + (l % 2 === 0 ? 0 : people.w / 2);
+    people.x = this.x + (people.w + this.gap) * c + (l % 2 === 0 ? 0 : people.w / 2);
     people.y = this.y + (people.h / 3) * l;
     people.draggable = false;
     this.people.push(people);
