@@ -11,7 +11,6 @@ import People from "./People.mjs";
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
 
-
 window.onload = () => {
   const canvas = document.createElement("canvas");
   canvas.width = 320;
@@ -43,20 +42,41 @@ export default class Game {
   }
 
   setup() {
-    this.canvas.onmousedown = (e)=>{this.mousedown(e)};
-    this.canvas.onmouseup = (e)=>{this.mouseup(e)};
-    this.canvas.onclick = (e)=>{this.click(e)};
-    this.canvas.onmousemove = (e)=>{this.mousemove(e)};
-    this.canvas.onmouseout = (e)=>{this.mouseout(e)};
-    this.canvas.ontouchstart = (e)=>{this.touchstart(e)};
-    this.canvas.ontouchend = (e)=>{this.touchend(e)};
-    this.canvas.ontouchmove = (e)=>{this.touchmove(e)};
+    this.canvas.onmousedown = (e) => {
+      this.mousedown(e);
+    };
+    this.canvas.onmouseup = (e) => {
+      this.mouseup(e);
+    };
+    this.canvas.onclick = (e) => {
+      this.click(e);
+    };
+    this.canvas.onmousemove = (e) => {
+      this.mousemove(e);
+    };
+    this.canvas.onmouseout = (e) => {
+      this.mouseout(e);
+    };
+    this.canvas.ontouchstart = (e) => {
+      this.touchstart(e);
+    };
+    this.canvas.ontouchend = (e) => {
+      this.touchend(e);
+    };
+    this.canvas.ontouchmove = (e) => {
+      this.touchmove(e);
+    };
 
     this.areas.ready.add(new People(0));
     this.areas.ready.add(new People(1));
     this.areas.ready.add(new People(2));
     this.areas.ready.add(new People(3));
     this.areas.ready.add(new People(0));
+
+    this.areas.CardCount.add(new People(0));
+    this.areas.CardCount.add(new People(1));
+    this.areas.CardCount.add(new People(2));
+    this.areas.CardCount.add(new People(3));
   }
 
   step(t) {
@@ -76,6 +96,7 @@ export default class Game {
     this.areas.died.draw(this.ctx);
     this.areas.available.draw(this.ctx);
     this.areas.resting.draw(this.ctx);
+    this.areas.CardCount.draw(this.ctx);
     this.newTurn.draw(this.ctx);
 
     this.expire -= Math.min(this.expire, 1 * this.dt);
@@ -98,18 +119,29 @@ export default class Game {
     this.areas.sacrifices.loadAll(ALL_SACRIFICES);
 
     this.areas.ready = new Ready("Ready", 62, this.canvas.height - 148);
-    this.areas.died = new Area("Died", 60, this.canvas.height - 100, false);
+    this.areas.CardCount = new Area(
+      "Card Count",
+      47,
+      this.canvas.height - 53,
+      true
+    );
+    this.areas.died = new Area("Died", 47, this.canvas.height - 53, false);
     this.areas.resting = new Area(
       "Resting",
-      60,
-      this.canvas.height - 100,
+      47,
+      this.canvas.height - 53,
       false
     );
-
+    this.areas.resting = new Area(
+      "Resting",
+      47,
+      this.canvas.height - 53,
+      false
+    );
     this.areas.available = new Area(
       "Available",
-      60,
-      this.canvas.height - 100,
+      47,
+      this.canvas.height - 53,
       false
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
@@ -119,7 +151,10 @@ export default class Game {
     this.areas.activities.add(new Activity(1, 7));
     this.areas.activities.add(new Activity(2, 6));
     this.areas.activities.add(new Activity(3, 3));
-
+    this.areas.CardCount.add(new People(0));
+    this.areas.CardCount.add(new People(1));
+    this.areas.CardCount.add(new People(2));
+    this.areas.CardCount.add(new People(3));
     this.newTurn = new Sprite(null);
     Object.assign(this.newTurn, {
       x: this.canvas.width / 2,
