@@ -11,196 +11,226 @@ import People from "./People.mjs";
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
 
+
 window.onload = () => {
-  const padzero = (num, places) => String(num).padStart(places, "0");
-  const game = {
-    expire: 180,
-    reputation: 5,
-    grace: 5,
-  };
   const canvas = document.createElement("canvas");
   canvas.width = 320;
   canvas.height = 560;
   document.body.appendChild(canvas);
-  const ctx = canvas.getContext("2d");
-  canvas.onmousedown = mousedown;
-  canvas.onmouseup = mouseup;
-  canvas.onclick = click;
-  canvas.onmousemove = mousemove;
-  canvas.onmouseout = mouseout;
+  const game = new Game(canvas);
+  game.setup();
+  game.start();
+};
 
-  let dragging = null;
-
-  const sacrifices = new Sacrifices(130, 100);
-  sacrifices.loadAll(ALL_SACRIFICES);
-
-  const ready = new Ready("Ready", 62, canvas.height - 148);
-  const died = new Area("Died", 60, canvas.height - 100, false);
-  const resting = new Area("Resting", 60, canvas.height - 100, false);
-
-  const available = new Area("Available", 60, canvas.height - 100, false);
-  available.loadAll(ALL_AVAILABLE);
-  game.available = available;
-
-  const activities = new Activities(80, canvas.height - 300);
-  activities.add(new Activity(0, 10));
-  activities.add(new Activity(1, 7));
-  activities.add(new Activity(2, 6));
-  activities.add(new Activity(3, 3));
-
-  const newTurn = new Sprite(0);
-  Object.assign(newTurn, {
-    x: canvas.width / 2,
-    y: canvas.height - 230,
-    w: 100,
-    h: 30,
-  });
-  ready.add(new People(0));
-  ready.add(new People(1));
-  ready.add(new People(2));
-  ready.add(new People(3));
-  ready.add(new People(0));
-
-  let t0;
-  let dt;
-  requestAnimationFrame(step);
-  function step(t) {
-    t0 = t0 ?? t;
-    dt = (t - t0) / 1000;
-    ctx.fillStyle = "hsl(200, 7%, 84%)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "hsl(200, 7%, 74%)";
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-
-    sacrifices.expire(dt, game);
-    sacrifices.draw(ctx);
-    activities.expire(dt, game);
-    activities.draw(ctx);
-    ready.draw(ctx);
-    died.draw(ctx);
-    available.draw(ctx);
-    resting.draw(ctx);
-    newTurn.draw(ctx);
-
-    game.expire -= Math.min(game.expire, 1 * dt);
-    const min = padzero(Math.floor(game.expire / 60), 2);
-    const seg = padzero(Math.floor(game.expire % 60), 2);
-    ctx.font = "30px bold monospace";
-    ctx.fillStyle = "black";
-    ctx.fillText(`${min}:${seg}`, 130, 25);
-    ctx.font = "20px bold monospace";
-    ctx.fillText(`Grace ${game.grace}`, 10, 20);
-    ctx.fillText(`Reputation ${game.reputation}`, 10, 40);
-    requestAnimationFrame(step);
-    t0 = t;
+export default class Game {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = this.canvas.getContext("2d");
+    this.expire = 180;
+    this.grace = 5;
+    this.reputation = 5;
+    this.dragging = null;
+    this.t0;
+    this.dt;
+    this.areas = {};
+    const touches = [];
+    this.createAreas();
+  }
+  start() {
+    requestAnimationFrame((t) => {
+      this.step(t);
+    });
   }
 
-  function mousedown(e) {
-    const x = e.pageX - canvas.offsetLeft;
-    const y = e.pageY - canvas.offsetTop;
-    ready.people.forEach((s) => {
+  setup() {
+    this.canvas.onmousedown = (e)=>{this.mousedown(e)};
+    this.canvas.onmouseup = (e)=>{this.mouseup(e)};
+    this.canvas.onclick = (e)=>{this.click(e)};
+    this.canvas.onmousemove = (e)=>{this.mousemove(e)};
+    this.canvas.onmouseout = (e)=>{this.mouseout(e)};
+    this.canvas.ontouchstart = (e)=>{this.touchstart(e)};
+    this.canvas.ontouchend = (e)=>{this.touchend(e)};
+    this.canvas.ontouchmove = (e)=>{this.touchmove(e)};
+
+    this.areas.ready.add(new People(0));
+    this.areas.ready.add(new People(1));
+    this.areas.ready.add(new People(2));
+    this.areas.ready.add(new People(3));
+    this.areas.ready.add(new People(0));
+  }
+
+  step(t) {
+    this.t0 = this.t0 ?? t;
+    this.dt = (t - this.t0) / 1000;
+    this.ctx.fillStyle = "hsl(200, 7%, 84%)";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
+    this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
+
+    this.areas.sacrifices.expire(this.dt, this);
+    this.areas.sacrifices.draw(this.ctx);
+    this.areas.activities.expire(this.dt, this);
+    this.areas.activities.draw(this.ctx);
+    this.areas.ready.draw(this.ctx);
+    this.areas.died.draw(this.ctx);
+    this.areas.available.draw(this.ctx);
+    this.areas.resting.draw(this.ctx);
+    this.newTurn.draw(this.ctx);
+
+    this.expire -= Math.min(this.expire, 1 * this.dt);
+    const min = padzero(Math.floor(this.expire / 60), 2);
+    const seg = padzero(Math.floor(this.expire % 60), 2);
+    this.ctx.font = "30px bold monospace";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(`${min}:${seg}`, 130, 25);
+    this.ctx.font = "20px bold monospace";
+    this.ctx.fillText(`Grace ${this.grace}`, 10, 20);
+    this.ctx.fillText(`Reputation ${this.reputation}`, 10, 40);
+    requestAnimationFrame((t) => {
+      this.step(t);
+    });
+    this.t0 = t;
+  }
+
+  createAreas() {
+    this.areas.sacrifices = new Sacrifices(130, 100);
+    this.areas.sacrifices.loadAll(ALL_SACRIFICES);
+
+    this.areas.ready = new Ready("Ready", 62, this.canvas.height - 148);
+    this.areas.died = new Area("Died", 60, this.canvas.height - 100, false);
+    this.areas.resting = new Area(
+      "Resting",
+      60,
+      this.canvas.height - 100,
+      false
+    );
+
+    this.areas.available = new Area(
+      "Available",
+      60,
+      this.canvas.height - 100,
+      false
+    );
+    this.areas.available.loadAll(ALL_AVAILABLE);
+
+    this.areas.activities = new Activities(80, this.canvas.height - 300);
+    this.areas.activities.add(new Activity(0, 10));
+    this.areas.activities.add(new Activity(1, 7));
+    this.areas.activities.add(new Activity(2, 6));
+    this.areas.activities.add(new Activity(3, 3));
+
+    this.newTurn = new Sprite(null);
+    Object.assign(this.newTurn, {
+      x: this.canvas.width / 2,
+      y: this.canvas.height - 230,
+      w: 100,
+      h: 30,
+    });
+  }
+
+  mousedown(e) {
+    const x = e.pageX - this.canvas.offsetLeft;
+    const y = e.pageY - this.canvas.offsetTop;
+    this.areas.ready.people.forEach((s) => {
       if (s.draggable && s.hasPoint({ x, y })) {
-        dragging = s;
-        dragging.oldx = dragging.x;
-        dragging.oldy = dragging.y;
+        this.dragging = s;
+        this.dragging.oldx = this.dragging.x;
+        this.dragging.oldy = this.dragging.y;
       }
     });
   }
-  function mouseup(e) {
-    const x = e.pageX - canvas.offsetLeft;
-    const y = e.pageY - canvas.offsetTop;
-    if (dragging !== null) {
-      dragging.x = x;
-      dragging.y = y;
-      const s = sacrifices.check(x, y);
-      const a = activities.check(x, y);
+  mouseup(e) {
+    const x = e.pageX - this.canvas.offsetLeft;
+    const y = e.pageY - this.canvas.offsetTop;
+    if (this.dragging !== null) {
+      this.dragging.x = x;
+      this.dragging.y = y;
+      const s = this.areas.sacrifices.check(x, y);
+      const a = this.areas.activities.check(x, y);
       if (s) {
-        if (s.type === dragging.type) {
-          game.grace++;
-          s.effect(game);
+        if (s.type === this.dragging.type) {
+          this.grace++;
+          s.effect(this);
         } else {
-          game.grace--;
-          game.reputation--;
+          this.grace--;
+          this.reputation--;
         }
-        died.add(dragging);
-        ready.delete(dragging);
-        sacrifices.delete(s);
-        dragging = null;
+        this.areas.died.add(this.dragging);
+        this.areas.ready.delete(this.dragging);
+        this.areas.sacrifices.delete(s);
+        this.dragging = null;
         return;
       }
       if (a) {
-        if (a.deliver(dragging.type)) {
+        if (a.deliver(this.dragging.type)) {
         } else {
-          game.reputation--;
+          this.reputation--;
         }
-        resting.add(dragging);
-        ready.delete(dragging);
+        this.areas.resting.add(this.dragging);
+        this.areas.ready.delete(this.dragging);
         if (a.demands.length === 0) {
-          game.reputation++;
-          activities.delete(a);
+          this.reputation++;
+          this.areas.activities.delete(a);
         }
-        dragging = null;
+        this.dragging = null;
         return;
       }
-      dragging.x = dragging?.oldx;
-      dragging.y = dragging?.oldy;
-      dragging = null;
+      this.dragging.x = this.dragging?.oldx;
+      this.dragging.y = this.dragging?.oldy;
+      this.dragging = null;
     }
   }
-  function click(e) {
-    const x = e.pageX - canvas.offsetLeft;
-    const y = e.pageY - canvas.offsetTop;
-    if (newTurn.hasPoint({ x, y })) {
-      resting.addAll(ready);
+  click(e) {
+    const x = e.pageX - this.canvas.offsetLeft;
+    const y = e.pageY - this.canvas.offsetTop;
+    if (this.newTurn.hasPoint({ x, y })) {
+      this.areas.resting.addAll(this.areas.ready);
 
-      if (available.size() <= 5) {
-        ready.addAll(available);
-        available.addAll(resting);
+      if (this.areas.available.size() <= 5) {
+        this.areas.ready.addAll(this.areas.available);
+        this.areas.available.addAll(this.areas.resting);
       }
-      while (ready.size() < 5 && available.size() > 0) {
-        const r = Math.floor(Math.random() * available.size());
-        const p = available.people[r];
-        ready.add(p);
-        available.delete(p);
+      while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
+        const r = Math.floor(Math.random() * this.areas.available.size());
+        const p = this.areas.available.people[r];
+        this.areas.ready.add(p);
+        this.areas.available.delete(p);
       }
     }
   }
-  function mousemove(e) {
-    const x = e.pageX - canvas.offsetLeft;
-    const y = e.pageY - canvas.offsetTop;
-    if (dragging) {
-      dragging.x = x;
-      dragging.y = y;
+  mousemove(e) {
+    const x = e.pageX - this.canvas.offsetLeft;
+    const y = e.pageY - this.canvas.offsetTop;
+    if (this.dragging) {
+      this.dragging.x = x;
+      this.dragging.y = y;
     }
   }
-  function mouseout(e) {
-    if (dragging) {
-      dragging.x = dragging?.oldx;
-      dragging.y = dragging?.oldy;
-      dragging = null;
+  mouseout(e) {
+    if (this.dragging) {
+      this.dragging.x = this.dragging?.oldx;
+      this.dragging.y = this.dragging?.oldy;
+      this.dragging = null;
     }
   }
 
-  const touches = [];
-  canvas.ontouchstart = touchstart;
-  canvas.ontouchend = touchend;
-  canvas.ontouchmove = touchmove;
-
-  function touchstart(e) {
+  touchstart(e) {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
     mousedown(newTouch);
   }
-  function touchend(e){
+  touchend(e) {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
     mouseup(newTouch);
   }
-  function touchmove(e){
+  touchmove(e) {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
     mousemove(newTouch);
   }
-
-};
+}
+function padzero(num, places) {
+  return String(num).padStart(places, "0");
+}
