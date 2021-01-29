@@ -8,6 +8,7 @@ import { ALL_SACRIFICES } from "./AllCards.mjs";
 import { ALL_AVAILABLE } from "./AllCards.mjs";
 
 window.onload = () => {
+    const padzero = (num, places) => String(num).padStart(places, '0')
   const game = {
     expire: 180,
     reputation: 5,
@@ -25,6 +26,9 @@ window.onload = () => {
   canvas.onmouseout = mouseout;
 
   let dragging = null;
+
+  const bg = new Image();
+  bg.src="./assets/gamejam.png";
 
   const sacrifices = new Sacrifices(130, 100);
   sacrifices.loadAll(ALL_SACRIFICES);
@@ -66,6 +70,7 @@ window.onload = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "hsl(200, 7%, 74%)";
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bg, 0,0, canvas.width, canvas.height);
 
     sacrifices.expire(dt, game);
     sacrifices.draw(ctx);
@@ -77,12 +82,12 @@ window.onload = () => {
     resting.draw(ctx);
     newTurn.draw(ctx);
 
-    game.expire -= 1*dt;
-    const min = Math.floor(game.expire / 60);
-    const seg = Math.floor(game.expire % 60); 
+    game.expire -= Math.min(game.expire, 1 * dt);
+    const min = padzero(Math.floor(game.expire / 60),2);
+    const seg = padzero(Math.floor(game.expire % 60),2);
     ctx.font = "30px bold monospace";
     ctx.fillStyle = "black";
-    ctx.fillText(`${min}:${seg}`, 130, 35);
+    ctx.fillText(`${min}:${seg}`, 130, 25);
     ctx.font = "20px bold monospace";
     ctx.fillText(`Grace ${game.grace}`, 10, 20);
     ctx.fillText(`Reputation ${game.reputation}`, 10, 40);
