@@ -181,4 +181,26 @@ window.onload = () => {
       dragging = null;
     }
   }
+
+  const touches = [];
+  canvas.ontouchstart = touchstart;
+  canvas.ontouchend = touchend;
+  canvas.ontouchmove = touchmove;
+
+  function touchstart(e) {
+    e.preventDefault();
+    const newTouch = e.changedTouches[0];
+    mousedown(newTouch);
+  }
+  function touchend(e){
+    e.preventDefault();
+    const newTouch = e.changedTouches[0];
+    mouseup(newTouch);
+  }
+  function touchmove(e){
+    e.preventDefault();
+    const newTouch = e.changedTouches[0];
+    mousemove(newTouch);
+  }
+
 };
