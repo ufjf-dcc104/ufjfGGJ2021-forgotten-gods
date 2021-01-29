@@ -26,10 +26,10 @@ window.onload = () => {
   sacrifices.add(new Sacrifice(1, 7));
   sacrifices.add(new Sacrifice(2, 6));
   sacrifices.add(new Sacrifice(3, 3));
-  const ready = new Ready(50);
-  const died = new Area(350, 300);
-  const resting = new Area(350, 150);
-  const available = new Area(0, 400);
+  const ready = new Ready("Ready", 50);
+  const died = new Area("Died", 350, 300);
+  const resting = new Area("Resting", 350, 150);
+  const available = new Area("Avaiable", 0, 400);
 
   available.add(new Sprite(0));
   available.add(new Sprite(1));
@@ -42,6 +42,7 @@ window.onload = () => {
   ready.add(new Sprite(1));
   ready.add(new Sprite(2));
   ready.add(new Sprite(3));
+  ready.add(new Sprite(0));
 
   let t0;
   let dt;
@@ -102,9 +103,9 @@ window.onload = () => {
   function click(e) {
     const x = e.pageX - canvas.offsetLeft;
     const y = e.pageY - canvas.offsetTop;
-
+    console.log(x, y);
     if (newTurn.hasPoint({ x, y })) {
-      
+      ready.transfer(resting, 1);
     }
   }
   function mousemove(e) {

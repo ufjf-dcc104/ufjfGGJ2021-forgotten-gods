@@ -1,8 +1,9 @@
 export default class Area {
-  constructor(x = 0, y = 300) {
+  constructor(title = "", x = 0, y = 300) {
     this.x = x;
     this.y = y;
     this.people = [];
+    this.title = title;
   }
 
   add(people){
@@ -13,9 +14,19 @@ export default class Area {
   }
 
   draw(ctx) {
+    ctx.fillStyle = "white";
+    ctx.font = "25px monospace";
+    ctx.fillText(this.title, this.x, this.y -50)
     this.people.forEach((p) => {
       p.draw(ctx);
     });
+  }
+
+  transfer(otherArea, quantity = 2){
+    let transferPeople = this.people.splice(0, quantity);
+    transferPeople.forEach(person => {
+      otherArea.add(person);
+    })
   }
 
   delete(people) {
