@@ -7,19 +7,12 @@ import Area from "./Area.mjs";
 import { ALL_SACRIFICES } from "./AllCards.mjs";
 import { ALL_AVAILABLE } from "./AllCards.mjs";
 import People from "./People.mjs";
+import Button from "./Button.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
 
-window.onload = () => {
-  const canvas = document.createElement("canvas");
-  canvas.width = 320;
-  canvas.height = 560;
-  document.body.appendChild(canvas);
-  const game = new Game(canvas);
-  game.setup();
-  game.start();
-};
+
 
 export default class Game {
   constructor(canvas) {
@@ -155,13 +148,12 @@ export default class Game {
     this.areas.CardCount.add(new People(1));
     this.areas.CardCount.add(new People(2));
     this.areas.CardCount.add(new People(3));
-    this.newTurn = new Sprite(null);
-    Object.assign(this.newTurn, {
-      x: this.canvas.width / 2,
-      y: this.canvas.height - 230,
-      w: 100,
-      h: 30,
-    });
+    this.newTurn = new Button( this.canvas.width / 2,
+      this.canvas.height - 230,
+       100,
+       30,
+       "End Turn"
+    );
   }
 
   mousedown(e) {
