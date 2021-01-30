@@ -52,8 +52,9 @@ export default class Activity extends Sprite {
   }
   deliver(type) {
     const idx = this.demands.indexOf(type);
+    if (idx < 0) return false;
     this.demands.splice(idx, 1);
-    return idx >= 0;
+    return true;
   }
   resetDemands() {
     this.demands = [...this.demandsTotal];

@@ -11,6 +11,13 @@ import Button from "./Button.mjs";
 import { ALL_ACTIVITIES } from "./AllCards.mjs";
 import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
 import { ALL_GOD_A_CARDS } from "./data/AllGodACards.mjs";
+import { FARMER } from "./util/peopleTypes.mjs";
+import { SOLDIER } from "./util/peopleTypes.mjs";
+import { ALL_BARRACKS_CARDS } from "./data/AllBarracksCards.mjs";
+import { SENATOR } from "./util/peopleTypes.mjs";
+import { ALL_SENATE_CARDS } from "./data/AllSenateCards.mjs";
+import { PRIEST } from "./util/peopleTypes.mjs";
+import { ALL_TEMPLE_CARDS } from "./data/AllTempleCards.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
@@ -73,11 +80,10 @@ export default class Game {
     this.areas.cardCount.add(new People(3));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS);
-
-    this.areas.buildings[0].add(new Activity([1], 0, 10));
-    this.areas.buildings[1].add(new Activity([1], 1, 7));
-    this.areas.buildings[2].add(new Activity([2], 2, 6));
-    this.areas.buildings[3].loadAll(ALL_FARM_CARDS);
+    this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS);
+    this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS);
+    this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS);
+    this.areas.buildings[PRIEST].loadAll(ALL_TEMPLE_CARDS);
   }
 
   step(t) {
@@ -92,14 +98,14 @@ export default class Game {
     this.areas.cardCount.draw(this.ctx);
     // this.areas.sacrifices.expire(this.dt, this);
     // this.areas.sacrifices.draw(this.ctx);
-    this.areas.gods.forEach(god => {
+    this.areas.gods.forEach((god) => {
       god.draw(this.ctx);
       god.expire(this.dt, this);
-    })
-    this.areas.buildings.forEach(building => {
+    });
+    this.areas.buildings.forEach((building) => {
       building.draw(this.ctx);
       building.expire(this.dt, this);
-    })
+    });
 
     this.areas.died.drawCount(this.ctx);
     this.areas.available.drawCount(this.ctx);
@@ -156,7 +162,6 @@ export default class Game {
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
 
-
     this.areas.gods = [];
     this.areas.gods.push(new Activities(42, 80, 0));
     // this.areas.gods.push(new Activities(75, 200, 2));
@@ -206,9 +211,9 @@ export default class Game {
     if (this.dragging !== null) {
       this.dragging.x = x;
       this.dragging.y = y;
-      this.areas.gods.forEach(god =>{
+      this.areas.gods.forEach((god) => {
         const checked = god.check(x, y);
-        if(checked) {
+        if (checked) {
           if (!checked.deliver(this.dragging.type)) {
             checked.reputation--;
           }
@@ -224,11 +229,12 @@ export default class Game {
           return;
         }
       });
-      this.areas.buildings.forEach(building =>{
+      this.areas.buildings.forEach((building) => {
         const checked = building.check(x, y);
-        if(checked) {
+        if (checked) {
           if (!checked.deliver(this.dragging.type)) {
             this.reputation--;
+            building.reputation--;
           }
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
@@ -242,7 +248,7 @@ export default class Game {
           return;
         }
       });
-      if(this.dragging != null){
+      if (this.dragging != null) {
         this.dragging.x = this.dragging?.oldx;
         this.dragging.y = this.dragging?.oldy;
       }
