@@ -47,15 +47,16 @@ export default class Activity extends Sprite {
       */
     });
 
-    let ang = (1-this.expire / this.total +1)*3/2*  Math.PI;
+    let ang = (1 - this.expire / this.total) * 2 * Math.PI + (3 / 2) * Math.PI;
     ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 30%)`;
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
-    ctx.arc(this.x, this.y, w/2, Math.PI*3/2, ang, true);
+    ctx.arc(this.x, this.y, w / 2, (Math.PI * 3) / 2, ang, true);
     ctx.lineTo(this.x, this.y);
     ctx.fill();
     ctx.strokeStyle = "black";
-    ctx.lineWidth = w/12;
+    ctx.lineCap = "round";
+    ctx.lineWidth = w / 15;
     ctx.stroke();
     ctx.fillRect(
       this.x - this.w / 2,
