@@ -1,5 +1,5 @@
 import { PRIEST, SOLDIER, FARMER, SENATOR } from "../util/peopleTypes.mjs";
-export const ALL_GODA_CARDS = [
+export const ALL_GOD_A_CARDS = [
   { demands: [SENATOR], type: 0, qty: 1 },
   { demands: [SOLDIER], type: 0, qty: 1 },
   { demands: [FARMER], type: 0, qty: 1 },
