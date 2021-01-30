@@ -208,12 +208,12 @@ export default class Game {
         const checked = god.check(x, y);
         if (checked) {
           if (!checked.deliver(this.dragging.type)) {
-            checked.reputation--;
+            god.reputation--;
           }
           this.areas.died.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
-            checked.reputation++;
+            god.reputation++;
             checked.effect(this);
             checked.resetDemands();
             god.sendToBottom(checked);
