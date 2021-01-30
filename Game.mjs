@@ -212,14 +212,17 @@ export default class Game {
       this.areas.buildings.forEach(building =>{
         const checked = building.check(x, y);
         if(checked) {
-          if (checked.deliver(this.dragging.type)) {
-          } else {
+          if (!checked.deliver(this.dragging.type)) {
             this.reputation--;
+            building.reputation--;
           }
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
             this.reputation++;
+            building.reputation++;
+            checked.resetDemands();
+            building.sendToBottom(checked);
           }
           this.dragging = null;
           return;
