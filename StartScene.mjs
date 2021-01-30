@@ -70,10 +70,10 @@ export default class StartScene {
 
   createAreas() {
     this.newGame = new Button(
-      this.canvas.width / 2,
-      this.canvas.height / 2 + 100,
-      80,
-      30,
+      0.5 * this.canvas.width,
+      0.6785714285714286 * this.canvas.height,
+      0.25 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
       "New Game"
     );
   }
