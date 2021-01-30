@@ -10,6 +10,7 @@ import People from "./People.mjs";
 import Button from "./Button.mjs";
 import { ALL_ACTIVITIES } from "./AllCards.mjs";
 import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
+import { ALL_GOD_A_CARDS } from "./data/AllGodACards.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
@@ -71,6 +72,8 @@ export default class Game {
     this.areas.cardCount.add(new People(2));
     this.areas.cardCount.add(new People(3));
 
+    this.areas.gods[0].loadAll(ALL_GOD_A_CARDS);
+
     this.areas.buildings[0].add(new Activity([1], 0, 10));
     this.areas.buildings[1].add(new Activity([1], 1, 7));
     this.areas.buildings[2].add(new Activity([2], 2, 6));
@@ -87,8 +90,12 @@ export default class Game {
     this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
 
     this.areas.cardCount.draw(this.ctx);
-    this.areas.sacrifices.expire(this.dt, this);
-    this.areas.sacrifices.draw(this.ctx);
+    // this.areas.sacrifices.expire(this.dt, this);
+    // this.areas.sacrifices.draw(this.ctx);
+    this.areas.gods.forEach(god => {
+      god.draw(this.ctx);
+      god.expire(this.dt, this);
+    })
     this.areas.buildings.forEach(building => {
       building.draw(this.ctx);
       building.expire(this.dt, this);
@@ -148,6 +155,12 @@ export default class Game {
       true
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
+
+
+    this.areas.gods = [];
+    this.areas.gods.push(new Activities(42, 80, 0));
+    // this.areas.gods.push(new Activities(75, 200, 2));
+
     this.areas.buildings = [];
     this.areas.buildings.push(new Activities(150, 100, 0));
     this.areas.buildings.push(new Activities(75, 200, 2));
@@ -193,33 +206,37 @@ export default class Game {
     if (this.dragging !== null) {
       this.dragging.x = x;
       this.dragging.y = y;
-      const s = this.areas.sacrifices.check(x, y);
-      if (s) {
-        if (s.type === this.dragging.type) {
-          this.grace++;
-          s.effect(this);
-        } else {
-          this.grace--;
-          this.reputation--;
+      this.areas.gods.forEach(god =>{
+        const checked = god.check(x, y);
+        if(checked) {
+          if (!checked.deliver(this.dragging.type)) {
+            checked.reputation--;
+          }
+          this.areas.died.add(this.dragging);
+          this.areas.ready.delete(this.dragging);
+          if (checked.demands.length === 0) {
+            checked.reputation++;
+            checked.effect(this);
+            checked.resetDemands();
+            god.sendToBottom(checked);
+          }
+          this.dragging = null;
+          return;
         }
-        this.areas.died.add(this.dragging);
-        this.areas.ready.delete(this.dragging);
-        this.areas.sacrifices.sendToBottom(s);
-        this.dragging = null;
-        return;
-      
-      }
+      });
       this.areas.buildings.forEach(building =>{
         const checked = building.check(x, y);
         if(checked) {
-          if (checked.deliver(this.dragging.type)) {
-          } else {
+          if (!checked.deliver(this.dragging.type)) {
             this.reputation--;
           }
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
             this.reputation++;
+            building.reputation++;
+            checked.resetDemands();
+            building.sendToBottom(checked);
           }
           this.dragging = null;
           return;
