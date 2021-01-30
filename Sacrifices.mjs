@@ -1,4 +1,5 @@
 import Sacrifice from "./Sacrifice.mjs";
+import { shuffleArray } from "./util/shuffle.mjs";
 
 export default class Sacrifices {
   constructor(x = 120, y = 20) {
@@ -25,8 +26,8 @@ export default class Sacrifices {
   draw(ctx) {
     for (let s = 0; s < Math.min(this.sacrifices.length, 2); s++) {
       const sacrifice = this.sacrifices[s];
-      sacrifice.x = this.x + (sacrifice.w+8) * s * 3;
-      sacrifice.y = this.y - this.y*s/5 ;
+      sacrifice.x = this.x + (sacrifice.w + 8) * s * 3;
+      sacrifice.y = this.y - (this.y * s) / 5;
       sacrifice.draw(ctx);
     }
   }
@@ -44,5 +45,9 @@ export default class Sacrifices {
 
   check(x, y) {
     return this.sacrifices.find((sac) => sac.hasPoint({ x, y }));
+  }
+  
+  shuffle() {
+    shuffleArray(this.activities);
   }
 }
