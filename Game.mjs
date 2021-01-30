@@ -72,7 +72,10 @@ export default class Game {
     this.areas.cardCount.add(new People(2));
     this.areas.cardCount.add(new People(3));
 
-    this.areas.activities.loadAll(ALL_ACTIVITIES);
+    this.areas.temple.add(new Activity([1], 0, 10));
+    this.areas.headquarter.add(new Activity([1], 1, 7));
+    this.areas.city.add(new Activity([2], 2, 6));
+    this.areas.farm.add(new Activity([3], 3, 3));
 
   }
 
@@ -88,13 +91,21 @@ export default class Game {
     this.areas.cardCount.draw(this.ctx);
     this.areas.sacrifices.expire(this.dt, this);
     this.areas.sacrifices.draw(this.ctx);
-    this.areas.activities.expire(this.dt, this);
-    this.areas.activities.draw(this.ctx);
+    this.areas.headquarter.draw(this.ctx);
+    this.areas.city.draw(this.ctx);
+    this.areas.farm.draw(this.ctx);
+    this.areas.temple.draw(this.ctx);
+
+    this.areas.farm.expire(this.dt, this);
+    this.areas.temple.expire(this.dt, this);
+    this.areas.city.expire(this.dt, this);
+    this.areas.headquarter.expire(this.dt, this);
+
     this.areas.died.drawCount(this.ctx);
     this.areas.available.drawCount(this.ctx);
     this.areas.resting.drawCount(this.ctx);
     this.areas.ready.draw(this.ctx);
-    this.newTurn.draw(this.ctx);
+    // this.newTurn.draw(this.ctx);
     this.showResting.draw(this.ctx);
     this.showAvailable.draw(this.ctx);
 
@@ -114,7 +125,7 @@ export default class Game {
   }
 
   createAreas() {
-    this.areas.sacrifices = new Sacrifices(130, 100);
+    this.areas.sacrifices = new Sacrifices(42, 80);
     this.areas.sacrifices.loadAll(ALL_SACRIFICES);
 
     this.areas.ready = new Ready("Ready", 62, this.canvas.height - 148);
@@ -145,7 +156,10 @@ export default class Game {
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
 
-    this.areas.activities = new Activities(80, this.canvas.height - 300);
+    this.areas.temple = new Activities(150, 100);
+    this.areas.headquarter = new Activities(75, 200);
+    this.areas.city = new Activities(250, 200);
+    this.areas.farm = new Activities(170, 300);
     this.newTurn = new Button( this.canvas.width - 30,
       this.canvas.height - 100,
        50,
@@ -184,7 +198,10 @@ export default class Game {
       this.dragging.x = x;
       this.dragging.y = y;
       const s = this.areas.sacrifices.check(x, y);
-      const a = this.areas.activities.check(x, y);
+      const temple = this.areas.temple.check(x, y);
+      const headquarter = this.areas.headquarter.check(x, y);
+      const city = this.areas.city.check(x, y);
+      const farm = this.areas.farm.check(x, y);
       if (s) {
         if (s.type === this.dragging.type) {
           this.grace++;
@@ -199,16 +216,58 @@ export default class Game {
         this.dragging = null;
         return;
       }
-      if (a) {
-        if (a.deliver(this.dragging.type)) {
+      if (temple) {
+        if (temple.deliver(this.dragging.type)) {
         } else {
           this.reputation--;
         }
         this.areas.resting.add(this.dragging);
         this.areas.ready.delete(this.dragging);
-        if (a.demands.length === 0) {
+        if (temple.demands.length === 0) {
           this.reputation++;
-          this.areas.activities.delete(a);
+          
+        }
+        this.dragging = null;
+        return;
+      }
+      if (headquarter) {
+        if (headquarter.deliver(this.dragging.type)) {
+        } else {
+          this.reputation--;
+        }
+        this.areas.resting.add(this.dragging);
+        this.areas.ready.delete(this.dragging);
+        if (headquarter.demands.length === 0) {
+          this.reputation++;
+          
+        }
+        this.dragging = null;
+        return;
+      }
+      if (city) {
+        if (city.deliver(this.dragging.type)) {
+        } else {
+          this.reputation--;
+        }
+        this.areas.resting.add(this.dragging);
+        this.areas.ready.delete(this.dragging);
+        if (city.demands.length === 0) {
+          this.reputation++;
+          
+        }
+        this.dragging = null;
+        return;
+      }
+      if (farm) {
+        if (farm.deliver(this.dragging.type)) {
+        } else {
+          this.reputation--;
+        }
+        this.areas.resting.add(this.dragging);
+        this.areas.ready.delete(this.dragging);
+        if (farm.demands.length === 0) {
+          this.reputation++;
+          
         }
         this.dragging = null;
         return;
@@ -221,24 +280,28 @@ export default class Game {
   click(e) {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
-    if (this.newTurn.hasPoint({ x, y })) {
-      this.areas.resting.addAll(this.areas.ready);
+    // if (this.newTurn.hasPoint({ x, y })) {
+    //   this.areas.resting.addAll(this.areas.ready);
       
-      if (this.areas.available.size() <= 5) {
-        this.areas.ready.addAll(this.areas.available);
-        this.areas.available.addAll(this.areas.resting);
-      }
-      while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
-        const r = Math.floor(Math.random() * this.areas.available.size());
-        const p = this.areas.available.people[r];
-        this.areas.ready.add(p);
-        this.areas.available.delete(p);
-      }
-    }
+    //   if (this.areas.available.size() <= 5) {
+    //     this.areas.ready.addAll(this.areas.available);
+    //     this.areas.available.addAll(this.areas.resting);
+    //   }
+    //   while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
+    //     const r = Math.floor(Math.random() * this.areas.available.size());
+    //     const p = this.areas.available.people[r];
+    //     this.areas.ready.add(p);
+    //     this.areas.available.delete(p);
+    //   }
+    // }
     if (this.showAvailable.hasPoint({ x, y })) {
+      this.areas.available.visible = true;
+      this.areas.resting.visible = false;
       console.log("Available")
     }
     if (this.showResting.hasPoint({ x, y })) {
+      this.areas.resting.visible = true;
+      this.areas.available.visible = false;
       console.log("Resting")
 
     }

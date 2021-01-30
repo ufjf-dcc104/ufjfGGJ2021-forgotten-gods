@@ -25,8 +25,8 @@ export default class Sacrifices {
   draw(ctx) {
     for (let s = 0; s < Math.min(this.sacrifices.length, 2); s++) {
       const sacrifice = this.sacrifices[s];
-      sacrifice.x = this.x + (sacrifice.w+8) * s;
-      sacrifice.y = this.y;
+      sacrifice.x = this.x + (sacrifice.w+8) * s * 3;
+      sacrifice.y = this.y - this.y*s/5 ;
       sacrifice.draw(ctx);
     }
   }
