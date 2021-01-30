@@ -29,7 +29,6 @@ export default class GameScene {
     this.animID = null;
   }
   start() {
-    
     this.animID = requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -41,7 +40,7 @@ export default class GameScene {
     this.reputation = 5;
     this.dragging = null;
     this.t0 = null;
-    this.dt = null;;
+    this.dt = null;
     this.areas = {};
     const touches = [];
     this.createAreas();
@@ -72,7 +71,6 @@ export default class GameScene {
       this.touchmove(e);
     };
 
-
     this.areas.ready.add(new People(PRIEST));
     this.areas.ready.add(new People(SOLDIER));
     this.areas.ready.add(new People(SENATOR));
@@ -99,7 +97,7 @@ export default class GameScene {
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
-    
+
     this.areas.cardCount.draw(this.ctx);
     this.areas.gods.forEach((god) => {
       god.draw(this.ctx);
@@ -109,7 +107,7 @@ export default class GameScene {
       building.draw(this.ctx);
       building.expire(this.dt, this);
     });
-    
+
     this.areas.died.drawCount(this.ctx);
     this.areas.available.drawCount(this.ctx);
     this.areas.resting.drawCount(this.ctx);
@@ -117,16 +115,28 @@ export default class GameScene {
     this.newTurn.draw(this.ctx);
     this.showResting.draw(this.ctx);
     this.showAvailable.draw(this.ctx);
-    
+
     this.expire -= Math.min(this.expire, 1 * this.dt);
     const min = padzero(Math.floor(this.expire / 60), 2);
     const seg = padzero(Math.floor(this.expire % 60), 2);
     this.ctx.font = "30px bold monospace";
     this.ctx.fillStyle = "black";
-    this.ctx.fillText(`${min}:${seg}`, 0.40625*this.canvas.width, 25);
+    this.ctx.fillText(
+      `${min}:${seg}`,
+      0.390625 * this.canvas.width,
+      0.044642857142857144 * this.canvas.height
+    );
     this.ctx.font = "20px bold monospace";
-    this.ctx.fillText(`Grace ${this.grace}`, 10, 20);
-    this.ctx.fillText(`Reputation ${this.reputation}`, 10, 40);
+    this.ctx.fillText(
+      `Grace ${this.grace}`,
+      0.03125 * this.canvas.width,
+      0.03571428571428571 * this.canvas.height
+    );
+    this.ctx.fillText(
+      `Reputation ${this.reputation}`,
+      0.03125 * this.canvas.width,
+      0.07142857142857142 * this.canvas.height
+    );
     if (this.expire <= 0) {
       //cancelAnimationFrame(this.animID);
       this.game.setScene("end");
@@ -152,52 +162,76 @@ export default class GameScene {
     this.areas.died = new Area("Died", 47, this.canvas.height - 53, false);
     this.areas.resting = new Area(
       "Resting",
-      47,
-      this.canvas.height - 53,
-      false
-    );
-    this.areas.resting = new Area(
-      "Resting",
-      47,
-      this.canvas.height - 53,
+      0.146875 * this.canvas.width,
+      0.9053571428571429 * this.canvas.height,
       false
     );
     this.areas.available = new Area(
       "Available",
-      47,
-      this.canvas.height - 53,
+      0.146875 * this.canvas.width,
+      0.9053571428571429 * this.canvas.height,
       true
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
-
+    0.9053571428571429;
     this.areas.gods = [];
-    this.areas.gods.push(new Activities(42, 80, 0));
+    this.areas.gods.push(
+      new Activities(
+        0.13125 * this.canvas.width,
+        0.14285714285714285 * this.canvas.height,
+        0
+      )
+    );
     // this.areas.gods.push(new Activities(75, 200, 2));
 
     this.areas.buildings = [];
-    this.areas.buildings.push(new Activities(0.46875*this.canvas.width, 0.17857142857142858*this.canvas.height, 0));
-    this.areas.buildings.push(new Activities(75, 200, 2));
-    this.areas.buildings.push(new Activities(250, 200, 1));
-    this.areas.buildings.push(new Activities(170, 300, 3));
+    this.areas.buildings.push(
+      new Activities(
+        0.46875 * this.canvas.width,
+        0.17857142857142858 * this.canvas.height,
+        0
+      )
+    );
+    this.areas.buildings.push(
+      new Activities(
+        0.234375 * this.canvas.width,
+        0.35714285714285715 * this.canvas.height,
+        2
+      )
+    );
+    this.areas.buildings.push(
+      new Activities(
+        0.78125 * this.canvas.width,
+        0.35714285714285715 * this.canvas.height,
+        1
+      )
+    );
+    this.areas.buildings.push(
+      new Activities(
+        0.53125 * this.canvas.width,
+        0.5357142857142857 * this.canvas.height,
+        3
+      )
+    );
     this.newTurn = new Button(
-      this.canvas.width - 30,
-      this.canvas.height - 100,
-      50,
-      30,
+      0.90625 * this.canvas.width,
+      0.8214285714285714 * this.canvas.height,
+      0.15625 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
       "End Turn"
     );
     this.showAvailable = new Button(
-      this.canvas.width - 58,
-      this.canvas.height - 38,
-      70,
-      30,
+      0.81875 * this.canvas.width,
+      0.9321428571428572 * this.canvas.height,
+      0.21875 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
       "Available"
     );
     this.showResting = new Button(
-      this.canvas.width - 58,
-      this.canvas.height - 68,
-      70,
-      30,
+      0.81875 * this.canvas.width,
+      0.8785714285714286 * this.canvas.height,
+      0.21875 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
       "Resting"
     );
   }

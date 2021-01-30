@@ -1,6 +1,5 @@
 import Button from "./Button.mjs";
 
-
 export default class EndScene {
   constructor(canvas) {
     this.canvas = canvas;
@@ -46,8 +45,6 @@ export default class EndScene {
     this.canvas.ontouchmove = (e) => {
       this.touchmove(e);
     };
-
-   
   }
 
   step(t) {
@@ -62,7 +59,7 @@ export default class EndScene {
     this.ctx.fillStyle = "black";
     this.ctx.font = "50px bold monospace";
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`FIM`, this.canvas.width/2, this.canvas.height/2);
+    this.ctx.fillText(`FIM`, this.canvas.width / 2, this.canvas.height / 2);
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -71,17 +68,17 @@ export default class EndScene {
 
   createAreas() {
     this.mainMenu = new Button(
-      this.canvas.width / 2,
-      this.canvas.height / 2 + 70,
-      80,
-      30,
+      0.5 * this.canvas.width,
+      0.625 * this.canvas.height,
+      0.25 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
       "Main Menu"
     );
     this.newGame = new Button(
-      this.canvas.width / 2,
-      this.canvas.height / 2 + 100,
-      80,
-      30,
+      0.5 * this.canvas.width,
+      0.6785714285714286 * this.canvas.height,
+      0.25 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
       "New Game"
     );
   }
@@ -96,22 +93,15 @@ export default class EndScene {
       this.game.setScene("start");
     }
   }
-  mouseup(e) {
-    
-  }
+  mouseup(e) {}
   click(e) {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newGame.hasPoint({ x, y })) {
-      
     }
   }
-  mousemove(e) {
-   
-  }
-  mouseout(e) {
-  
-  }
+  mousemove(e) {}
+  mouseout(e) {}
 
   touchstart(e) {
     const newTouch = e.changedTouches[0];
@@ -127,4 +117,3 @@ export default class EndScene {
     this.mousemove(newTouch);
   }
 }
-
