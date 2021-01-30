@@ -11,6 +11,6 @@ export const TYPE_COLOR = {};
 
 TYPE_COLOR[PRIEST] = "white";
 TYPE_COLOR[FARMER] = "green";
-TYPE_COLOR[SENATOR] = "blue";
-TYPE_COLOR[SOLDIER] = "red";
+TYPE_COLOR[SENATOR] = "red";
+TYPE_COLOR[SOLDIER] = "blue";
 
