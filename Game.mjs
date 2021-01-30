@@ -267,7 +267,8 @@ export default class Game {
         this.areas.ready.delete(this.dragging);
         if (farm.demands.length === 0) {
           this.reputation++;
-          
+          farm.resetDemands();
+          this.areas.farm.sendToBottom(farm);
         }
         this.dragging = null;
         return;

@@ -70,13 +70,17 @@ export default class Activities {
       if (activity.expire <= 0) {
         this.reputation = this.reputation > 0 ? this.reputation - 1 : 0;
         activity.expire = activity.total;
-        this.activities.push(activity);
-        this.activities.splice(s, 1);
+        this.sendToBottom(activity);
       }
     }
   }
 
   check(x, y) {
     return this.activities.find((sac) => sac.hasPoint({ x, y }));
+  }
+  sendToBottom(activity){
+    const idx = this.activities.indexOf(activity);
+    const act = this.activities.splice(idx, 1)[0];
+    this.activities.push(act);
   }
 }

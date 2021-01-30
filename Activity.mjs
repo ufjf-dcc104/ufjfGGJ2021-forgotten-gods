@@ -1,15 +1,16 @@
 import Sprite, { TYPE_COLOR } from "./Sprite.mjs";
 
 export default class Activity extends Sprite {
-  constructor(demands = [0], type = 0, expire = 20, effect = ()=>{}) {
+  constructor(demands = [0], type = 0, expire = 20, effect = () => {}) {
     super();
     this.type = type;
     this.w = 60;
     this.h = 100;
     this.expire = expire;
     this.total = expire;
-    this.demands = demands;
-    this.effect= effect;
+    this.demandsTotal = [...demands];
+    this.demands = [...this.demandsTotal];
+    this.effect = effect;
   }
   draw(ctx) {
     ctx.strokeStyle = TYPE_COLOR[this.type];
@@ -51,6 +52,10 @@ export default class Activity extends Sprite {
   }
   deliver(type) {
     const idx = this.demands.indexOf(type);
-    return this.demands.splice(idx, 1);
+    this.demands.splice(idx, 1);
+    return idx >= 0;
+  }
+  resetDemands() {
+    this.demands = [...this.demandsTotal];
   }
 }
