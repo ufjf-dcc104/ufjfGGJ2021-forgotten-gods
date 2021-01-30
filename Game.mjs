@@ -105,7 +105,7 @@ export default class Game {
     this.areas.available.drawCount(this.ctx);
     this.areas.resting.drawCount(this.ctx);
     this.areas.ready.draw(this.ctx);
-    // this.newTurn.draw(this.ctx);
+    this.newTurn.draw(this.ctx);
     this.showResting.draw(this.ctx);
     this.showAvailable.draw(this.ctx);
 
@@ -156,10 +156,10 @@ export default class Game {
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
 
-    this.areas.temple = new Activities(150, 100);
-    this.areas.headquarter = new Activities(75, 200);
-    this.areas.city = new Activities(250, 200);
-    this.areas.farm = new Activities(170, 300);
+    this.areas.temple = new Activities(150, 100,0);
+    this.areas.headquarter = new Activities(75, 200,2);
+    this.areas.city = new Activities(250, 200, 1);
+    this.areas.farm = new Activities(170, 300, 3);
     this.newTurn = new Button( this.canvas.width - 30,
       this.canvas.height - 100,
        50,
@@ -280,20 +280,20 @@ export default class Game {
   click(e) {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
-    // if (this.newTurn.hasPoint({ x, y })) {
-    //   this.areas.resting.addAll(this.areas.ready);
+    if (this.newTurn.hasPoint({ x, y })) {
+      this.areas.resting.addAll(this.areas.ready);
       
-    //   if (this.areas.available.size() <= 5) {
-    //     this.areas.ready.addAll(this.areas.available);
-    //     this.areas.available.addAll(this.areas.resting);
-    //   }
-    //   while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
-    //     const r = Math.floor(Math.random() * this.areas.available.size());
-    //     const p = this.areas.available.people[r];
-    //     this.areas.ready.add(p);
-    //     this.areas.available.delete(p);
-    //   }
-    // }
+      if (this.areas.available.size() <= 5) {
+        this.areas.ready.addAll(this.areas.available);
+        this.areas.available.addAll(this.areas.resting);
+      }
+      while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
+        const r = Math.floor(Math.random() * this.areas.available.size());
+        const p = this.areas.available.people[r];
+        this.areas.ready.add(p);
+        this.areas.available.delete(p);
+      }
+    }
     if (this.showAvailable.hasPoint({ x, y })) {
       this.areas.available.visible = true;
       this.areas.resting.visible = false;

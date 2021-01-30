@@ -2,14 +2,14 @@ import Activity from "./Activity.mjs";
 import People from "./People.mjs";
 
 export default class Activities {
-  constructor(x = 300, y = 120) {
+  constructor(x = 300, y = 120, type=0) {
     this.x = x;
     this.y = y;
     this.activities = [];
     this.max = 1;
     this.reputation = 4;
     this.spawn = 1;
-    this.type = 0;
+    this.type = type;
   }
 
   loadAll(activities) {
