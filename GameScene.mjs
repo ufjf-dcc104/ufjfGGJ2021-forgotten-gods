@@ -123,7 +123,7 @@ export default class GameScene {
     const seg = padzero(Math.floor(this.expire % 60), 2);
     this.ctx.font = "30px bold monospace";
     this.ctx.fillStyle = "black";
-    this.ctx.fillText(`${min}:${seg}`, 130, 25);
+    this.ctx.fillText(`${min}:${seg}`, 0.40625*this.canvas.width, 25);
     this.ctx.font = "20px bold monospace";
     this.ctx.fillText(`Grace ${this.grace}`, 10, 20);
     this.ctx.fillText(`Reputation ${this.reputation}`, 10, 40);
@@ -175,7 +175,7 @@ export default class GameScene {
     // this.areas.gods.push(new Activities(75, 200, 2));
 
     this.areas.buildings = [];
-    this.areas.buildings.push(new Activities(150, 100, 0));
+    this.areas.buildings.push(new Activities(0.46875*this.canvas.width, 0.17857142857142858*this.canvas.height, 0));
     this.areas.buildings.push(new Activities(75, 200, 2));
     this.areas.buildings.push(new Activities(250, 200, 1));
     this.areas.buildings.push(new Activities(170, 300, 3));
