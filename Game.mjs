@@ -88,6 +88,8 @@ export default class Game {
     this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
 
     this.areas.cardCount.draw(this.ctx);
+    this.areas.sacrifices.expire(this.dt, this);
+    this.areas.sacrifices.draw(this.ctx);
     this.areas.activities.expire(this.dt, this);
     this.areas.activities.draw(this.ctx);
     this.areas.died.drawCount(this.ctx);

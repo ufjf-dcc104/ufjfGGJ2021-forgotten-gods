@@ -11,6 +11,7 @@ export default class Sacrifice extends Sprite {
     this.effect = effect;
   }
   draw(ctx) {
+    ctx.beginPath();
     ctx.strokeStyle = TYPE_COLOR[this.type];
     ctx.lineWidth = 3;
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
@@ -19,5 +20,6 @@ export default class Sacrifice extends Sprite {
     ctx.fillRect(this.x - this.w / 2, this.y + this.h / 2+5, this.w*this.expire/this.total, 10);
     ctx.font = "10px monospace";
     ctx.fillText(this.expire.toFixed(2), this.x - this.w / 2, this.y + this.h / 2+25);
+    ctx.closePath();
   }
 }

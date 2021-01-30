@@ -31,6 +31,7 @@ export default class Activity extends Sprite {
         false
       );
       ctx.fill();
+      ctx.closePath();
     });
 
     ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 30%)`;
