@@ -1,9 +1,17 @@
 import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
 import { FAST } from "./data/AllTimeConstants.mjs";
+import { assets } from "./Game.mjs";
 import Sprite from "./Sprite.mjs";
 
 export default class Activity extends Sprite {
-  constructor({demands = [0], type = 0, expire = FAST, effect = () => {}, w=100, h=100}) {
+  constructor({
+    demands = [0],
+    type = 0,
+    expire = FAST,
+    effect = () => {},
+    w = 100,
+    h = 100,
+  }) {
     super({});
     this.type = type;
     this.w = w;
@@ -19,26 +27,36 @@ export default class Activity extends Sprite {
     ctx.lineWidth = 3;
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.lineWidth = 1;
+    const r = 0.07;
+    const w = r * 0.75 * ctx.canvas.width;
+    const h = r * ctx.canvas.width;
+    const g = h / 8;
     this.demands.forEach((d, k) => {
-      const c = k % 2;
-      const l = Math.floor(k / 2);
+      //const c = k % 1;
+      //const l = Math.floor(k / 1);
+      const x = this.x + (w + g) * k + w * 0.7;
+      const y = this.y + (h + g) - h * 2.1;
+
+      ctx.drawImage(assets.img(`people${this.type}`), x, y, w, h);
+      /*
       ctx.fillStyle = TYPE_COLOR[d];
       ctx.beginPath();
-      ctx.ellipse(
-        this.x + 12 * c,
-        this.y + 12 * l,
-        5,
-        5,
-        0,
-        0,
-        2 * Math.PI,
-        false
-      );
+      ctx.ellipse(x, y, w, h, 0, 0, 2 * Math.PI, false);
       ctx.fill();
       ctx.closePath();
+      */
     });
 
+    let ang = (1-this.expire / this.total +1)*3/2*  Math.PI;
     ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 30%)`;
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.arc(this.x, this.y, w/2, Math.PI*3/2, ang, true);
+    ctx.lineTo(this.x, this.y);
+    ctx.fill();
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = w/12;
+    ctx.stroke();
     ctx.fillRect(
       this.x - this.w / 2,
       this.y + this.h / 2 + 5,
