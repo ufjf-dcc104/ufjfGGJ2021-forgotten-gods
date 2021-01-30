@@ -238,9 +238,13 @@ export default class Game {
       }
     }
     if (this.showAvailable.hasPoint({ x, y })) {
+      this.areas.available.visible = true;
+      this.areas.resting.visible = false;
       console.log("Available")
     }
     if (this.showResting.hasPoint({ x, y })) {
+      this.areas.resting.visible = true;
+      this.areas.available.visible = false;
       console.log("Resting")
 
     }
