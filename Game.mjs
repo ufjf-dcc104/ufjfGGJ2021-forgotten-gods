@@ -323,12 +323,10 @@ export default class Game {
   }
 
   touchstart(e) {
-    e.preventDefault();
     const newTouch = e.changedTouches[0];
     this.mousedown(newTouch);
   }
   touchend(e) {
-    e.preventDefault();
     const newTouch = e.changedTouches[0];
     this.mouseup(newTouch);
   }
