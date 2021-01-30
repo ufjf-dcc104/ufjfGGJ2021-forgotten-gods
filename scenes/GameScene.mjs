@@ -70,13 +70,12 @@ export default class GameScene {
       this.touchmove(e);
     };
 
-
-    const w = 0.115*0.75*this.canvas.height;
-    const h = 0.115*this.canvas.height;
-    this.areas.cardCount.add(new People({type: PRIEST, w,h}));
-    this.areas.cardCount.add(new People({type: SOLDIER, w,h}));
-    this.areas.cardCount.add(new People({type: SENATOR, w,h}));
-    this.areas.cardCount.add(new People({type: FARMER, w,h}));
+    const w = 0.115 * 0.75 * this.canvas.height;
+    const h = 0.115 * this.canvas.height;
+    this.areas.cardCount.add(new People({ type: PRIEST, w, h }));
+    this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
+    this.areas.cardCount.add(new People({ type: SENATOR, w, h }));
+    this.areas.cardCount.add(new People({ type: FARMER, w, h }));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS);
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS);
@@ -92,7 +91,13 @@ export default class GameScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(this.assets.img("bg"), 0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(
+      this.assets.img("bg"),
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
 
     this.areas.cardCount.draw(this.ctx);
     this.areas.gods.forEach((god) => {
@@ -145,8 +150,11 @@ export default class GameScene {
   }
 
   createAreas() {
-
-    this.areas.ready = new Ready("Ready", 0.110*this.canvas.height, 0.73*this.canvas.height);
+    this.areas.ready = new Ready(
+      "Ready",
+      0.11 * this.canvas.height,
+      0.73 * this.canvas.height
+    );
     this.areas.cardCount = new Area(
       "Card Count",
       0.146875 * this.canvas.width,
@@ -251,14 +259,12 @@ export default class GameScene {
         const checked = god.check(x, y);
         if (checked) {
           if (!checked.deliver(this.dragging.type)) {
-            god.reputation--;
+            god.loseRep();
           }
           this.areas.died.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
-            if (god.reputation<=6){
-              god.reputation++;
-            }
+            god.gainRep();
             checked.effect(this);
             checked.resetDemands();
             god.sendToBottom(checked);
@@ -272,15 +278,13 @@ export default class GameScene {
         if (checked) {
           if (!checked.deliver(this.dragging.type)) {
             this.reputation--;
-            building.reputation--;
+            building.loseRep();
           }
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
-            if (building.reputation<7){
-              this.reputation++;
-              building.reputation++;
-            }
+            this.reputation++;
+            building.gainRep();
             checked.resetDemands();
             building.sendToBottom(checked);
           }
@@ -339,7 +343,7 @@ export default class GameScene {
     const newTouch = e.changedTouches[0];
     this.mousemove(newTouch);
   }
-  endTurn(){
+  endTurn() {
     this.areas.resting.addAll(this.areas.ready);
 
     if (this.areas.available.size() <= 5) {
