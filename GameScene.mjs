@@ -7,17 +7,17 @@ import People from "./People.mjs";
 import Button from "./Button.mjs";
 import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
 import { ALL_GOD_A_CARDS } from "./data/AllGodACards.mjs";
-import { FARMER, SOLDIER, SENATOR, PRIEST } from "./util/peopleTypes.mjs";
+import { FARMER, SOLDIER, SENATOR, PRIEST } from "./data/AllTimeConstants.mjs";
 import { ALL_BARRACKS_CARDS } from "./data/AllBarracksCards.mjs";
 import { ALL_SENATE_CARDS } from "./data/AllSenateCards.mjs";
 import { ALL_TEMPLE_CARDS } from "./data/AllTempleCards.mjs";
 import { bg } from "./AssetManager.mjs";
+import { GAME_TIME } from "./data/AllTimeConstants.mjs";
 
 export default class GameScene {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
-    this.expire = 5;
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
@@ -36,7 +36,7 @@ export default class GameScene {
   }
 
   setup() {
-    this.expire = 5;
+    this.expire = GAME_TIME;
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
@@ -101,8 +101,6 @@ export default class GameScene {
     this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
     
     this.areas.cardCount.draw(this.ctx);
-    // this.areas.sacrifices.expire(this.dt, this);
-    // this.areas.sacrifices.draw(this.ctx);
     this.areas.gods.forEach((god) => {
       god.draw(this.ctx);
       god.expire(this.dt, this);

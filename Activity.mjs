@@ -1,7 +1,9 @@
-import Sprite, { TYPE_COLOR } from "./Sprite.mjs";
+import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
+import { FAST } from "./data/AllTimeConstants.mjs";
+import Sprite from "./Sprite.mjs";
 
 export default class Activity extends Sprite {
-  constructor(demands = [0], type = 0, expire = 20, effect = () => {}) {
+  constructor(demands = [0], type = 0, expire = FAST, effect = () => {}) {
     super();
     this.type = type;
     this.w = 60;

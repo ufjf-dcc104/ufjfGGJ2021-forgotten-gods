@@ -1,4 +1,5 @@
-import Sprite, { TYPE_COLOR } from "./Sprite.mjs";
+import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
+import Sprite from "./Sprite.mjs";
 
 export default class Sacrifice extends Sprite {
   constructor(type = 0, expire = 10, effect= (game)=>{} ) {

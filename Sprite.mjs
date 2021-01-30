@@ -1,11 +1,12 @@
-export const TYPE_COLOR = ["white", "green", "blue", "red"];
+import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
+
 
 export default class Sprite {
   constructor(type = 0) {
     this.type = type;
     this.x = 0;
     this.y = 0;
-    this.w = 64*0.75;
+    this.w = 64 * 0.75;
     this.h = 64;
     this.draggable = true;
     this.color = "white";
@@ -13,7 +14,7 @@ export default class Sprite {
   draw(ctx) {
     ctx.beginPath();
     ctx.fillStyle = TYPE_COLOR[this.type];
-    ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);    
+    ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);

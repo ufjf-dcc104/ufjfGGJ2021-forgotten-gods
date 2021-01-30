@@ -1,5 +1,7 @@
 import Sprite from "./Sprite.mjs";
 import { bg } from "./AssetManager.mjs";
+import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
+
 const PEOPLE_IMAGES = [
   { sx: 243, sy: 2279, sw: 276, sh: 364 },
   { sx: 524, sy: 2279, sw: 276, sh: 364 },
@@ -7,7 +9,6 @@ const PEOPLE_IMAGES = [
   { sx: 1096, sy: 2279, sw: 276, sh: 364 },
 ];
 
-export const TYPE_COLOR = ["white", "red", "green", "blue"];
 
 export default class People extends Sprite {
   draw(ctx) {
