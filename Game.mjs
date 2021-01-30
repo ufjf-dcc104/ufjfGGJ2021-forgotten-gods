@@ -12,7 +12,6 @@ assets.loadImage(`people${FARMER}`, "./assets/Farmer.png");
 assets.loadImage(`people${SOLDIER}`, "./assets/soldier.png");
 assets.loadImage(`people${SENATOR}`, "./assets/politician.png");
 assets.loadAudio(`theme`, "./assets/theme.mp3");
-assets.play("theme", true, 0.1);
 
 
 export default class Game {
@@ -23,7 +22,7 @@ export default class Game {
     this.addScene("end", new EndScene(canvas));
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
-    this.setScene("game");
+    this.setScene("start");
   }
   addScene(key, scene) {
     scene.game = this;

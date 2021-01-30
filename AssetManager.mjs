@@ -58,6 +58,15 @@ export default class AssetManager {
         */
   }
 
+  playTheme(loop = false, volume = 1.0) {
+    if(!this.theme){
+      this.theme = new Audio();
+      this.theme.src = this.audios['theme'].src;
+      this.theme.loop = loop;
+      this.theme.volume = volume;
+    }
+  }
+  
   play(key, loop = false, volume = 1.0) {
     if (!this.audios[key]) {
       throw new Error(`Chave de audio inválida: ${key}!`);
