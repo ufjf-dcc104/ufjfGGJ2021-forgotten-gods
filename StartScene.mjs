@@ -61,7 +61,9 @@ export default class StartScene {
     this.ctx.fillStyle = "black";
     this.ctx.font = "50px bold monospace";
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, this.canvas.height/2);
+    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, 0.5*this.canvas.height);
+    this.ctx.font = "20px bold monospace";
+    this.ctx.fillText(`Carregando... ${this.assets.progresso()}%`, 0.5*this.canvas.width, 0.56*this.canvas.height);
     requestAnimationFrame((t) => {
       this.step(t);
     });
