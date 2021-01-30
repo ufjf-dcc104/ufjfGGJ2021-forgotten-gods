@@ -1,4 +1,5 @@
 import EndScene from "./EndScene.mjs";
+import StartScene from "./StartScene.mjs";
 import GameScene from "./GameScene.mjs";
 
 export default class Game {
@@ -6,7 +7,8 @@ export default class Game {
     this.scenes = new Map();
     this.addScene("game", new GameScene(canvas));
     this.addScene("end", new EndScene(canvas));
-    this.setScene("game");
+    this.addScene("start", new StartScene(canvas));
+    this.setScene("start");
   }
   addScene(key, scene) {
     scene.game = this;
