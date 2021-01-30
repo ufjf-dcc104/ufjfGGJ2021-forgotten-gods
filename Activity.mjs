@@ -4,7 +4,7 @@ import Sprite from "./Sprite.mjs";
 
 export default class Activity extends Sprite {
   constructor({demands = [0], type = 0, expire = FAST, effect = () => {}, w=100, h=100}) {
-    super();
+    super({});
     this.type = type;
     this.w = w;
     this.h = h;

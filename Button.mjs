@@ -2,7 +2,7 @@ import Sprite from "./Sprite.mjs";
 
 export default class Button extends Sprite {
   constructor(x, y, w, h, text) {
-    super(null);
+    super({});
     this.x = x;
     this.y = y;
     this.w = w;

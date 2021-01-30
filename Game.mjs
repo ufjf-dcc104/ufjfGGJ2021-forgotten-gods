@@ -19,7 +19,7 @@ export default class Game {
     this.addScene("game", new GameScene(canvas));
     this.addScene("end", new EndScene(canvas));
     this.addScene("start", new StartScene(canvas));
-    this.setScene("start");
+    this.setScene("game");
   }
   addScene(key, scene) {
     scene.game = this;

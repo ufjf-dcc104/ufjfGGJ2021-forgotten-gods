@@ -11,6 +11,11 @@ const PEOPLE_IMAGES = [
 
 
 export default class People extends Sprite {
+  constructor(props){
+    super(props);
+    Object.assign(this,{w:48,h:64}, props);
+  }
+
   draw(ctx) {
     ctx.beginPath();
     ctx.fillStyle = TYPE_COLOR[this.type];

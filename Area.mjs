@@ -11,10 +11,17 @@ export default class Area {
     this.gap = 2;
   }
 
-  loadAll(people) {
+  loadAll(people, canvas) {
+    const r = 0.115;
     people.forEach((p) => {
       for (let c = 0; c < p.qty; c++) {
-        this.add(new People(p.type));
+        this.add(
+          new People({
+            type: p.type,
+            w: canvas.height * r *0.75,
+            h: canvas.height * r,
+          })
+        );
       }
     });
   }

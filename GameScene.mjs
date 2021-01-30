@@ -71,16 +71,13 @@ export default class GameScene {
       this.touchmove(e);
     };
 
-    this.areas.ready.add(new People(PRIEST));
-    this.areas.ready.add(new People(SOLDIER));
-    this.areas.ready.add(new People(SENATOR));
-    this.areas.ready.add(new People(FARMER));
-    this.areas.ready.add(new People(PRIEST));
 
-    this.areas.cardCount.add(new People(PRIEST));
-    this.areas.cardCount.add(new People(SOLDIER));
-    this.areas.cardCount.add(new People(SENATOR));
-    this.areas.cardCount.add(new People(FARMER));
+    const w = 0.115*0.75*this.canvas.height;
+    const h = 0.115*this.canvas.height;
+    this.areas.cardCount.add(new People({type: PRIEST, w,h}));
+    this.areas.cardCount.add(new People({type: SOLDIER, w,h}));
+    this.areas.cardCount.add(new People({type: SENATOR, w,h}));
+    this.areas.cardCount.add(new People({type: FARMER, w,h}));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS);
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS);
@@ -149,14 +146,12 @@ export default class GameScene {
   }
 
   createAreas() {
-    this.areas.sacrifices = new Sacrifices(42, 80);
-    this.areas.sacrifices.loadAll(ALL_SACRIFICES);
 
-    this.areas.ready = new Ready("Ready", 62, this.canvas.height - 148);
+    this.areas.ready = new Ready("Ready", 0.110*this.canvas.height, 0.73*this.canvas.height);
     this.areas.cardCount = new Area(
       "Card Count",
-      47,
-      this.canvas.height - 53,
+      0.146875 * this.canvas.width,
+      0.9053571428571429 * this.canvas.height,
       true
     );
     this.areas.died = new Area("Died", 47, this.canvas.height - 53, false);
@@ -172,8 +167,8 @@ export default class GameScene {
       0.9053571428571429 * this.canvas.height,
       true
     );
-    this.areas.available.loadAll(ALL_AVAILABLE);
-    0.9053571428571429;
+    this.areas.available.loadAll(ALL_AVAILABLE, this.canvas);
+    this.endTurn();
     this.areas.gods = [];
     this.areas.gods.push(
       new Activities(
@@ -301,18 +296,7 @@ export default class GameScene {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newTurn.hasPoint({ x, y })) {
-      this.areas.resting.addAll(this.areas.ready);
-
-      if (this.areas.available.size() <= 5) {
-        this.areas.ready.addAll(this.areas.available);
-        this.areas.available.addAll(this.areas.resting);
-      }
-      while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
-        const r = Math.floor(Math.random() * this.areas.available.size());
-        const p = this.areas.available.people[r];
-        this.areas.ready.add(p);
-        this.areas.available.delete(p);
-      }
+      this.endTurn();
     }
     if (this.showAvailable.hasPoint({ x, y })) {
       this.areas.available.visible = true;
@@ -351,6 +335,20 @@ export default class GameScene {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
     this.mousemove(newTouch);
+  }
+  endTurn(){
+    this.areas.resting.addAll(this.areas.ready);
+
+    if (this.areas.available.size() <= 5) {
+      this.areas.ready.addAll(this.areas.available);
+      this.areas.available.addAll(this.areas.resting);
+    }
+    while (this.areas.ready.size() < 5 && this.areas.available.size() > 0) {
+      const r = Math.floor(Math.random() * this.areas.available.size());
+      const p = this.areas.available.people[r];
+      this.areas.ready.add(p);
+      this.areas.available.delete(p);
+    }
   }
 }
 function padzero(num, places) {

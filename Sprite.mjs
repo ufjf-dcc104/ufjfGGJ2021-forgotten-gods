@@ -1,15 +1,16 @@
+import { PRIEST } from "./data/AllTimeConstants.mjs";
 import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
 
 
 export default class Sprite {
-  constructor(type = 0) {
+  constructor({type = PRIEST, w=48, h=64, draggable=true}) {
     this.type = type;
     this.x = 0;
     this.y = 0;
-    this.w = 64 * 0.75;
-    this.h = 64;
-    this.draggable = true;
-    this.color = "white";
+    this.w = w;
+    this.h = h;
+    this.draggable = draggable;
+    this.color = TYPE_COLOR[PRIEST];
   }
   draw(ctx) {
     ctx.beginPath();
