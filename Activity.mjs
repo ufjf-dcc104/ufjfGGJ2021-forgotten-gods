@@ -1,14 +1,15 @@
 import Sprite, { TYPE_COLOR } from "./Sprite.mjs";
 
 export default class Activity extends Sprite {
-  constructor(type = 0, expire = 20) {
+  constructor(demands = [0], type = 0, expire = 20, effect = ()=>{}) {
     super();
     this.type = type;
     this.w = 60;
     this.h = 100;
     this.expire = expire;
     this.total = expire;
-    this.demands = [0, 1, 2, 3];
+    this.demands = demands;
+    this.effect= effect;
   }
   draw(ctx) {
     ctx.strokeStyle = TYPE_COLOR[this.type];

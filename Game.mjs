@@ -8,6 +8,7 @@ import { ALL_SACRIFICES } from "./AllCards.mjs";
 import { ALL_AVAILABLE } from "./AllCards.mjs";
 import People from "./People.mjs";
 import Button from "./Button.mjs";
+import { ALL_ACTIVITIES } from "./AllCards.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
@@ -71,10 +72,10 @@ export default class Game {
     this.areas.cardCount.add(new People(2));
     this.areas.cardCount.add(new People(3));
 
-    this.areas.temple.add(new Activity(0, 10));
-    this.areas.headquarter.add(new Activity(1, 7));
-    this.areas.city.add(new Activity(2, 6));
-    this.areas.farm.add(new Activity(3, 3));
+    this.areas.temple.add(new Activity([1], 0, 10));
+    this.areas.headquarter.add(new Activity([1], 1, 7));
+    this.areas.city.add(new Activity([2], 2, 6));
+    this.areas.farm.add(new Activity([3], 3, 3));
 
   }
 
@@ -90,17 +91,15 @@ export default class Game {
     this.areas.cardCount.draw(this.ctx);
     this.areas.sacrifices.expire(this.dt, this);
     this.areas.sacrifices.draw(this.ctx);
-    // this.areas.activities.expire(this.dt, this);
-    // this.areas.activities.draw(this.ctx);
     this.areas.headquarter.draw(this.ctx);
     this.areas.city.draw(this.ctx);
     this.areas.farm.draw(this.ctx);
     this.areas.temple.draw(this.ctx);
 
-    // this.areas.farm.expire(this.dt, this);
-    // this.areas.temple.expire(this.dt, this);
-    // this.areas.city.expire(this.dt, this);
-    // this.areas.headquarter.expire(this.dt, this);
+    this.areas.farm.expire(this.dt, this);
+    this.areas.temple.expire(this.dt, this);
+    this.areas.city.expire(this.dt, this);
+    this.areas.headquarter.expire(this.dt, this);
 
     this.areas.died.drawCount(this.ctx);
     this.areas.available.drawCount(this.ctx);
@@ -157,11 +156,16 @@ export default class Game {
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
 
-    // this.areas.activities = new Activities(80, this.canvas.height - 300);
     this.areas.temple = new Activities(150, 100);
     this.areas.headquarter = new Activities(75, 200);
     this.areas.city = new Activities(250, 200);
     this.areas.farm = new Activities(170, 300);
+    this.newTurn = new Button( this.canvas.width - 30,
+      this.canvas.height - 100,
+       50,
+       30,
+       "End Turn"
+    );
     this.showAvailable = new Button( this.canvas.width - 58,
       this.canvas.height - 38,
        70,
