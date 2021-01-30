@@ -325,17 +325,17 @@ export default class Game {
   touchstart(e) {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
-    mousedown(newTouch);
+    this.mousedown(newTouch);
   }
   touchend(e) {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
-    mouseup(newTouch);
+    this.mouseup(newTouch);
   }
   touchmove(e) {
     e.preventDefault();
     const newTouch = e.changedTouches[0];
-    mousemove(newTouch);
+    this.mousemove(newTouch);
   }
 }
 function padzero(num, places) {
