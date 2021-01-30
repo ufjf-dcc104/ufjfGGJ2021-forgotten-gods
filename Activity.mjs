@@ -34,29 +34,24 @@ export default class Activity extends Sprite {
     this.demands.forEach((d, k) => {
       //const c = k % 1;
       //const l = Math.floor(k / 1);
-      const x = this.x + (w + g) * k + w * 0.7;
-      const y = this.y + (h + g) - h * 2.1;
+      const x = this.x + (w + g) * k - w*1.7;
+      const y = this.y + (h + g) ;
 
       ctx.drawImage(assets.img(`people${this.type}`), x, y, w, h);
-      /*
-      ctx.fillStyle = TYPE_COLOR[d];
-      ctx.beginPath();
-      ctx.ellipse(x, y, w, h, 0, 0, 2 * Math.PI, false);
-      ctx.fill();
-      ctx.closePath();
-      */
     });
+    const x = this.x  - w*2.5 ;
+    const y = this.y +h*1.65;
 
     let ang = (1 - this.expire / this.total) * 2 * Math.PI + (3 / 2) * Math.PI;
     ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 30%)`;
+    ctx.strokeStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 20%)`;
     ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.arc(this.x, this.y, w / 2, (Math.PI * 3) / 2, ang, true);
-    ctx.lineTo(this.x, this.y);
+    ctx.moveTo(x, y);
+    ctx.arc(x, y, h/2, (Math.PI * 3) / 2, ang, true);
+    ctx.lineTo(x, y);
     ctx.fill();
-    ctx.strokeStyle = "black";
     ctx.lineCap = "round";
-    ctx.lineWidth = w / 15;
+    ctx.lineWidth = w / 10;
     ctx.stroke();
     ctx.fillRect(
       this.x - this.w / 2,
