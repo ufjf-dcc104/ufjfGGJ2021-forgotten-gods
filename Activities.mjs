@@ -38,44 +38,37 @@ export default class Activities {
       activity.x = this.x + (activity.w + 8) * s;
       activity.y = this.y;
       activity.draw(ctx);
-      const x = this.x - 0.09375 * canvas.width;
-      const y = this.y + 0.125 * canvas.height;
-      ctx.fillStyle = "white";
-      ctx.fillRect(
-        x,
-        y,
-        0.1875 * canvas.width,
-        0.01607142857142857 * canvas.height
-      );
-      ctx.fillStyle = "black";
-      ctx.fillStyle = "yellow";
-      ctx.fillRect(
-        x,
-        y,
-        0.1875 * canvas.width * (1 - this.spawn),
-        0.008928571428571428 * canvas.height
-      );
-      ctx.strokeStyle = "black";
-      ctx.strokeRect(
-        x,
-        y - 2,
-        0.1875 * canvas.width,
-        0.01607142857142857 * canvas.height
-      );
-      ctx.fillStyle = `hsl(${(240 * this.reputation) / 4}, 100%, 50%)`;
-      ctx.beginPath();
-      ctx.ellipse(
-        x + (this.reputation * 0.1875 * canvas.width) / 4,
-        y + 3,
-        3,
-        3,
-        0,
-        0,
-        2 * Math.PI
-      );
-      ctx.fill();
-      ctx.stroke();
     }
+    const x = this.x-0.17*canvas.width;
+    const y = this.y+0.095*canvas.height;
+    const w = 0.33 * canvas.width;
+    const h = 0.01 * canvas.height;
+    ctx.fillStyle = "white";
+    ctx.fillRect(x, y, w, h);
+    //draw spawn bar
+    ctx.fillStyle = "black";
+    ctx.fillStyle = "red";
+    ctx.fillRect(x, y, w * (1 - this.spawn), h);
+    ctx.strokeStyle = "hsl(120,50%,25%)";
+    ctx.lineWidth = h / 3;
+    ctx.strokeRect(x, y, w, h);
+
+    //Draw reputation disc
+    ctx.fillStyle = `hsl(${(240 * this.reputation) / 4}, 100%, 50%)`;
+    ctx.beginPath();
+    ctx.ellipse(
+      x + (this.reputation * 0.1875 * canvas.width) / 4,
+      y * 1.01,
+      0.015 * canvas.width,
+      0.015 * canvas.width,
+      0,
+      0,
+      2 * Math.PI
+    );
+    ctx.fill();
+    ctx.lineWidth = h / 4;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
   }
 
   expire(dt, game) {
