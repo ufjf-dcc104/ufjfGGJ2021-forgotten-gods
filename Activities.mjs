@@ -1,5 +1,6 @@
 import Activity from "./Activity.mjs";
 import People from "./People.mjs";
+import { shuffleArray } from "./util/shuffle.mjs";
 
 export default class Activities {
   constructor(x = 300, y = 120, type=0) {
@@ -18,6 +19,7 @@ export default class Activities {
         this.add(new Activity(s.demands, s.type, s.expire, s.effect));
       }
     });
+    this.shuffle();
   }
 
   add(activity) {
@@ -84,5 +86,9 @@ export default class Activities {
     const idx = this.activities.indexOf(activity);
     const act = this.activities.splice(idx, 1)[0];
     this.activities.push(act);
+  }
+
+  shuffle(){
+    shuffleArray(this.activities);
   }
 }
