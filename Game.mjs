@@ -1,22 +1,15 @@
-import Sprite from "./Sprite.mjs";
 import Ready from "./Ready.mjs";
 import Sacrifices from "./Sacrifices.mjs";
 import Activities from "./Activities.mjs";
-import Activity from "./Activity.mjs";
 import Area from "./Area.mjs";
-import { ALL_SACRIFICES } from "./AllCards.mjs";
-import { ALL_AVAILABLE } from "./AllCards.mjs";
+import { ALL_SACRIFICES , ALL_AVAILABLE } from "./AllCards.mjs";
 import People from "./People.mjs";
 import Button from "./Button.mjs";
-import { ALL_ACTIVITIES } from "./AllCards.mjs";
 import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
 import { ALL_GOD_A_CARDS } from "./data/AllGodACards.mjs";
-import { FARMER } from "./util/peopleTypes.mjs";
-import { SOLDIER } from "./util/peopleTypes.mjs";
+import { FARMER, SOLDIER, SENATOR, PRIEST } from "./util/peopleTypes.mjs";
 import { ALL_BARRACKS_CARDS } from "./data/AllBarracksCards.mjs";
-import { SENATOR } from "./util/peopleTypes.mjs";
 import { ALL_SENATE_CARDS } from "./data/AllSenateCards.mjs";
-import { PRIEST } from "./util/peopleTypes.mjs";
 import { ALL_TEMPLE_CARDS } from "./data/AllTempleCards.mjs";
 
 export const bg = new Image();
@@ -68,16 +61,16 @@ export default class Game {
       this.touchmove(e);
     };
 
-    this.areas.ready.add(new People(0));
-    this.areas.ready.add(new People(1));
-    this.areas.ready.add(new People(2));
-    this.areas.ready.add(new People(3));
-    this.areas.ready.add(new People(0));
+    this.areas.ready.add(new People(PRIEST));
+    this.areas.ready.add(new People(SOLDIER));
+    this.areas.ready.add(new People(SENATOR));
+    this.areas.ready.add(new People(FARMER));
+    this.areas.ready.add(new People(PRIEST));
 
-    this.areas.cardCount.add(new People(0));
-    this.areas.cardCount.add(new People(1));
-    this.areas.cardCount.add(new People(2));
-    this.areas.cardCount.add(new People(3));
+    this.areas.cardCount.add(new People(PRIEST));
+    this.areas.cardCount.add(new People(SOLDIER));
+    this.areas.cardCount.add(new People(SENATOR));
+    this.areas.cardCount.add(new People(FARMER));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS);
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS);
