@@ -95,6 +95,8 @@ export default class Game {
     this.areas.resting.drawCount(this.ctx);
     this.areas.ready.draw(this.ctx);
     this.newTurn.draw(this.ctx);
+    this.showResting.draw(this.ctx);
+    this.showAvailable.draw(this.ctx);
 
     this.expire -= Math.min(this.expire, 1 * this.dt);
     const min = padzero(Math.floor(this.expire / 60), 2);
@@ -149,6 +151,18 @@ export default class Game {
        50,
        30,
        "End Turn"
+    );
+    this.showAvailable = new Button( this.canvas.width - 58,
+      this.canvas.height - 38,
+       70,
+       30,
+       "Available"
+    );
+    this.showResting = new Button( this.canvas.width - 58,
+      this.canvas.height - 68,
+       70,
+       30,
+       "Resting"
     );
   }
 
@@ -209,7 +223,7 @@ export default class Game {
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newTurn.hasPoint({ x, y })) {
       this.areas.resting.addAll(this.areas.ready);
-
+      
       if (this.areas.available.size() <= 5) {
         this.areas.ready.addAll(this.areas.available);
         this.areas.available.addAll(this.areas.resting);
@@ -220,6 +234,13 @@ export default class Game {
         this.areas.ready.add(p);
         this.areas.available.delete(p);
       }
+    }
+    if (this.showAvailable.hasPoint({ x, y })) {
+      console.log("Available")
+    }
+    if (this.showResting.hasPoint({ x, y })) {
+      console.log("Resting")
+
     }
   }
   mousemove(e) {
