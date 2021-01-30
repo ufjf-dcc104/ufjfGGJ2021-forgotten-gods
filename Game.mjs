@@ -10,6 +10,13 @@ import People from "./People.mjs";
 import Button from "./Button.mjs";
 import { ALL_ACTIVITIES } from "./AllCards.mjs";
 import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
+import { FARMER } from "./util/peopleTypes.mjs";
+import { SOLDIER } from "./util/peopleTypes.mjs";
+import { ALL_BARRACKS_CARDS } from "./data/AllBarracksCards.mjs";
+import { SENATOR } from "./util/peopleTypes.mjs";
+import { ALL_SENATE_CARDS } from "./data/AllSenateCards.mjs";
+import { PRIEST } from "./util/peopleTypes.mjs";
+import { ALL_TEMPLE_CARDS } from "./data/AllTempleCards.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
@@ -71,10 +78,10 @@ export default class Game {
     this.areas.cardCount.add(new People(2));
     this.areas.cardCount.add(new People(3));
 
-    this.areas.buildings[0].add(new Activity([1], 0, 10));
-    this.areas.buildings[1].add(new Activity([1], 1, 7));
-    this.areas.buildings[2].add(new Activity([2], 2, 6));
-    this.areas.buildings[3].loadAll(ALL_FARM_CARDS);
+    this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS);
+    this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS);
+    this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS);
+    this.areas.buildings[PRIEST].loadAll(ALL_TEMPLE_CARDS);
   }
 
   step(t) {
