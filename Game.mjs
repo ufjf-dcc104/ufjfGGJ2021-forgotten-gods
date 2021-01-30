@@ -14,8 +14,6 @@ import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
 
-
-
 export default class Game {
   constructor(canvas) {
     this.canvas = canvas;
@@ -73,11 +71,10 @@ export default class Game {
     this.areas.cardCount.add(new People(2));
     this.areas.cardCount.add(new People(3));
 
-    this.areas.temple.add(new Activity([1], 0, 10));
-    this.areas.headquarter.add(new Activity([1], 1, 7));
-    this.areas.city.add(new Activity([2], 2, 6));
-    this.areas.farm.loadAll(ALL_FARM_CARDS);
-
+    this.areas.buildings[0].add(new Activity([1], 0, 10));
+    this.areas.buildings[1].add(new Activity([1], 1, 7));
+    this.areas.buildings[2].add(new Activity([2], 2, 6));
+    this.areas.buildings[3].loadAll(ALL_FARM_CARDS);
   }
 
   step(t) {
@@ -92,15 +89,10 @@ export default class Game {
     this.areas.cardCount.draw(this.ctx);
     this.areas.sacrifices.expire(this.dt, this);
     this.areas.sacrifices.draw(this.ctx);
-    this.areas.headquarter.draw(this.ctx);
-    this.areas.city.draw(this.ctx);
-    this.areas.farm.draw(this.ctx);
-    this.areas.temple.draw(this.ctx);
-
-    this.areas.farm.expire(this.dt, this);
-    this.areas.temple.expire(this.dt, this);
-    this.areas.city.expire(this.dt, this);
-    this.areas.headquarter.expire(this.dt, this);
+    this.areas.buildings.forEach(building => {
+      building.draw(this.ctx);
+      building.expire(this.dt, this);
+    })
 
     this.areas.died.drawCount(this.ctx);
     this.areas.available.drawCount(this.ctx);
@@ -156,28 +148,31 @@ export default class Game {
       true
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
-
-    this.areas.temple = new Activities(150, 100,0);
-    this.areas.headquarter = new Activities(75, 200,2);
-    this.areas.city = new Activities(250, 200, 1);
-    this.areas.farm = new Activities(170, 300, 3);
-    this.newTurn = new Button( this.canvas.width - 30,
+    this.areas.buildings = [];
+    this.areas.buildings.push(new Activities(150, 100, 0));
+    this.areas.buildings.push(new Activities(75, 200, 2));
+    this.areas.buildings.push(new Activities(250, 200, 1));
+    this.areas.buildings.push(new Activities(170, 300, 3));
+    this.newTurn = new Button(
+      this.canvas.width - 30,
       this.canvas.height - 100,
-       50,
-       30,
-       "End Turn"
+      50,
+      30,
+      "End Turn"
     );
-    this.showAvailable = new Button( this.canvas.width - 58,
+    this.showAvailable = new Button(
+      this.canvas.width - 58,
       this.canvas.height - 38,
-       70,
-       30,
-       "Available"
+      70,
+      30,
+      "Available"
     );
-    this.showResting = new Button( this.canvas.width - 58,
+    this.showResting = new Button(
+      this.canvas.width - 58,
       this.canvas.height - 68,
-       70,
-       30,
-       "Resting"
+      70,
+      30,
+      "Resting"
     );
   }
 
@@ -199,10 +194,6 @@ export default class Game {
       this.dragging.x = x;
       this.dragging.y = y;
       const s = this.areas.sacrifices.check(x, y);
-      const temple = this.areas.temple.check(x, y);
-      const headquarter = this.areas.headquarter.check(x, y);
-      const city = this.areas.city.check(x, y);
-      const farm = this.areas.farm.check(x, y);
       if (s) {
         if (s.type === this.dragging.type) {
           this.grace++;
@@ -216,66 +207,28 @@ export default class Game {
         this.areas.sacrifices.delete(s);
         this.dragging = null;
         return;
+      
       }
-      if (temple) {
-        if (temple.deliver(this.dragging.type)) {
-        } else {
-          this.reputation--;
+      this.areas.buildings.forEach(building =>{
+        const checked = building.check(x, y);
+        if(checked) {
+          if (checked.deliver(this.dragging.type)) {
+          } else {
+            this.reputation--;
+          }
+          this.areas.resting.add(this.dragging);
+          this.areas.ready.delete(this.dragging);
+          if (checked.demands.length === 0) {
+            this.reputation++;
+          }
+          this.dragging = null;
+          return;
         }
-        this.areas.resting.add(this.dragging);
-        this.areas.ready.delete(this.dragging);
-        if (temple.demands.length === 0) {
-          this.reputation++;
-          
-        }
-        this.dragging = null;
-        return;
+      });
+      if(this.dragging != null){
+        this.dragging.x = this.dragging?.oldx;
+        this.dragging.y = this.dragging?.oldy;
       }
-      if (headquarter) {
-        if (headquarter.deliver(this.dragging.type)) {
-        } else {
-          this.reputation--;
-        }
-        this.areas.resting.add(this.dragging);
-        this.areas.ready.delete(this.dragging);
-        if (headquarter.demands.length === 0) {
-          this.reputation++;
-          
-        }
-        this.dragging = null;
-        return;
-      }
-      if (city) {
-        if (city.deliver(this.dragging.type)) {
-        } else {
-          this.reputation--;
-        }
-        this.areas.resting.add(this.dragging);
-        this.areas.ready.delete(this.dragging);
-        if (city.demands.length === 0) {
-          this.reputation++;
-          
-        }
-        this.dragging = null;
-        return;
-      }
-      if (farm) {
-        if (farm.deliver(this.dragging.type)) {
-        } else {
-          this.reputation--;
-        }
-        this.areas.resting.add(this.dragging);
-        this.areas.ready.delete(this.dragging);
-        if (farm.demands.length === 0) {
-          this.reputation++;
-          farm.resetDemands();
-          this.areas.farm.sendToBottom(farm);
-        }
-        this.dragging = null;
-        return;
-      }
-      this.dragging.x = this.dragging?.oldx;
-      this.dragging.y = this.dragging?.oldy;
       this.dragging = null;
     }
   }
@@ -284,7 +237,7 @@ export default class Game {
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newTurn.hasPoint({ x, y })) {
       this.areas.resting.addAll(this.areas.ready);
-      
+
       if (this.areas.available.size() <= 5) {
         this.areas.ready.addAll(this.areas.available);
         this.areas.available.addAll(this.areas.resting);
@@ -299,13 +252,12 @@ export default class Game {
     if (this.showAvailable.hasPoint({ x, y })) {
       this.areas.available.visible = true;
       this.areas.resting.visible = false;
-      console.log("Available")
+      console.log("Available");
     }
     if (this.showResting.hasPoint({ x, y })) {
       this.areas.resting.visible = true;
       this.areas.available.visible = false;
-      console.log("Resting")
-
+      console.log("Resting");
     }
   }
   mousemove(e) {
