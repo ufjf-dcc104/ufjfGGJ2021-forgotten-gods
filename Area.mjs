@@ -69,10 +69,14 @@ export default class Area {
   }
 
   drawCount(ctx) {
+    if (!this.visible) return;
     let counts = this.countPeople();
+    ctx.font = "25px monospace";
+    ctx.fillStyle = "yellow";
+    ctx.strokeStyle = "black";
     for (let i = 0; i < counts.length; i++) {
-      ctx.font = "25px monospace";
-      ctx.fillText(counts[i], this.people[i].x - 10, this.people[i].y + 25);
+      ctx.strokeText(counts[i], this.x + 50 * i - 25, this.y + 30);
+      ctx.fillText(counts[i], this.x + 50 * i - 25, this.y + 30);
     }
   }
 }

@@ -87,15 +87,13 @@ export default class Game {
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
 
-    this.areas.sacrifices.expire(this.dt, this);
-    this.areas.sacrifices.draw(this.ctx);
+    this.areas.cardCount.draw(this.ctx);
     this.areas.activities.expire(this.dt, this);
     this.areas.activities.draw(this.ctx);
+    this.areas.died.drawCount(this.ctx);
+    this.areas.available.drawCount(this.ctx);
+    this.areas.resting.drawCount(this.ctx);
     this.areas.ready.draw(this.ctx);
-    this.areas.died.draw(this.ctx);
-    this.areas.available.draw(this.ctx);
-    this.areas.resting.draw(this.ctx);
-    this.areas.cardCount.draw(this.ctx);
     this.newTurn.draw(this.ctx);
 
     this.expire -= Math.min(this.expire, 1 * this.dt);
@@ -141,7 +139,7 @@ export default class Game {
       "Available",
       47,
       this.canvas.height - 53,
-      false
+      true
     );
     this.areas.available.loadAll(ALL_AVAILABLE);
 
