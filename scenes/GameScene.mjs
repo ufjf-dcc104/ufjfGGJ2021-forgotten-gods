@@ -1,18 +1,16 @@
-import Ready from "./Ready.mjs";
-import Sacrifices from "./Sacrifices.mjs";
-import Activities from "./Activities.mjs";
-import Area from "./Area.mjs";
-import { ALL_SACRIFICES, ALL_AVAILABLE } from "./AllCards.mjs";
-import People from "./People.mjs";
-import Button from "./Button.mjs";
-import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
-import { ALL_GOD_A_CARDS } from "./data/AllGodACards.mjs";
-import { FARMER, SOLDIER, SENATOR, PRIEST } from "./data/AllTimeConstants.mjs";
-import { ALL_BARRACKS_CARDS } from "./data/AllBarracksCards.mjs";
-import { ALL_SENATE_CARDS } from "./data/AllSenateCards.mjs";
-import { ALL_TEMPLE_CARDS } from "./data/AllTempleCards.mjs";
-import { bg } from "./AssetManager.mjs";
-import { GAME_TIME } from "./data/AllTimeConstants.mjs";
+import Ready from "../Ready.mjs";
+import Activities from "../Activities.mjs";
+import Area from "../Area.mjs";
+import { ALL_SACRIFICES, ALL_AVAILABLE } from "../AllCards.mjs";
+import People from "../People.mjs";
+import Button from "../Button.mjs";
+import { ALL_FARM_CARDS } from "../data/AllFarmCards.mjs";
+import { ALL_GOD_A_CARDS } from "../data/AllGodACards.mjs";
+import { FARMER, SOLDIER, SENATOR, PRIEST } from "../data/AllTimeConstants.mjs";
+import { ALL_BARRACKS_CARDS } from "../data/AllBarracksCards.mjs";
+import { ALL_SENATE_CARDS } from "../data/AllSenateCards.mjs";
+import { ALL_TEMPLE_CARDS } from "../data/AllTempleCards.mjs";
+import { GAME_TIME } from "../data/AllTimeConstants.mjs";
 
 export default class GameScene {
   constructor(canvas) {

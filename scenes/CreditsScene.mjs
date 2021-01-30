@@ -1,4 +1,4 @@
-import Button from "./Button.mjs";
+import Button from "../Button.mjs";
 
 export default class EndScene {
   constructor(canvas) {

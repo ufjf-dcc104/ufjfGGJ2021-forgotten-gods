@@ -1,6 +1,6 @@
-import Button from "./Button.mjs";
+import Button from "../Button.mjs";
 
-export default class EndScene {
+export default class StartScene {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
@@ -54,12 +54,14 @@ export default class EndScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-    this.mainMenu.draw(this.ctx);
     this.newGame.draw(this.ctx);
+    this.credits.draw(this.ctx);
     this.ctx.fillStyle = "black";
     this.ctx.font = "50px bold monospace";
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`FIM`, this.canvas.width / 2, this.canvas.height / 2);
+    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, 0.5*this.canvas.height);
+    this.ctx.font = "20px bold monospace";
+    this.ctx.fillText(`Carregando... ${this.assets.progresso()}%`, 0.5*this.canvas.width, 0.56*this.canvas.height);
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -67,19 +69,19 @@ export default class EndScene {
   }
 
   createAreas() {
-    this.mainMenu = new Button(
-      0.5 * this.canvas.width,
-      0.625 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
-      "Main Menu"
-    );
     this.newGame = new Button(
       0.5 * this.canvas.width,
       0.6785714285714286 * this.canvas.height,
       0.25 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
       "New Game"
+    );
+    this.credits = new Button(
+      0.5 * this.canvas.width,
+      0.75 * this.canvas.height,
+      0.25 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
+      "Credits"
     );
   }
 
@@ -88,9 +90,6 @@ export default class EndScene {
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newGame.hasPoint({ x, y })) {
       this.game.setScene("game");
-    }
-    if (this.mainMenu.hasPoint({ x, y })) {
-      this.game.setScene("start");
     }
   }
   mouseup(e) {}

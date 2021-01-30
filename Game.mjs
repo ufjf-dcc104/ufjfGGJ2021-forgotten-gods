@@ -1,7 +1,7 @@
-import EndScene from "./EndScene.mjs";
-import StartScene from "./StartScene.mjs";
-import GameScene from "./GameScene.mjs";
-import CreditsScene from "./CreditsScene.mjs";
+import EndScene from "./scenes/EndScene.mjs";
+import StartScene from "./scenes/StartScene.mjs";
+import GameScene from "./scenes/GameScene.mjs";
+import CreditsScene from "./scenes/CreditsScene.mjs";
 import AssetManager from "./AssetManager.mjs";
 import { FARMER, SOLDIER, SENATOR, PRIEST } from "./data/AllTimeConstants.mjs";
 
