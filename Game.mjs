@@ -213,7 +213,7 @@ export default class Game {
         }
         this.areas.died.add(this.dragging);
         this.areas.ready.delete(this.dragging);
-        this.areas.sacrifices.delete(s);
+        this.areas.sacrifices.sendToBottom(s);
         this.dragging = null;
         return;
       }
