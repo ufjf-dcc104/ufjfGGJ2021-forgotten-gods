@@ -125,7 +125,7 @@ export default class Game {
   }
 
   createAreas() {
-    this.areas.sacrifices = new Sacrifices(215, 80);
+    this.areas.sacrifices = new Sacrifices(42, 80);
     this.areas.sacrifices.loadAll(ALL_SACRIFICES);
 
     this.areas.ready = new Ready("Ready", 62, this.canvas.height - 148);
