@@ -39,8 +39,8 @@ export default class Activities {
       activity.y = this.y;
       activity.draw(ctx);
     }
-    const x = this.x-0.17*canvas.width;
-    const y = this.y+0.095*canvas.height;
+    const x = this.x - 0.17 * canvas.width;
+    const y = this.y + 0.095 * canvas.height;
     const w = 0.33 * canvas.width;
     const h = 0.01 * canvas.height;
     ctx.fillStyle = "white";
@@ -73,8 +73,11 @@ export default class Activities {
 
   expire(dt, game) {
     this.spawn -= ((this.reputation + 1) / 60) * dt;
+    const r = 0.115;
+    const w = game.canvas.height * r * 0.75;
+    const h = game.canvas.height * r;
     if (this.spawn <= 0) {
-      game.areas.available.people.push(new People(this.type));
+      game.areas.available.people.push(new People({type:this.type, w,h}));
       this.spawn = 1;
     }
     for (let s = 0; s < Math.min(this.activities.length, 1); s++) {

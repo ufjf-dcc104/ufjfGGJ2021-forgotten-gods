@@ -1,7 +1,6 @@
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
 
-
 export default class AssetManager {
   constructor() {
     this.aCarregar = 0;
@@ -59,17 +58,19 @@ export default class AssetManager {
         */
   }
 
-  play(key) {
+  play(key, loop = false, volume = 1.0) {
     if (!this.audios[key]) {
       throw new Error(`Chave de audio inválida: ${key}!`);
     }
     for (var i = 0; i < this.MAX_CHANNELS; i++) {
       var agora = new Date();
       if (this.channels[i].fim < agora.getTime()) {
+        this.channels[i].audio.loop = loop;
+        this.channels[i].audio.volume = volume;
         this.channels[i].audio.src = this.audios[key].src;
         this.channels[i].fim =
           agora.getTime() + this.audios[key].duration * 1000;
-        this.channels[i].audio.play();
+          this.channels[i].audio.play();
         break;
       }
     }

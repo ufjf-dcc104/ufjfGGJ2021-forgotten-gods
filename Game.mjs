@@ -11,6 +11,8 @@ assets.loadImage(`people${PRIEST}`, "./assets/Priest.png");
 assets.loadImage(`people${FARMER}`, "./assets/Farmer.png");
 assets.loadImage(`people${SOLDIER}`, "./assets/soldier.png");
 assets.loadImage(`people${SENATOR}`, "./assets/politician.png");
+assets.loadAudio(`theme`, "./assets/theme.mp3");
+assets.play("theme", true, 0.1);
 
 
 export default class Game {
