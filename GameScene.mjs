@@ -96,7 +96,7 @@ export default class GameScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(this.assets.img("bg"), 0, 0, this.canvas.width, this.canvas.height);
 
     this.areas.cardCount.draw(this.ctx);
     this.areas.gods.forEach((god) => {

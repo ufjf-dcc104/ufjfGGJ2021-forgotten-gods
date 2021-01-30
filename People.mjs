@@ -1,6 +1,6 @@
 import Sprite from "./Sprite.mjs";
-import { bg } from "./AssetManager.mjs";
 import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
+import { assets } from "./Game.mjs";
 
 const PEOPLE_IMAGES = [
   { sx: 243, sy: 2279, sw: 276, sh: 364 },
@@ -17,14 +17,9 @@ export default class People extends Sprite {
     ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
-    const { sx, sy, sw, sh } = PEOPLE_IMAGES[this.type];
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.drawImage(
-      bg,
-      sx,
-      sy,
-      sw,
-      sh,
+      assets.img(`people${this.type}`),
       this.x - this.w / 2,
       this.y - this.h / 2,
       this.w,

@@ -2,16 +2,19 @@ import EndScene from "./EndScene.mjs";
 import StartScene from "./StartScene.mjs";
 import GameScene from "./GameScene.mjs";
 import AssetManager from "./AssetManager.mjs";
+import { FARMER, SOLDIER, SENATOR, PRIEST } from "./data/AllTimeConstants.mjs";
+
+export const assets = new AssetManager();
+assets.loadImage("bg", "./assets/gamejam.png");
+assets.loadImage(`people${PRIEST}`, "./assets/Priest.png");
+assets.loadImage(`people${FARMER}`, "./assets/Farmer.png");
+assets.loadImage(`people${SOLDIER}`, "./assets/soldier.png");
+assets.loadImage(`people${SENATOR}`, "./assets/politician.png");
+
 
 export default class Game {
   constructor(canvas) {
-    this.assets = new AssetManager();
-    this.assets.loadImage("bg", "./assets/gamejam.png");
-    this.assets.loadImage("priest", "./assets/Priest.png");
-    this.assets.loadImage("farmer", "./assets/Farmer.png");
-    this.assets.loadImage("soldier", "./assets/soldier.png");
-    this.assets.loadImage("senator", "./assets/politician.png");
-
+    this.assets = assets;
     this.scenes = new Map();
     this.addScene("game", new GameScene(canvas));
     this.addScene("end", new EndScene(canvas));
