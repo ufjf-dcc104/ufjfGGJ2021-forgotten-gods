@@ -18,7 +18,7 @@ export default class Area {
         this.add(
           new People({
             type: p.type,
-            w: canvas.height * r *0.75,
+            w: canvas.height * r * 0.75,
             h: canvas.height * r,
           })
         );
@@ -78,12 +78,21 @@ export default class Area {
   drawCount(ctx) {
     if (!this.visible) return;
     let counts = this.countPeople();
-    ctx.font = "25px monospace";
+    let fontSize = 0.044642857142857144 * ctx.canvas.height;
+    ctx.font = `${fontSize}px monospace`;
     ctx.fillStyle = "yellow";
     ctx.strokeStyle = "black";
     for (let i = 0; i < counts.length; i++) {
-      ctx.strokeText(counts[i], this.x + 50 * i - 25, this.y + 30);
-      ctx.fillText(counts[i], this.x + 50 * i - 25, this.y + 30);
+      ctx.strokeText(
+        counts[i],
+        this.x + 0.15625 * ctx.canvas.width * i - 0.078125 * ctx.canvas.width,
+        this.y + 0.05357142857142857 * ctx.canvas.height
+      );
+      ctx.fillText(
+        counts[i],
+        this.x + 0.15625 * ctx.canvas.width * i - 0.078125 * ctx.canvas.width,
+        this.y + 0.05357142857142857 * ctx.canvas.height
+      );
     }
   }
 }
