@@ -1,6 +1,6 @@
 import Button from "./Button.mjs";
 
-export default class StartScene {
+export default class EndScene {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
@@ -54,16 +54,11 @@ export default class StartScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-    this.newGame.draw(this.ctx);
-    this.credits.draw(this.ctx);
+    this.mainMenu.draw(this.ctx);
     this.ctx.fillStyle = "black";
     this.ctx.font = "50px bold monospace";
     this.ctx.textAlign = "center";
-    this.ctx.fillText(
-      `Tela inicial`,
-      this.canvas.width / 2,
-      this.canvas.height / 2
-    );
+    this.ctx.fillText(`Créditos`, this.canvas.width / 2, 0.2 * this.canvas.height );
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -71,35 +66,26 @@ export default class StartScene {
   }
 
   createAreas() {
-    this.newGame = new Button(
+    this.mainMenu = new Button(
       0.5 * this.canvas.width,
-      0.6785714285714286 * this.canvas.height,
+      0.625 * this.canvas.height,
       0.25 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
-      "New Game"
-    );
-    this.credits = new Button(
-      0.5 * this.canvas.width,
-      0.75 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
-      "Credits"
+      "Main Menu"
     );
   }
 
   mousedown(e) {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
-    if (this.newGame.hasPoint({ x, y })) {
-      this.game.setScene("game");
+    if (this.mainMenu.hasPoint({ x, y })) {
+      this.game.setScene("start");
     }
   }
   mouseup(e) {}
   click(e) {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
-    if (this.newGame.hasPoint({ x, y })) {
-    }
   }
   mousemove(e) {}
   mouseout(e) {}

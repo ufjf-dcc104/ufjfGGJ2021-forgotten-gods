@@ -1,6 +1,7 @@
 import EndScene from "./EndScene.mjs";
 import StartScene from "./StartScene.mjs";
 import GameScene from "./GameScene.mjs";
+import CreditsScene from "./CreditsScene.mjs";
 
 export default class Game {
   constructor(canvas) {
@@ -8,6 +9,7 @@ export default class Game {
     this.addScene("game", new GameScene(canvas));
     this.addScene("end", new EndScene(canvas));
     this.addScene("start", new StartScene(canvas));
+    this.addScene("credits", new CreditsScene(canvas));
     this.setScene("start");
   }
   addScene(key, scene) {

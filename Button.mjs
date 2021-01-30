@@ -11,7 +11,8 @@ export default class Button extends Sprite {
   }
   draw(ctx) {
     ctx.beginPath();
-    ctx.font = "10px bold monospace";
+    let size = 0.017857142857142856 * ctx.canvas.height;
+    ctx.font = `${size}px bold monospace`;
     ctx.fillStyle = "white";
     ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.lineWidth = 2;
