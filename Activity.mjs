@@ -3,11 +3,11 @@ import { FAST } from "./data/AllTimeConstants.mjs";
 import Sprite from "./Sprite.mjs";
 
 export default class Activity extends Sprite {
-  constructor(demands = [0], type = 0, expire = FAST, effect = () => {}) {
+  constructor({demands = [0], type = 0, expire = FAST, effect = () => {}, w=100, h=100}) {
     super();
     this.type = type;
-    this.w = 60;
-    this.h = 100;
+    this.w = w;
+    this.h = h;
     this.expire = expire;
     this.total = expire;
     this.demandsTotal = [...demands];
