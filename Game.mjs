@@ -8,6 +8,7 @@ import { ALL_SACRIFICES } from "./AllCards.mjs";
 import { ALL_AVAILABLE } from "./AllCards.mjs";
 import People from "./People.mjs";
 import Button from "./Button.mjs";
+import { ALL_ACTIVITIES } from "./AllCards.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
@@ -71,10 +72,7 @@ export default class Game {
     this.areas.cardCount.add(new People(2));
     this.areas.cardCount.add(new People(3));
 
-    this.areas.activities.add(new Activity(0, 10));
-    this.areas.activities.add(new Activity(1, 7));
-    this.areas.activities.add(new Activity(2, 6));
-    this.areas.activities.add(new Activity(3, 3));
+    this.areas.activities.loadAll(ALL_ACTIVITIES);
 
   }
 
@@ -146,9 +144,9 @@ export default class Game {
     this.areas.available.loadAll(ALL_AVAILABLE);
 
     this.areas.activities = new Activities(80, this.canvas.height - 300);
-    this.newTurn = new Button( this.canvas.width / 2,
-      this.canvas.height - 230,
-       100,
+    this.newTurn = new Button( this.canvas.width - 30,
+      this.canvas.height - 100,
+       50,
        30,
        "End Turn"
     );

@@ -1,3 +1,5 @@
+import Activity from "./Activity.mjs";
+
 export default class Activities {
     constructor(x = 300, y = 120) {
       this.x = x;
@@ -6,6 +8,12 @@ export default class Activities {
       this.max = 3;
     }
   
+    loadAll(activities) {
+      activities.forEach((s) => {
+        this.add(new Activity(s.demands, s.type, s.expire, s.effect));
+      });
+    }
+
     add(activity) {
       this.activities.push(activity);
       activity.draggable = false;
