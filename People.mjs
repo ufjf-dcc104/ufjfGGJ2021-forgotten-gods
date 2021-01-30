@@ -1,5 +1,5 @@
 import Sprite from "./Sprite.mjs";
-import { bg } from "./Game.mjs";
+import { bg } from "./AssetManager.mjs";
 const PEOPLE_IMAGES = [
   { sx: 243, sy: 2279, sw: 276, sh: 364 },
   { sx: 524, sy: 2279, sw: 276, sh: 364 },

@@ -1,5 +1,4 @@
-import EndScene from "./EndScene.mjs";
-import Game from "./GameScene.mjs";
+import Game from "./Game.mjs";
 
 
 window.onload = () => {
@@ -7,7 +6,7 @@ window.onload = () => {
     canvas.width = 320;
     canvas.height = 560;
     document.body.appendChild(canvas);
-    const game = new EndScene(canvas);
+    const game = new Game(canvas);
     game.setup();
     game.start();
   };

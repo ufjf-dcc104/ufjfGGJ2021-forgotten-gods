@@ -2,7 +2,7 @@ import Ready from "./Ready.mjs";
 import Sacrifices from "./Sacrifices.mjs";
 import Activities from "./Activities.mjs";
 import Area from "./Area.mjs";
-import { ALL_SACRIFICES , ALL_AVAILABLE } from "./AllCards.mjs";
+import { ALL_SACRIFICES, ALL_AVAILABLE } from "./AllCards.mjs";
 import People from "./People.mjs";
 import Button from "./Button.mjs";
 import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
@@ -11,15 +11,13 @@ import { FARMER, SOLDIER, SENATOR, PRIEST } from "./util/peopleTypes.mjs";
 import { ALL_BARRACKS_CARDS } from "./data/AllBarracksCards.mjs";
 import { ALL_SENATE_CARDS } from "./data/AllSenateCards.mjs";
 import { ALL_TEMPLE_CARDS } from "./data/AllTempleCards.mjs";
+import { bg } from "./AssetManager.mjs";
 
-export const bg = new Image();
-bg.src = "./assets/gamejam.png";
-
-export default class Game {
+export default class GameScene {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
-    this.expire = 180;
+    this.expire = 5;
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
@@ -28,14 +26,27 @@ export default class Game {
     this.areas = {};
     const touches = [];
     this.createAreas();
+    this.animID = null;
   }
   start() {
-    requestAnimationFrame((t) => {
+    
+    this.animID = requestAnimationFrame((t) => {
       this.step(t);
     });
   }
 
   setup() {
+    this.expire = 5;
+    this.grace = 5;
+    this.reputation = 5;
+    this.dragging = null;
+    this.t0;
+    this.dt;
+    this.areas = {};
+    const touches = [];
+    this.createAreas();
+    this.animID = null;
+
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);
     };
@@ -60,6 +71,7 @@ export default class Game {
     this.canvas.ontouchmove = (e) => {
       this.touchmove(e);
     };
+
 
     this.areas.ready.add(new People(PRIEST));
     this.areas.ready.add(new People(SOLDIER));
@@ -117,7 +129,12 @@ export default class Game {
     this.ctx.font = "20px bold monospace";
     this.ctx.fillText(`Grace ${this.grace}`, 10, 20);
     this.ctx.fillText(`Reputation ${this.reputation}`, 10, 40);
-    requestAnimationFrame((t) => {
+    if (this.expire <= 0) {
+      //cancelAnimationFrame(this.animID);
+      this.game.setScene("end");
+      return;
+    }
+    this.animID = requestAnimationFrame((t) => {
       this.step(t);
     });
     this.t0 = t;

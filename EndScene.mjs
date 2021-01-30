@@ -1,7 +1,5 @@
 import Button from "./Button.mjs";
 
-export const bg = new Image();
-bg.src = "./assets/gamejam.png";
 
 export default class EndScene {
   constructor(canvas) {
@@ -59,7 +57,7 @@ export default class EndScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-    
+    this.newGame.draw(this.ctx);
     this.ctx.fillStyle = "black";
     this.ctx.font = "50px bold monospace";
     this.ctx.textAlign = "center";
@@ -84,7 +82,7 @@ export default class EndScene {
     const x = e.pageX - this.canvas.offsetLeft;
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newGame.hasPoint({ x, y })) {
-      
+      this.game.setScene("game");
     }
   }
   mouseup(e) {
