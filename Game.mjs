@@ -9,6 +9,7 @@ import { ALL_AVAILABLE } from "./AllCards.mjs";
 import People from "./People.mjs";
 import Button from "./Button.mjs";
 import { ALL_ACTIVITIES } from "./AllCards.mjs";
+import { ALL_FARM_CARDS } from "./data/AllFarmCards.mjs";
 
 export const bg = new Image();
 bg.src = "./assets/gamejam.png";
@@ -75,7 +76,7 @@ export default class Game {
     this.areas.temple.add(new Activity([1], 0, 10));
     this.areas.headquarter.add(new Activity([1], 1, 7));
     this.areas.city.add(new Activity([2], 2, 6));
-    this.areas.farm.add(new Activity([3], 3, 3));
+    this.areas.farm.loadAll(ALL_FARM_CARDS);
 
   }
 

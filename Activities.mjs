@@ -14,7 +14,9 @@ export default class Activities {
 
   loadAll(activities) {
     activities.forEach((s) => {
-      this.add(new Activity(s.demands, s.type, s.expire, s.effect));
+      for (let c = 0; c < s.qty; c++) {        
+        this.add(new Activity(s.demands, s.type, s.expire, s.effect));
+      }
     });
   }
 
