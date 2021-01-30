@@ -21,8 +21,8 @@ export default class GameScene {
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
-    this.t0;
-    this.dt;
+    this.t0 = null;
+    this.dt = null;
     this.areas = {};
     const touches = [];
     this.createAreas();
@@ -40,8 +40,8 @@ export default class GameScene {
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
-    this.t0;
-    this.dt;
+    this.t0 = null;
+    this.dt = null;;
     this.areas = {};
     const touches = [];
     this.createAreas();
@@ -99,7 +99,7 @@ export default class GameScene {
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(bg, 0, 0, this.canvas.width, this.canvas.height);
-
+    
     this.areas.cardCount.draw(this.ctx);
     // this.areas.sacrifices.expire(this.dt, this);
     // this.areas.sacrifices.draw(this.ctx);
@@ -111,7 +111,7 @@ export default class GameScene {
       building.draw(this.ctx);
       building.expire(this.dt, this);
     });
-
+    
     this.areas.died.drawCount(this.ctx);
     this.areas.available.drawCount(this.ctx);
     this.areas.resting.drawCount(this.ctx);
@@ -119,7 +119,7 @@ export default class GameScene {
     this.newTurn.draw(this.ctx);
     this.showResting.draw(this.ctx);
     this.showAvailable.draw(this.ctx);
-
+    
     this.expire -= Math.min(this.expire, 1 * this.dt);
     const min = padzero(Math.floor(this.expire / 60), 2);
     const seg = padzero(Math.floor(this.expire % 60), 2);
@@ -285,12 +285,10 @@ export default class GameScene {
     if (this.showAvailable.hasPoint({ x, y })) {
       this.areas.available.visible = true;
       this.areas.resting.visible = false;
-      console.log("Available");
     }
     if (this.showResting.hasPoint({ x, y })) {
       this.areas.resting.visible = true;
       this.areas.available.visible = false;
-      console.log("Resting");
     }
   }
   mousemove(e) {
