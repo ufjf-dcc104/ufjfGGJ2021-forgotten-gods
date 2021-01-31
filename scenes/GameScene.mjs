@@ -107,11 +107,11 @@ export default class GameScene {
     this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
-    this.areas.gods[0].godMode = true;
+    this.areas.gods[0].godMode = "A";
     this.areas.gods[0].doSpawn = () => {};
     this.areas.gods[1].loadAll(ALL_GOD_B_CARDS, this.canvas);
     this.areas.gods[1].doSpawn = () => {};
-    this.areas.gods[1].godMode = true;
+    this.areas.gods[1].godMode = "B";
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS, this.canvas);
     this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS, this.canvas);
     this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS, this.canvas);
@@ -202,7 +202,7 @@ export default class GameScene {
     this.endTurn();
     this.areas.gods = [];
     this.areas.gods.push(
-      new Activities(
+      new Sacrifices(
         0.1875 * this.canvas.width,
         0.14285714285714285 * this.canvas.height,
         0
@@ -219,7 +219,7 @@ export default class GameScene {
     this.areas.buildings = [];
     // Temple
     this.areas.buildings.push(
-      new Sacrifices(
+      new Activities(
         this.canvas.width / 2,
         0.17857142857142858 * this.canvas.height,
         PRIEST

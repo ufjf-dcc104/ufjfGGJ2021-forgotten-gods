@@ -9,19 +9,32 @@ import { PRIEST } from "./data/AllTimeConstants.mjs";
 export default class Sacrifices extends Activities {
   constructor(x = 300, y = 120, type = 0) {
     super(x, y, type);
-    this.godMode = true;
+    this.godMode = 'A';
   }
 
   draw(ctx) {
     const canvas = ctx.canvas;
     let type = PRIEST;
-    const r = 624/796;
-    const x = this.x-0.225*canvas.width;
-    const y = this.y-0.09*canvas.height;
-    const w = 0.33 * canvas.width;
-    const h = w/r;
+    const r = 624 / 796;
+    let x;
+    let y;
+    if (this.godMode === "A") {
+      x = this.x - 0.191 * canvas.width;
+      y = this.y - 0.091 * canvas.height;
+    } else {
+      x = this.x - 0.225 * canvas.width;
+      y = this.y - 0.09 * canvas.height;
+    }
+    let w = 0.33 * canvas.width;
+    const h = w / r;
     ctx.globalAlpha = 0.6;
-    ctx.drawImage(assets.img(`godb${this.activities[0].type}`), x, y, w, h);
+    ctx.drawImage(
+      assets.img(`god${this.godMode}${this.activities[0].type}`),
+      x,
+      y,
+      w,
+      h
+    );
     ctx.globalAlpha = 1;
     super.draw(ctx);
   }
