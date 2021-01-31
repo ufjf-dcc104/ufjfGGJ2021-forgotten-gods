@@ -63,18 +63,22 @@ export default class StartScene {
       this.canvas.height
     );
 
-    this.newGame.draw(this.ctx);
-    this.credits.draw(this.ctx);
-    this.rules.draw(this.ctx);
     this.ctx.fillStyle = "black";
-
-    let fontSize = 0.03571428571428571 * this.canvas.height;
-    this.ctx.font = `${fontSize}px 'Skranji'`;
-    this.ctx.fillText(
-      `Carregando... ${this.assets.progresso()}%`,
-      0.5 * this.canvas.width,
-      0.56 * this.canvas.height
-    );
+    if (this.assets.progresso() < 100) {
+  
+      let fontSize = 0.03571428571428571 * this.canvas.height;
+      this.ctx.font = `${fontSize}px 'Skranji'`;
+      this.textAlign = "center";
+      this.ctx.fillText(
+        `Loading... ${this.assets.progresso()}%`,
+        0.2 * this.canvas.width,
+        0.56 * this.canvas.height
+      );
+    } else {
+      this.newGame.draw(this.ctx);
+      this.credits.draw(this.ctx);
+      this.rules.draw(this.ctx);
+    }
 
     requestAnimationFrame((t) => {
       this.step(t);
@@ -107,7 +111,10 @@ export default class StartScene {
   }
 
   mousedown(e) {
-    const [x,y] = getXY(e, this.canvas);
+    if (this.assets.progresso() < 100.0) {
+      return;
+    }
+    const [x, y] = getXY(e, this.canvas);
     if (this.newGame.hasPoint({ x, y })) {
       this.game.setScene("game");
     }

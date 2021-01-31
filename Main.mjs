@@ -1,7 +1,6 @@
 import Game from "./Game.mjs";
 
 
-window.onload = () => {
     const canvas = document.createElement("canvas");
     canvas.width = 320*3;
     canvas.height = 560*3;
@@ -9,4 +8,3 @@ window.onload = () => {
     const game = new Game(canvas);
     game.setup();
     game.start();
-  };
