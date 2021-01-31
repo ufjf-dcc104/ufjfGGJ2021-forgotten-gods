@@ -124,7 +124,7 @@ export default class Activities {
 
   onActivityExpire(activity, game) {
     this.loseRep();
-    activity.expire = activity.total;
+    activity.expire = activity.EXPIRE;
     this.sendToBottom(activity);
     this.resetCooldown();
   }
