@@ -13,7 +13,7 @@ import { ALL_SENATE_CARDS } from "../data/AllSenateCards.mjs";
 import { ALL_TEMPLE_CARDS } from "../data/AllTempleCards.mjs";
 import { GAME_TIME } from "../data/AllTimeConstants.mjs";
 import Sacrifices from "../Sacrifices.mjs";
-import NextTurnButton from "../nextTurnButton.mjs";
+import NextTurnButton from "../NextTurnButton.mjs";
 
 export default class GameScene {
   constructor(canvas) {
