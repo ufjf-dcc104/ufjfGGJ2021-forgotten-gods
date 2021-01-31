@@ -61,6 +61,7 @@ export default class Activity extends Sprite {
   }
   resetDemands() {
     this.demands = [...this.DEMANDS];
+    this.expire = this.EXPIRE;
   }
 
 }
