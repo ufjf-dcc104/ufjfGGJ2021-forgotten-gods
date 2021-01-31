@@ -37,7 +37,7 @@ export default class Activity extends Sprite {
       const x = this.x + (w + g) * k - w*1.7;
       const y = this.y + (h + g) ;
 
-      ctx.drawImage(assets.img(`people${this.type}`), x, y, w, h);
+      ctx.drawImage(assets.img(`people${d}`), x, y, w, h);
     });
     const x = this.x  - w*2.5 ;
     const y = this.y +h*1.65;

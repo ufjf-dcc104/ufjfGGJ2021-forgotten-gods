@@ -27,6 +27,7 @@ export default class GameScene {
     this.animID = null;
   }
   start() {
+    this.assets.play("theme", true, 0.1);
     this.animID = requestAnimationFrame((t) => {
       this.step(t);
     });
