@@ -270,12 +270,12 @@ export default class GameScene {
         const checked = god.check(x, y);
         if (checked) {
           if (!checked.deliver(this.dragging.type)) {
-            god.reputation--;
+            god.loseRep();
           }
           this.areas.died.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
-            god.reputation++;
+            god.gainRep();
             checked.effect(this);
             checked.resetDemands();
             god.sendToBottom(checked);
@@ -289,13 +289,13 @@ export default class GameScene {
         if (checked) {
           if (!checked.deliver(this.dragging.type)) {
             this.reputation--;
-            building.reputation--;
+            building.loseRep();
           }
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
             this.reputation++;
-            building.reputation++;
+            building.gainRep();
             checked.resetDemands();
             building.sendToBottom(checked);
           }

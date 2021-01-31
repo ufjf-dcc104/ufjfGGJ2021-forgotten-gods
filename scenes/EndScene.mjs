@@ -15,6 +15,7 @@ export default class EndScene {
     this.createAreas();
   }
   start() {
+    this.assets.stopAll();
     requestAnimationFrame((t) => {
       this.step(t);
     });

@@ -59,14 +59,14 @@ export default class AssetManager {
   }
 
   playTheme(loop = false, volume = 1.0) {
-    if(!this.theme){
+    if (!this.theme) {
       this.theme = new Audio();
-      this.theme.src = this.audios['theme'].src;
+      this.theme.src = this.audios["theme"].src;
       this.theme.loop = loop;
       this.theme.volume = volume;
     }
   }
-  
+
   play(key, loop = false, volume = 1.0) {
     if (!this.audios[key]) {
       throw new Error(`Chave de audio inválida: ${key}!`);
@@ -79,9 +79,18 @@ export default class AssetManager {
         this.channels[i].audio.src = this.audios[key].src;
         this.channels[i].fim =
           agora.getTime() + this.audios[key].duration * 1000;
-          this.channels[i].audio.play();
+        this.channels[i].audio.play();
         break;
       }
+    }
+  }
+
+  stopAll() {
+    for (var i = 0; i < this.MAX_CHANNELS; i++) {
+      this.channels[i].audio.loop = false;
+      this.channels[i].audio.volume = 1.0;
+      this.channels[i].audio.pause();
+      this.channels[i].audio.src="";
     }
   }
 }

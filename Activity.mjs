@@ -34,20 +34,20 @@ export default class Activity extends Sprite {
     this.demands.forEach((d, k) => {
       //const c = k % 1;
       //const l = Math.floor(k / 1);
-      const x = this.x + (w + g) * k - w*1.7;
-      const y = this.y + (h + g) ;
+      const x = this.x + (w + g) * k - w * 1.7;
+      const y = this.y + (h + g);
 
       ctx.drawImage(assets.img(`people${d}`), x, y, w, h);
     });
-    const x = this.x  - w*2.5 ;
-    const y = this.y +h*1.65;
+    const x = this.x - w * 2.5;
+    const y = this.y + h * 1.65;
 
     let ang = (1 - this.expire / this.total) * 2 * Math.PI + (3 / 2) * Math.PI;
     ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 50%)`;
     ctx.strokeStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 20%)`;
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.arc(x, y, h/2, (Math.PI * 3) / 2, ang, true);
+    ctx.arc(x, y, h / 2, (Math.PI * 3) / 2, ang, true);
     ctx.lineTo(x, y);
     ctx.fill();
     ctx.lineCap = "round";
@@ -63,4 +63,5 @@ export default class Activity extends Sprite {
   resetDemands() {
     this.demands = [...this.demandsTotal];
   }
+
 }

@@ -63,7 +63,7 @@ export default class Activities {
     ctx.fillStyle = `hsl(${(240 * this.reputation) / 4}, 100%, 50%)`;
     ctx.beginPath();
     ctx.ellipse(
-      x + (this.reputation * 0.1875 * canvas.width) / 4,
+      x + (this.reputation)*w/4 ,
       y * 1.01,
       0.015 * canvas.width,
       0.015 * canvas.width,
@@ -83,7 +83,7 @@ export default class Activities {
     const w = game.canvas.height * r * 0.75;
     const h = game.canvas.height * r;
     if (this.spawn <= 0) {
-      game.areas.available.people.push(new People({type:this.type, w,h}));
+      game.areas.available.people.push(new People({ type: this.type, w, h }));
       this.spawn = 1;
     }
     for (let s = 0; s < Math.min(this.activities.length, 1); s++) {
@@ -108,5 +108,17 @@ export default class Activities {
 
   shuffle() {
     shuffleArray(this.activities);
+  }
+
+  setReputation(r) {
+    this.reputation = r;
+    if (r < 0) this.reputation = 0;
+    if (r > 4) this.reputation = 4;
+  }
+  loseRep(n = 1) {
+    this.setReputation(this.reputation - n);
+  }
+  gainRep(n = 1) {
+    this.setReputation(this.reputation + n);
   }
 }
