@@ -10,6 +10,7 @@ export const assets = new AssetManager();
 assets.loadImage("menuBg", "./assets/background.png");
 assets.loadImage("gameBg", "./assets/gamejam.png");
 assets.loadImage("button", "./assets/button.png");
+assets.loadImage("hourglass", "./assets/hourglass.png");
 assets.loadImage(`people${PRIEST}`, "./assets/Priest.png");
 assets.loadImage(`people${FARMER}`, "./assets/Farmer.png");
 assets.loadImage(`people${SOLDIER}`, "./assets/soldier.png");
@@ -39,7 +40,7 @@ export default class Game {
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
     this.addScene("rules", new RulesScene(canvas));
-    this.setScene("start");
+    this.setScene("game");
   }
   addScene(key, scene) {
     scene.game = this;
