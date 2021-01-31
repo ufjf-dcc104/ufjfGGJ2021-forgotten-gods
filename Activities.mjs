@@ -3,15 +3,21 @@ import People from "./People.mjs";
 import { shuffleArray } from "./util/shuffle.mjs";
 import { PH, PW } from "./data/AllTimeConstants.mjs";
 
+export const REPUTATION = 4;
+export const SPAWN = 60.0;
+export const COOLDOWN = 3;
+
 export default class Activities {
   constructor(x = 300, y = 120, type = 0) {
     this.x = x;
     this.y = y;
     this.activities = [];
-    this.max = 1;
-    this.reputation = Math.floor(Math.random() * 3 + 1);
-    this.spawn = 1;
+    this.reputation = Math.floor(Math.random() * REPUTATION + 1);
+    this.spawn = SPAWN;
     this.type = type;
+    this.cooldown = COOLDOWN;
+    this.resetCooldown();
+    this.RUNNING_ACTIVITIES = 1;
   }
 
   loadAll(activities, canvas) {
@@ -34,26 +40,19 @@ export default class Activities {
     this.activities.splice(idx, 1);
   }
 
-  draw(ctx) {
+  drawnSpawnBar(ctx) {
     const canvas = ctx.canvas;
-    for (let s = 0; s < Math.min(this.activities.length, this.max); s++) {
-      const activity = this.activities[s];
-      activity.x = this.x + (activity.w + 8) * s;
-      activity.y = this.y;
-      activity.draw(ctx);
-    }
     const x = this.x - 0.17 * canvas.width;
     const y = this.y + 0.095 * canvas.height;
     const w = 0.25 * canvas.width;
     const h = 0.01 * canvas.height;
-
-    // Draw spawn bar
+    const sr = (SPAWN - this.spawn) / SPAWN;
     // background
     ctx.fillStyle = "white";
     ctx.fillRect(x, y, w, h);
     //filling bar
     ctx.fillStyle = "red";
-    ctx.fillRect(x, y, w * (1 - this.spawn), h);
+    ctx.fillRect(x, y, w * sr, h);
     // border
     ctx.strokeStyle = "hsl(120,50%,25%)";
     ctx.lineWidth = h / 3;
@@ -76,30 +75,68 @@ export default class Activities {
     ctx.strokeStyle = "black";
     ctx.stroke();
   }
-
-  expire(dt, game) {
-    this.spawn -= ((this.reputation + 1) / 60) * dt;
-    const r = 0.115;
-    const w = game.canvas.height * r * 0.75;
-    const h = game.canvas.height * r;
-    if (this.spawn <= 0) {
-      this.doSpawn(game);
-      this.spawn = 1;
+  draw(ctx) {
+    this.drawnSpawnBar(ctx);
+    if (this.cooldown <= 0) {
+      for (
+        let s = 0;
+        s < Math.min(this.activities.length, this.RUNNING_ACTIVITIES);
+        s++
+      ) {
+        const activity = this.activities[s];
+        activity.x = this.x + (activity.w + 8) * s;
+        activity.y = this.y;
+        activity.draw(ctx);
+      }
     }
+  }
+
+  expireSpawn(dt, game) {
+    //R V Spawn
+    //0 1 120
+    //1 2 60s
+    //2 3 40s
+    //3 4 30s
+    //4 5 24s
+    this.spawn -= (this.reputation + 1) * dt;
+    if (this.spawn <= 0) {
+      this.onSpawn(game);
+      this.spawn = SPAWN;
+    }
+  }
+
+  resetCooldown() {
+    this.cooldown = COOLDOWN;
+    //this.cooldown = COOLDOWN - (COOLDOWN / 3) * Math.random();
+  }
+
+  expireCooldown(dt, game) {
+    this.cooldown -= 1 * dt;
+  }
+
+  expireActivity(dt, game) {
     for (let s = 0; s < Math.min(this.activities.length, 1); s++) {
       const activity = this.activities[s];
       activity.expire -= 1 * dt;
       if (activity.expire <= 0) {
-        this.loseRep();
-        activity.expire = activity.total;
-        this.sendToBottom(activity);
-        if (this.godMode && this.reputation < 2) {
-          game.assets.play("thunder", false, 0.3);
-          const idx = Math.floor(Math.random() * game.areas.ready.people.length);
-          const p = game.areas.ready.people.splice(idx, 1)[0];
-          if (p) game.areas.resting.add(p);
-        }
+        this.onActivityExpire(activity, game);
       }
+    }
+  }
+
+  onActivityExpire(activity, game) {
+    this.loseRep();
+    activity.expire = activity.total;
+    this.sendToBottom(activity);
+    this.resetCooldown();
+  }
+
+  expire(dt, game) {
+    this.expireSpawn(dt, game);
+    if (this.cooldown > 0) {
+      this.expireCooldown(dt, game);
+    } else {
+      this.expireActivity(dt, game);
     }
   }
 
@@ -127,7 +164,7 @@ export default class Activities {
   gainRep(n = 1) {
     this.setReputation(this.reputation + n);
   }
-  doSpawn(game) {
+  onSpawn(game) {
     const that = this;
     game.areas.available.people.push(new People({ type: that.type, PW, PH }));
   }

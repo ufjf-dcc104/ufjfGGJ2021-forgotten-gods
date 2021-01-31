@@ -55,8 +55,7 @@ export default class GameScene {
     this.assets.stopAll();
     if (total < 0) {
       this.assets.play("lost");
-    } 
-    else {
+    } else {
       this.assets.play("win");
     }
   }
@@ -108,9 +107,7 @@ export default class GameScene {
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
     this.areas.gods[0].godMode = "A";
-    this.areas.gods[0].doSpawn = () => {};
     this.areas.gods[1].loadAll(ALL_GOD_B_CARDS, this.canvas);
-    this.areas.gods[1].doSpawn = () => {};
     this.areas.gods[1].godMode = "B";
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS, this.canvas);
     this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS, this.canvas);
@@ -155,13 +152,16 @@ export default class GameScene {
     const min = padzero(Math.floor(this.expire / 60), 2);
     const seg = padzero(Math.floor(this.expire % 60), 2);
     this.ctx.font = "30px 'Skranji'";
-    this.ctx.fillStyle = "black";
     this.ctx.textAlign = "center";
+    this.ctx.fillStyle = this.expire > 30 ? "black" : "red";
     this.ctx.fillText(
       `${min}:${seg}`,
       0.5 * this.canvas.width,
       0.05 * this.canvas.height
     );
+    if (this.areas.ready.people.length === 0) {
+      this.endTurn();
+    }
     if (this.expire <= 0) {
       //cancelAnimationFrame(this.animID);
       this.game.setScene("end");
@@ -304,6 +304,7 @@ export default class GameScene {
             checked.effect(this);
             checked.resetDemands();
             god.sendToBottom(checked);
+            god.resetCooldown();
           }
           this.dragging = null;
           return;
@@ -323,6 +324,7 @@ export default class GameScene {
             building.gainRep();
             checked.resetDemands();
             building.sendToBottom(checked);
+            building.resetCooldown();
           }
           this.dragging = null;
           return;

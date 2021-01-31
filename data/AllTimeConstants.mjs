@@ -5,9 +5,9 @@ export const SOLDIER = 3;
 
 export const GAME_TIME = 180;
 
-export const FAST = 20;
-export const SLOW = 30;
-export const SLOWEST = 40;
+export const FAST = 20.0;
+export const SLOW = 30.0;
+export const SLOWEST = 40.0;
 
 export const TYPE_COLOR = {};
 export let PW = 0;

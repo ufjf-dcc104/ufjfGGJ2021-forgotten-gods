@@ -37,7 +37,7 @@ export default class Game {
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
     this.addScene("rules", new RulesScene(canvas));
-    this.setScene("start");
+    this.setScene("game");
   }
   addScene(key, scene) {
     scene.game = this;
