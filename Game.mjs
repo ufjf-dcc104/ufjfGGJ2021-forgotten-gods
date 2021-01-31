@@ -28,6 +28,9 @@ assets.loadAudio(`lost`, "./assets/lost.mp3");
 assets.loadAudio(`win`, "./assets/win.mp3");
 assets.loadAudio(`gore`, "./assets/gore.mp3");
 assets.loadAudio(`thunder`, "./assets/thunder.mp3");
+assets.loadAudio(`right`, "./assets/right.mp3");
+assets.loadAudio(`wrong`, "./assets/wrong.mp3");
+assets.loadAudio(`complete`, "./assets/complete.mp3");
 
 
 export default class Game {
@@ -40,7 +43,7 @@ export default class Game {
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
     this.addScene("rules", new RulesScene(canvas));
-    this.setScene("game");
+    this.setScene("start");
     const r = 0.115;
     const w = canvas.height * r * 0.75;
     const h = canvas.height * r;
