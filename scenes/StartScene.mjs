@@ -69,12 +69,7 @@ export default class StartScene {
     this.rules.draw(this.ctx);
     this.ctx.fillStyle = "black";
 
-    let fontSize = 0.08928571428571429 * this.canvas.height;
-    this.ctx.font = `${fontSize}px 'Skranji'`;
-    this.ctx.textAlign = "center";
-    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, 0.4*this.canvas.height);
-
-    fontSize = 0.03571428571428571 * this.canvas.height;
+    let fontSize = 0.03571428571428571 * this.canvas.height;
     this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.fillText(`Carregando... ${this.assets.progresso()}%`, 0.5*this.canvas.width, 0.56*this.canvas.height);
     

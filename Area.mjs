@@ -71,20 +71,20 @@ export default class Area {
   drawCount(ctx) {
     if (!this.visible) return;
     let counts = this.countPeople();
-    let fontSize = 0.044642857142857144 * ctx.canvas.height;
-    ctx.font = `${fontSize}px monospace`;
+    let fontSize = 0.04 * ctx.canvas.height;
+    ctx.font = `${fontSize}px 'Skranji'`;
     ctx.fillStyle = "yellow";
     ctx.strokeStyle = "black";
     for (let i = 0; i < counts.length; i++) {
       ctx.strokeText(
         counts[i],
-        this.x + 0.15625 * ctx.canvas.width * i - 0.078125 * ctx.canvas.width,
-        this.y + 0.05357142857142857 * ctx.canvas.height
+        this.x + 0.156 * ctx.canvas.width * i - 0.116 * ctx.canvas.width,
+        this.y + 0.048 * ctx.canvas.height
       );
       ctx.fillText(
         counts[i],
-        this.x + 0.15625 * ctx.canvas.width * i - 0.078125 * ctx.canvas.width,
-        this.y + 0.05357142857142857 * ctx.canvas.height
+        this.x + 0.156 * ctx.canvas.width * i - 0.116 * ctx.canvas.width,
+        this.y + 0.048 * ctx.canvas.height
       );
     }
   }
