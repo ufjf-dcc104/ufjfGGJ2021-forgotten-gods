@@ -87,23 +87,23 @@ export default class StartScene {
   createAreas() {
     this.newGame = new Button(
       0.5 * this.canvas.width,
-      0.6785714285714286 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
+      0.7 * this.canvas.height,
+      0.3 * this.canvas.width,
+      0.07 * this.canvas.height,
       "New Game"
     );
     this.rules = new Button(
       0.5 * this.canvas.width,
-      0.75 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
+      0.8 * this.canvas.height,
+      0.3 * this.canvas.width,
+      0.07 * this.canvas.height,
       "How to Play"
     );
     this.credits = new Button(
       0.5 * this.canvas.width,
-      0.8214285714285714 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
+      0.9 * this.canvas.height,
+      0.3 * this.canvas.width,
+      0.07 * this.canvas.height,
       "Credits"
     );
   }

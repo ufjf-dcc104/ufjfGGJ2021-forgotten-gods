@@ -9,6 +9,7 @@ import { FARMER, SOLDIER, SENATOR, PRIEST } from "./data/AllTimeConstants.mjs";
 export const assets = new AssetManager();
 assets.loadImage("menuBg", "./assets/background.png");
 assets.loadImage("gameBg", "./assets/gamejam.png");
+assets.loadImage("button", "./assets/button.png");
 assets.loadImage(`people${PRIEST}`, "./assets/Priest.png");
 assets.loadImage(`people${FARMER}`, "./assets/Farmer.png");
 assets.loadImage(`people${SOLDIER}`, "./assets/soldier.png");
