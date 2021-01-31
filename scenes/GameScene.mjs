@@ -181,8 +181,8 @@ export default class GameScene {
     );
     this.areas.cardCount = new Area(
       "Card Count",
-      0.146875 * this.canvas.width,
-      0.9053571428571429 * this.canvas.height,
+      0.135 * this.canvas.width,
+      0.901 * this.canvas.height,
       true
     );
     this.areas.died = new Area("Died", 47, this.canvas.height - 53, false);
