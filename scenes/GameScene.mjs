@@ -187,13 +187,13 @@ export default class GameScene {
     this.areas.died = new Area("Died", 47, this.canvas.height - 53, false);
     this.areas.resting = new Area(
       "Resting",
-      0.146875 * this.canvas.width,
+      0.29 * this.canvas.width,
       0.9053571428571429 * this.canvas.height,
-      false
+      true
     );
     this.areas.available = new Area(
       "Available",
-      0.146875 * this.canvas.width,
+      0.2 * this.canvas.width,
       0.9053571428571429 * this.canvas.height,
       true
     );

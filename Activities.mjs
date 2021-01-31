@@ -9,7 +9,7 @@ export default class Activities {
     this.y = y;
     this.activities = [];
     this.max = 1;
-    this.reputation = 4;
+    this.reputation = 2;
     this.spawn = 1;
     this.type = type;
   }
