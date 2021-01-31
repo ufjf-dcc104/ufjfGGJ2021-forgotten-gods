@@ -343,12 +343,10 @@ export default class GameScene {
       this.endTurn();
     }
     if (this.showAvailable.hasPoint({ x, y })) {
-      this.areas.available.visible = true;
-      this.areas.resting.visible = false;
+      this.areas.available.visible = !this.areas.available.visible;
     }
     if (this.showResting.hasPoint({ x, y })) {
-      this.areas.resting.visible = true;
-      this.areas.available.visible = false;
+      this.areas.resting.visible = !this.areas.resting.visible;
     }
   }
   mousemove(e) {
