@@ -18,7 +18,7 @@ export default class AssetManager {
   }
 
   loadImage(key, url) {
-    console.log(`Carregando imagem ${url}...`);
+    // console.log(`Carregando imagem ${url}...`);
 
     this.aCarregar++;
     var imagem = new Image();
@@ -27,9 +27,9 @@ export default class AssetManager {
     var that = this;
     imagem.addEventListener("load", function () {
       that.carregadas++;
-      console.log(
-        `Imagem ${that.carregadas}/${that.aCarregar} ${key}: ${url} carregada.`
-      );
+      // console.log(
+      //   `Imagem ${that.carregadas}/${that.aCarregar} ${key}: ${url} carregada.`
+      // );
     });
   }
 
@@ -44,7 +44,7 @@ export default class AssetManager {
   }
 
   loadAudio(key, url) {
-    console.log(`Carregando audio ${key}: ${url}...`);
+    // console.log(`Carregando audio ${key}: ${url}...`);
     //this.aCarregar++;
     var audio = new Audio();
     audio.src = url;
