@@ -12,7 +12,6 @@ import { ALL_BARRACKS_CARDS } from "../data/AllBarracksCards.mjs";
 import { ALL_SENATE_CARDS } from "../data/AllSenateCards.mjs";
 import { ALL_TEMPLE_CARDS } from "../data/AllTempleCards.mjs";
 import { GAME_TIME } from "../data/AllTimeConstants.mjs";
-import { setPlayerSize, PW, PH } from "../data/AllTimeConstants.mjs";
 import Sacrifices from "../Sacrifices.mjs";
 import NextTurnButton from "../nextTurnButton.mjs";
 
@@ -56,8 +55,7 @@ export default class GameScene {
     this.assets.stopAll();
     if (total < 0) {
       this.assets.play("lost");
-    } 
-    else {
+    } else {
       this.assets.play("win");
     }
   }
@@ -99,19 +97,15 @@ export default class GameScene {
       this.touchmove(e);
     };
 
-    const w = 0.115 * 0.75 * this.canvas.height;
-    const h = 0.115 * this.canvas.height;
-    setPlayerSize(w, h);
-    this.areas.cardCount.add(new People({ type: PRIEST, w, h }));
-    this.areas.cardCount.add(new People({ type: FARMER, w, h }));
-    this.areas.cardCount.add(new People({ type: SENATOR, w, h }));
-    this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
+
+    this.areas.cardCount.add(new People({ type: PRIEST}));
+    this.areas.cardCount.add(new People({ type: FARMER}));
+    this.areas.cardCount.add(new People({ type: SENATOR}));
+    this.areas.cardCount.add(new People({ type: SOLDIER}));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
     this.areas.gods[0].godMode = "A";
-    this.areas.gods[0].doSpawn = () => {};
     this.areas.gods[1].loadAll(ALL_GOD_B_CARDS, this.canvas);
-    this.areas.gods[1].doSpawn = () => {};
     this.areas.gods[1].godMode = "B";
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS, this.canvas);
     this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS, this.canvas);
@@ -155,14 +149,17 @@ export default class GameScene {
     this.expire -= Math.min(this.expire, 1 * this.dt);
     const min = padzero(Math.floor(this.expire / 60), 2);
     const seg = padzero(Math.floor(this.expire % 60), 2);
-    this.ctx.font = "30px 'Skranji'";
-    this.ctx.fillStyle = "black";
+    this.ctx.font = `${this.canvas.height*0.05}px 'Skranji'`;
     this.ctx.textAlign = "center";
+    this.ctx.fillStyle = this.expire > 30 ? "black" : `hsl(0deg, 100%,${(1-this.expire/30)*50}%`;
     this.ctx.fillText(
       `${min}:${seg}`,
       0.5 * this.canvas.width,
       0.05 * this.canvas.height
     );
+    if (this.areas.ready.people.length === 0) {
+      this.endTurn();
+    }
     if (this.expire <= 0) {
       //cancelAnimationFrame(this.animID);
       this.game.setScene("end");
@@ -230,7 +227,7 @@ export default class GameScene {
     this.areas.buildings.push(
       new Activities(
         0.53125 * this.canvas.width,
-        0.5357142857142857 * this.canvas.height,
+        0.51 * this.canvas.height,
         FARMER
       )
     );
@@ -307,6 +304,7 @@ export default class GameScene {
             checked.effect(this);
             checked.resetDemands();
             god.sendToBottom(checked);
+            god.resetCooldown();
           }
           this.dragging = null;
           return;
@@ -326,6 +324,7 @@ export default class GameScene {
             building.gainRep();
             checked.resetDemands();
             building.sendToBottom(checked);
+            building.resetCooldown();
           }
           this.dragging = null;
           return;

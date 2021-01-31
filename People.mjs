@@ -1,6 +1,8 @@
 import Sprite from "./Sprite.mjs";
 import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
 import { assets } from "./Game.mjs";
+import { PW } from "./data/AllTimeConstants.mjs";
+import { PH } from "./data/AllTimeConstants.mjs";
 
 const PEOPLE_IMAGES = [
   { sx: 243, sy: 2279, sw: 276, sh: 364 },
@@ -9,11 +11,10 @@ const PEOPLE_IMAGES = [
   { sx: 1096, sy: 2279, sw: 276, sh: 364 },
 ];
 
-
 export default class People extends Sprite {
-  constructor(props){
+  constructor(props) {
     super(props);
-    Object.assign(this,{w:48,h:64}, props);
+    Object.assign(this, { w: PW, h: PH }, props);
   }
 
   draw(ctx) {

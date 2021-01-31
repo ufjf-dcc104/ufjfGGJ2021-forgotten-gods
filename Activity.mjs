@@ -16,10 +16,10 @@ export default class Activity extends Sprite {
     this.type = type;
     this.w = w;
     this.h = h;
+    this.EXPIRE = expire;
     this.expire = expire;
-    this.total = expire;
-    this.demandsTotal = [...demands];
-    this.demands = [...this.demandsTotal];
+    this.DEMANDS = [...demands];
+    this.demands = [...this.DEMANDS];
     this.effect = effect;
   }
   draw(ctx) {
@@ -42,9 +42,9 @@ export default class Activity extends Sprite {
     const x = this.x - w * 2.5;
     const y = this.y + h * 1.65;
 
-    let ang = (1 - this.expire / this.total) * 2 * Math.PI + (3 / 2) * Math.PI;
-    ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 50%)`;
-    ctx.strokeStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 20%)`;
+    let ang = (1 - this.expire / this.EXPIRE) * 2 * Math.PI + (3 / 2) * Math.PI;
+    ctx.fillStyle = `hsl(${(120 * this.expire) / this.EXPIRE}deg, 100%, 50%)`;
+    ctx.strokeStyle = `hsl(${(120 * this.expire) / this.EXPIRE}deg, 100%, 20%)`;
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.arc(x, y, h / 2, (Math.PI * 3) / 2, ang, true);
@@ -61,7 +61,7 @@ export default class Activity extends Sprite {
     return true;
   }
   resetDemands() {
-    this.demands = [...this.demandsTotal];
+    this.demands = [...this.DEMANDS];
   }
 
 }
