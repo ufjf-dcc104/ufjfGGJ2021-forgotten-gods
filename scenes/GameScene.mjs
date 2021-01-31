@@ -251,10 +251,10 @@ export default class GameScene {
       )
     );
     this.newTurn = new NextTurnButton(
-      0.90625 * this.canvas.width,
-      0.8 * this.canvas.height,
+      0.85 * this.canvas.width,
+      0.58 * this.canvas.height,
       0.15625 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
+      0.09 * this.canvas.height,
       "End Turn"
     );
     this.showAvailable = new Button(
