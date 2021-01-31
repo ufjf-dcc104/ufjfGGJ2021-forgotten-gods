@@ -43,7 +43,7 @@ export default class Game {
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
     this.addScene("rules", new RulesScene(canvas));
-    this.setScene("game");
+    this.setScene("start");
     const r = 0.115;
     const w = canvas.height * r * 0.75;
     const h = canvas.height * r;
