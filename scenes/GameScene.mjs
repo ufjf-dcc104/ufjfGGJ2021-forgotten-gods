@@ -6,11 +6,13 @@ import People from "../People.mjs";
 import Button from "../Button.mjs";
 import { ALL_FARM_CARDS } from "../data/AllFarmCards.mjs";
 import { ALL_GOD_A_CARDS } from "../data/AllGodACards.mjs";
+import { ALL_GOD_B_CARDS } from "../data/AllGodBCards.mjs";
 import { FARMER, SOLDIER, SENATOR, PRIEST } from "../data/AllTimeConstants.mjs";
 import { ALL_BARRACKS_CARDS } from "../data/AllBarracksCards.mjs";
 import { ALL_SENATE_CARDS } from "../data/AllSenateCards.mjs";
 import { ALL_TEMPLE_CARDS } from "../data/AllTempleCards.mjs";
 import { GAME_TIME } from "../data/AllTimeConstants.mjs";
+import { setPlayerSize, PW, PH } from "../data/AllTimeConstants.mjs";
 
 export default class GameScene {
   constructor(canvas) {
@@ -88,13 +90,16 @@ export default class GameScene {
 
     const w = 0.115 * 0.75 * this.canvas.height;
     const h = 0.115 * this.canvas.height;
+    setPlayerSize(w, h);
     this.areas.cardCount.add(new People({ type: PRIEST, w, h }));
     this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
     this.areas.cardCount.add(new People({ type: SENATOR, w, h }));
     this.areas.cardCount.add(new People({ type: FARMER, w, h }));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
-    this.areas.gods[1].loadAll(ALL_GOD_A_CARDS, this.canvas);
+    this.areas.gods[0].doSpawn = () => {};
+    this.areas.gods[1].loadAll(ALL_GOD_B_CARDS, this.canvas);
+    this.areas.gods[1].doSpawn = () => {};
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS, this.canvas);
     this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS, this.canvas);
     this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS, this.canvas);

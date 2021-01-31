@@ -10,6 +10,12 @@ export const SLOW = 30;
 export const SLOWEST = 40;
 
 export const TYPE_COLOR = {};
+export let PW = 0;
+export let PH = 0;
+export const setPlayerSize = (w, h)=>{
+    PW = w;
+    PH = h;
+}
 
 TYPE_COLOR[PRIEST] = "white";
 TYPE_COLOR[FARMER] = "green";

@@ -1,6 +1,7 @@
 import Activity from "./Activity.mjs";
 import People from "./People.mjs";
 import { shuffleArray } from "./util/shuffle.mjs";
+import {PH, PW} from "./data/AllTimeConstants.mjs";
 
 export default class Activities {
   constructor(x = 300, y = 120, type = 0) {
@@ -45,7 +46,6 @@ export default class Activities {
     const y = this.y + 0.095 * canvas.height;
     const w = 0.25 * canvas.width;
     const h = 0.01 * canvas.height;
-    
 
     // Draw spawn bar
     // background
@@ -63,7 +63,7 @@ export default class Activities {
     ctx.fillStyle = `hsl(${(240 * this.reputation) / 4}, 100%, 50%)`;
     ctx.beginPath();
     ctx.ellipse(
-      x + (this.reputation)*w/4 ,
+      x + (this.reputation * w) / 4,
       y * 1.01,
       0.015 * canvas.width,
       0.015 * canvas.width,
@@ -83,14 +83,15 @@ export default class Activities {
     const w = game.canvas.height * r * 0.75;
     const h = game.canvas.height * r;
     if (this.spawn <= 0) {
-      game.areas.available.people.push(new People({ type: this.type, w, h }));
+      console.log(this.type);
+      this.doSpawn(game);
       this.spawn = 1;
     }
     for (let s = 0; s < Math.min(this.activities.length, 1); s++) {
       const activity = this.activities[s];
       activity.expire -= 1 * dt;
       if (activity.expire <= 0) {
-        this.reputation = this.reputation > 0 ? this.reputation - 1 : 0;
+        this.loseRep();
         activity.expire = activity.total;
         this.sendToBottom(activity);
       }
@@ -120,5 +121,8 @@ export default class Activities {
   }
   gainRep(n = 1) {
     this.setReputation(this.reputation + n);
+  }
+  doSpawn(game) {
+    game.areas.available.people.push(new People({ type: this.type, PW, PH }));
   }
 }
