@@ -96,11 +96,10 @@ export default class GameScene {
       this.touchmove(e);
     };
 
-
-    this.areas.cardCount.add(new People({ type: PRIEST}));
-    this.areas.cardCount.add(new People({ type: FARMER}));
-    this.areas.cardCount.add(new People({ type: SENATOR}));
-    this.areas.cardCount.add(new People({ type: SOLDIER}));
+    this.areas.cardCount.add(new People({ type: PRIEST }));
+    this.areas.cardCount.add(new People({ type: FARMER }));
+    this.areas.cardCount.add(new People({ type: SENATOR }));
+    this.areas.cardCount.add(new People({ type: SOLDIER }));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
     this.areas.gods[0].godMode = "A";
@@ -148,9 +147,12 @@ export default class GameScene {
     this.expire -= Math.min(this.expire, 1 * this.dt);
     const min = padzero(Math.floor(this.expire / 60), 2);
     const seg = padzero(Math.floor(this.expire % 60), 2);
-    this.ctx.font = `${this.canvas.height*0.05}px 'Skranji'`;
+    this.ctx.font = `${this.canvas.height * 0.05}px 'Skranji'`;
     this.ctx.textAlign = "center";
-    this.ctx.fillStyle = this.expire > 30 ? "black" : `hsl(0deg, 100%,${(1-this.expire/30)*50}%`;
+    this.ctx.fillStyle =
+      this.expire > 30
+        ? "black"
+        : `hsl(0deg, 100%,${(1 - this.expire / 30) * 50}%`;
     this.ctx.fillText(
       `${min}:${seg}`,
       0.5 * this.canvas.width,
@@ -315,15 +317,18 @@ export default class GameScene {
           if (!checked.deliver(this.dragging.type)) {
             this.reputation--;
             building.loseRep();
+            this.assets.play("wrong");
           }
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
+          this.assets.play("right");
           if (checked.demands.length === 0) {
             this.reputation++;
             building.gainRep();
             checked.resetDemands();
             building.sendToBottom(checked);
             building.resetCooldown();
+            this.assets.play("complete");
           }
           this.dragging = null;
           return;
