@@ -255,7 +255,9 @@ export default class GameScene {
           this.areas.died.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
-            god.reputation++;
+            if (god.reputation<=6){
+              god.reputation++;
+            }
             checked.effect(this);
             checked.resetDemands();
             god.sendToBottom(checked);
@@ -274,8 +276,10 @@ export default class GameScene {
           this.areas.resting.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
-            this.reputation++;
-            building.reputation++;
+            if (building.reputation<7){
+              this.reputation++;
+              building.reputation++;
+            }
             checked.resetDemands();
             building.sendToBottom(checked);
           }
