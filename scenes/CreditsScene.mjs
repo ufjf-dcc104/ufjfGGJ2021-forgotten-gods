@@ -71,7 +71,6 @@ export default class EndScene {
     this.ctx.textAlign = "center";
     this.ctx.fillText(`Credits`, this.canvas.width/2, 0.4*this.canvas.height);
 
-    //this.ctx.textAlign = "right";
     fontSize = 0.02271428571428571 * this.canvas.height;
     this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.fillText(`Lincoln Castro (Game Design/Music)`, 0.5*this.canvas.width, 0.5*this.canvas.height);
