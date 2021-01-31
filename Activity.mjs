@@ -43,7 +43,7 @@ export default class Activity extends Sprite {
     const y = this.y + h * 1.65;
 
     let ang = (1 - this.expire / this.total) * 2 * Math.PI + (3 / 2) * Math.PI;
-    ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 30%)`;
+    ctx.fillStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 50%)`;
     ctx.strokeStyle = `hsl(${(120 * this.expire) / this.total}deg, 100%, 20%)`;
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -53,18 +53,6 @@ export default class Activity extends Sprite {
     ctx.lineCap = "round";
     ctx.lineWidth = w / 10;
     ctx.stroke();
-    ctx.fillRect(
-      this.x - this.w / 2,
-      this.y + this.h / 2 + 5,
-      (this.w * this.expire) / this.total,
-      10
-    );
-    ctx.font = "10px monospace";
-    ctx.fillText(
-      this.expire.toFixed(2),
-      this.x - this.w / 2,
-      this.y + this.h / 2 + 25
-    );
   }
   deliver(type) {
     const idx = this.demands.indexOf(type);

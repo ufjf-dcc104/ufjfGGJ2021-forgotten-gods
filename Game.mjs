@@ -2,6 +2,7 @@ import EndScene from "./scenes/EndScene.mjs";
 import StartScene from "./scenes/StartScene.mjs";
 import GameScene from "./scenes/GameScene.mjs";
 import CreditsScene from "./scenes/CreditsScene.mjs";
+import RulesScene from "./scenes/RulesScene.mjs";
 import AssetManager from "./AssetManager.mjs";
 import { FARMER, SOLDIER, SENATOR, PRIEST } from "./data/AllTimeConstants.mjs";
 
@@ -22,6 +23,7 @@ export default class Game {
     this.addScene("end", new EndScene(canvas));
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
+    this.addScene("rules", new RulesScene(canvas));
     this.setScene("start");
   }
   addScene(key, scene) {
