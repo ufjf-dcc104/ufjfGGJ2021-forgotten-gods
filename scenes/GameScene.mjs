@@ -137,12 +137,13 @@ export default class GameScene {
     this.expire -= Math.min(this.expire, 1 * this.dt);
     const min = padzero(Math.floor(this.expire / 60), 2);
     const seg = padzero(Math.floor(this.expire % 60), 2);
-    this.ctx.font = "30px bold monospace";
+    this.ctx.font = "30px 'Skranji'";
     this.ctx.fillStyle = "black";
+    this.ctx.textAlign = "center";
     this.ctx.fillText(
       `${min}:${seg}`,
-      0.390625 * this.canvas.width,
-      0.044642857142857144 * this.canvas.height
+      0.5 * this.canvas.width,
+      0.05 * this.canvas.height
     );
     this.ctx.font = "20px bold monospace";
     this.ctx.fillText(
