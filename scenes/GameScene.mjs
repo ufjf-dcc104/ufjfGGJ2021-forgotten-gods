@@ -120,7 +120,7 @@ export default class GameScene {
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
-      this.assets.img("bg"),
+      this.assets.img("gameBg"),
       0,
       0,
       this.canvas.width,
@@ -178,8 +178,8 @@ export default class GameScene {
     );
     this.areas.cardCount = new Area(
       "Card Count",
-      0.146875 * this.canvas.width,
-      0.9053571428571429 * this.canvas.height,
+      0.135 * this.canvas.width,
+      0.901 * this.canvas.height,
       true
     );
     this.areas.died = new Area("Died", 47, this.canvas.height - 53, false);
@@ -248,24 +248,26 @@ export default class GameScene {
     );
     this.newTurn = new Button(
       0.90625 * this.canvas.width,
-      0.8214285714285714 * this.canvas.height,
+      0.8 * this.canvas.height,
       0.15625 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
       "End Turn"
     );
     this.showAvailable = new Button(
       0.81875 * this.canvas.width,
-      0.9321428571428572 * this.canvas.height,
+      0.93 * this.canvas.height,
       0.21875 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
-      "Available"
+      0.043 * this.canvas.height,
+      "Available",
+      false
     );
     this.showResting = new Button(
       0.81875 * this.canvas.width,
-      0.8785714285714286 * this.canvas.height,
+      0.87 * this.canvas.height,
       0.21875 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
-      "Resting"
+      0.045 * this.canvas.height,
+      "Resting",
+      false
     );
   }
 

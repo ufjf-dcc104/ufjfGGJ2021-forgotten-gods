@@ -57,11 +57,29 @@ export default class EndScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(
+      this.assets.img("menuBg"),
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
     this.mainMenu.draw(this.ctx);
     this.ctx.fillStyle = "black";
-    this.ctx.font = "50px bold monospace";
+    let fontSize = 0.075 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`Créditos`, this.canvas.width / 2, 0.2 * this.canvas.height );
+    this.ctx.fillText(`Credits`, this.canvas.width/2, 0.4*this.canvas.height);
+
+    fontSize = 0.02271428571428571 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
+    this.ctx.fillText(`Lincoln Castro (Game Design/Music)`, 0.5*this.canvas.width, 0.5*this.canvas.height);
+    this.ctx.fillText(`Igor Knop (Game Design/Programming)`, 0.5*this.canvas.width, 0.55*this.canvas.height);
+    this.ctx.fillText(`Caio Vincenzo (Programming)`, 0.5*this.canvas.width, 0.60*this.canvas.height);
+    this.ctx.fillText(`Igor Patrick (Artist)`, 0.5*this.canvas.width, 0.65*this.canvas.height);
+    this.ctx.fillText(`Aaron Ramires (Programming)`, 0.5*this.canvas.width, 0.7*this.canvas.height);
+    this.ctx.fillText(`Luís A. Cavalheiro (Game Design/Programming)`, 0.5*this.canvas.width, 0.75*this.canvas.height);
+
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -71,7 +89,7 @@ export default class EndScene {
   createAreas() {
     this.mainMenu = new Button(
       0.5 * this.canvas.width,
-      0.625 * this.canvas.height,
+      0.85 * this.canvas.height,
       0.25 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
       "Main Menu"
