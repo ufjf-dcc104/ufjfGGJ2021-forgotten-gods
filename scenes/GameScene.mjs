@@ -150,7 +150,7 @@ export default class GameScene {
     const seg = padzero(Math.floor(this.expire % 60), 2);
     this.ctx.font = `${this.canvas.height*0.05}px 'Skranji'`;
     this.ctx.textAlign = "center";
-    this.ctx.fillStyle = this.expire > 30 ? "black" : "red";
+    this.ctx.fillStyle = this.expire > 30 ? "black" : `hsl(0deg, 100%,${(1-this.expire/30)*50}%`;
     this.ctx.fillText(
       `${min}:${seg}`,
       0.5 * this.canvas.width,

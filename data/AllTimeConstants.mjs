@@ -3,7 +3,7 @@ export const FARMER = 1;
 export const SENATOR = 2;
 export const SOLDIER = 3;
 
-export const GAME_TIME = 180;
+export const GAME_TIME = 35;
 
 export const FAST = 20.0;
 export const SLOW = 30.0;
