@@ -54,30 +54,39 @@ export default class EndScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(
+      this.assets.img("menuBg"),
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
     this.mainMenu.draw(this.ctx);
     this.newGame.draw(this.ctx);
     this.ctx.fillStyle = "black";
-    this.ctx.font = "40px 'Skranji'";
+    let fontSize = 0.07142857142857142 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.textAlign = "center";
     this.ctx.fillText(
       `GAME OVER!`,
-      0.5 * this.canvas.width,
-      0.25 * this.canvas.height
+      this.canvas.width / 2,
+      this.canvas.height * 0.4
     );
-    this.ctx.font = "15px 'Skranji'";
+    fontSize = 0.026785714285714284 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.textAlign = "right";
 
     for (let i = this.game.messages.length - 1; i >= 0; i--) {
       const message = this.game.messages[i];
       if (message.indexOf("-") >= 0) {
         this.ctx.fillStyle = "red";
-      }else{
+      } else {
         this.ctx.fillStyle = "hsl(0,0%,20%)";
       }
       this.ctx.fillText(
         message,
         0.85 * this.canvas.width,
-        (0.35 + i * 0.04) * this.canvas.height
+        (0.46 + i * 0.04) * this.canvas.height
       );
     }
     requestAnimationFrame((t) => {
@@ -87,19 +96,19 @@ export default class EndScene {
   }
 
   createAreas() {
-    this.mainMenu = new Button(
-      0.5 * this.canvas.width,
-      0.625 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
-      "Main Menu"
-    );
     this.newGame = new Button(
       0.5 * this.canvas.width,
-      0.6785714285714286 * this.canvas.height,
-      0.25 * this.canvas.width,
-      0.05357142857142857 * this.canvas.height,
+      0.7 * this.canvas.height,
+      0.3 * this.canvas.width,
+      0.07 * this.canvas.height,
       "New Game"
+    );
+    this.mainMenu = new Button(
+      0.5 * this.canvas.width,
+      0.8 * this.canvas.height,
+      0.3 * this.canvas.width,
+      0.07 * this.canvas.height,
+      "Main Menu"
     );
   }
 
