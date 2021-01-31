@@ -56,15 +56,28 @@ export default class StartScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(
+      this.assets.img("menuBg"),
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
+
     this.newGame.draw(this.ctx);
     this.credits.draw(this.ctx);
     this.rules.draw(this.ctx);
     this.ctx.fillStyle = "black";
-    this.ctx.font = "50px bold monospace";
+
+    let fontSize = 0.08928571428571429 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, 0.5*this.canvas.height);
-    this.ctx.font = "20px bold monospace";
+    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, 0.4*this.canvas.height);
+
+    fontSize = 0.03571428571428571 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.fillText(`Carregando... ${this.assets.progresso()}%`, 0.5*this.canvas.width, 0.56*this.canvas.height);
+    
     requestAnimationFrame((t) => {
       this.step(t);
     });
