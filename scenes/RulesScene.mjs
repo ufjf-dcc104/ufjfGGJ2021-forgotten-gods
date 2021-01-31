@@ -1,4 +1,5 @@
 import Button from "../Button.mjs";
+import getXY from "../util/getXY.mjs";
 
 export default class RulesScene {
   constructor(canvas) {
