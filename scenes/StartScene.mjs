@@ -1,4 +1,5 @@
 import Button from "../Button.mjs";
+import getXY from "../util/getXY.mjs";
 
 export default class StartScene {
   constructor(canvas) {
@@ -19,9 +20,7 @@ export default class StartScene {
       this.step(t);
     });
   }
-  stop(){
-    
-  }
+  stop() {}
   setup() {
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);
@@ -72,12 +71,20 @@ export default class StartScene {
     let fontSize = 0.08928571428571429 * this.canvas.height;
     this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`Tela inicial`, this.canvas.width/2, 0.4*this.canvas.height);
+    this.ctx.fillText(
+      `Tela inicial`,
+      this.canvas.width / 2,
+      0.4 * this.canvas.height
+    );
 
     fontSize = 0.03571428571428571 * this.canvas.height;
     this.ctx.font = `${fontSize}px 'Skranji'`;
-    this.ctx.fillText(`Carregando... ${this.assets.progresso()}%`, 0.5*this.canvas.width, 0.56*this.canvas.height);
-    
+    this.ctx.fillText(
+      `Carregando... ${this.assets.progresso()}%`,
+      0.5 * this.canvas.width,
+      0.56 * this.canvas.height
+    );
+
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -109,8 +116,7 @@ export default class StartScene {
   }
 
   mousedown(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
     if (this.newGame.hasPoint({ x, y })) {
       this.game.setScene("game");
     }
@@ -123,10 +129,7 @@ export default class StartScene {
   }
   mouseup(e) {}
   click(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
-    if (this.newGame.hasPoint({ x, y })) {
-    }
+    this.mousedown(e);
   }
   mousemove(e) {}
   mouseout(e) {}

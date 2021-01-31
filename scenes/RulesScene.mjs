@@ -79,16 +79,16 @@ export default class RulesScene {
   }
 
   mousedown(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
+
     if (this.mainMenu.hasPoint({ x, y })) {
       this.game.setScene("start");
     }
   }
   mouseup(e) {}
   click(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
+
   }
   mousemove(e) {}
   mouseout(e) {}

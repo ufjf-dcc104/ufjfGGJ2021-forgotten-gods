@@ -14,6 +14,7 @@ import { ALL_TEMPLE_CARDS } from "../data/AllTempleCards.mjs";
 import { GAME_TIME } from "../data/AllTimeConstants.mjs";
 import Sacrifices from "../Sacrifices.mjs";
 import NextTurnButton from "../NextTurnButton.mjs";
+import getXY from "../util/getXY.mjs";
 
 export default class GameScene {
   constructor(canvas) {
@@ -275,8 +276,7 @@ export default class GameScene {
   }
 
   mousedown(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
     this.areas.ready.people.forEach((s) => {
       if (s.draggable && s.hasPoint({ x, y })) {
         this.dragging = s;
@@ -286,8 +286,7 @@ export default class GameScene {
     });
   }
   mouseup(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
     if (this.dragging !== null) {
       this.dragging.x = x;
       this.dragging.y = y;
@@ -343,8 +342,7 @@ export default class GameScene {
     }
   }
   click(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
     if (this.newTurn.hasPoint({ x, y })) {
       this.endTurn();
     }
@@ -356,8 +354,7 @@ export default class GameScene {
     }
   }
   mousemove(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
     if (this.dragging) {
       this.dragging.x = x;
       this.dragging.y = y;

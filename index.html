@@ -9,10 +9,18 @@
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap');
+
     * {
         margin: 0;
         padding: 0;
         font-family: 'Courier New', Courier, monospace;
+    }
+
+    html {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
     }
 
     body {
@@ -22,6 +30,14 @@
         justify-items: center;
         background-color: hsl(200, 7%, 84%);
         font-family: 'Skranji', cursive;
+        width: 320px;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    canvas {
+        transform: scale(0.3, 0.3);
+        transform-origin: 0.5 0.5;
     }
 </style>
 

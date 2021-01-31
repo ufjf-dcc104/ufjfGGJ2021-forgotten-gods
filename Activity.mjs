@@ -1,5 +1,4 @@
-import { TYPE_COLOR } from "./data/AllTimeConstants.mjs";
-import { FAST } from "./data/AllTimeConstants.mjs";
+import { TYPE_COLOR , FAST, PH } from "./data/AllTimeConstants.mjs";
 import { assets } from "./Game.mjs";
 import Sprite from "./Sprite.mjs";
 
@@ -9,8 +8,8 @@ export default class Activity extends Sprite {
     type = 0,
     expire = FAST,
     effect = () => {},
-    w = 100,
-    h = 100,
+    w = PH*1.7,
+    h = PH*1.7,
   }) {
     super({});
     this.type = type;
@@ -24,8 +23,8 @@ export default class Activity extends Sprite {
   }
   draw(ctx) {
     ctx.strokeStyle = TYPE_COLOR[this.type];
-    // ctx.lineWidth = 3;
-    // ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+     ctx.lineWidth = 3;
+     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.lineWidth = 1;
     const r = 0.07;
     const w = r * 0.75 * ctx.canvas.width;

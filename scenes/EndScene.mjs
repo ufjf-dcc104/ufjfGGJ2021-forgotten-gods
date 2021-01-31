@@ -113,8 +113,8 @@ export default class EndScene {
   }
 
   mousedown(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
+
     if (this.newGame.hasPoint({ x, y })) {
       this.game.setScene("game");
     }
@@ -124,8 +124,8 @@ export default class EndScene {
   }
   mouseup(e) {}
   click(e) {
-    const x = e.pageX - this.canvas.offsetLeft;
-    const y = e.pageY - this.canvas.offsetTop;
+    const [x,y] = getXY(e, this.canvas);
+
     if (this.newGame.hasPoint({ x, y })) {
     }
   }
