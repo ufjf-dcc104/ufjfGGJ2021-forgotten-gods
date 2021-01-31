@@ -12,7 +12,7 @@ export const SLOWEST = 40.0;
 export const TYPE_COLOR = {};
 export let PW = 0;
 export let PH = 0;
-export const setPlayerSize = (w, h)=>{
+export const setPeopleSize = (w, h)=>{
     PW = w;
     PH = h;
 }

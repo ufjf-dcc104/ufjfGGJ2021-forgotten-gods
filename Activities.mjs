@@ -21,11 +21,9 @@ export default class Activities {
   }
 
   loadAll(activities, canvas) {
-    const w = 0.3125 * canvas.width;
-    const h = 0.17857142857142858 * canvas.height;
     activities.forEach((s) => {
       for (let c = 0; c < s.qty; c++) {
-        this.add(new Activity({ ...s, w, h }));
+        this.add(new Activity({ ...s, PW, PH }));
       }
     });
     this.shuffle();
@@ -166,6 +164,6 @@ export default class Activities {
   }
   onSpawn(game) {
     const that = this;
-    game.areas.available.people.push(new People({ type: that.type, PW, PH }));
+    game.areas.available.people.push(new People({ type: that.type}));
   }
 }
