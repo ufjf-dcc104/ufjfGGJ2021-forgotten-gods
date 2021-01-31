@@ -1,7 +1,7 @@
 import Activity from "./Activity.mjs";
 import People from "./People.mjs";
 import { shuffleArray } from "./util/shuffle.mjs";
-import {PH, PW} from "./data/AllTimeConstants.mjs";
+import { PH, PW } from "./data/AllTimeConstants.mjs";
 
 export default class Activities {
   constructor(x = 300, y = 120, type = 0) {
@@ -9,7 +9,7 @@ export default class Activities {
     this.y = y;
     this.activities = [];
     this.max = 1;
-    this.reputation = 2;
+    this.reputation = Math.floor(Math.random() * 3 + 1);
     this.spawn = 1;
     this.type = type;
   }
@@ -83,7 +83,6 @@ export default class Activities {
     const w = game.canvas.height * r * 0.75;
     const h = game.canvas.height * r;
     if (this.spawn <= 0) {
-      console.log(this.type);
       this.doSpawn(game);
       this.spawn = 1;
     }
@@ -123,6 +122,7 @@ export default class Activities {
     this.setReputation(this.reputation + n);
   }
   doSpawn(game) {
-    game.areas.available.people.push(new People({ type: this.type, PW, PH }));
+    const that = this;
+    game.areas.available.people.push(new People({ type: that.type, PW, PH }));
   }
 }

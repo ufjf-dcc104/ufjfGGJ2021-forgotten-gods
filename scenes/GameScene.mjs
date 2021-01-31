@@ -92,9 +92,9 @@ export default class GameScene {
     const h = 0.115 * this.canvas.height;
     setPlayerSize(w, h);
     this.areas.cardCount.add(new People({ type: PRIEST, w, h }));
-    this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
-    this.areas.cardCount.add(new People({ type: SENATOR, w, h }));
     this.areas.cardCount.add(new People({ type: FARMER, w, h }));
+    this.areas.cardCount.add(new People({ type: SENATOR, w, h }));
+    this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
     this.areas.gods[0].doSpawn = () => {};
@@ -108,7 +108,7 @@ export default class GameScene {
 
   step(t) {
     this.t0 = this.t0 ?? t;
-    this.dt = (t - this.t0) / 1000;
+    this.dt = Math.min((t - this.t0) / 1000, 0.32);
     this.ctx.fillStyle = "hsl(200, 7%, 84%)";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
@@ -149,17 +149,6 @@ export default class GameScene {
       `${min}:${seg}`,
       0.5 * this.canvas.width,
       0.05 * this.canvas.height
-    );
-    this.ctx.font = "20px bold monospace";
-    this.ctx.fillText(
-      `Grace ${this.grace}`,
-      0.03125 * this.canvas.width,
-      0.03571428571428571 * this.canvas.height
-    );
-    this.ctx.fillText(
-      `Reputation ${this.reputation}`,
-      0.03125 * this.canvas.width,
-      0.07142857142857142 * this.canvas.height
     );
     if (this.expire <= 0) {
       //cancelAnimationFrame(this.animID);
@@ -221,23 +210,7 @@ export default class GameScene {
       new Activities(
         this.canvas.width / 2,
         0.17857142857142858 * this.canvas.height,
-        0
-      )
-    );
-    // Barracks
-    this.areas.buildings.push(
-      new Activities(
-        0.234375 * this.canvas.width,
-        0.35714285714285715 * this.canvas.height,
-        2
-      )
-    );
-    // Senate
-    this.areas.buildings.push(
-      new Activities(
-        0.78125 * this.canvas.width,
-        0.35714285714285715 * this.canvas.height,
-        1
+        PRIEST
       )
     );
     // Farm
@@ -245,7 +218,23 @@ export default class GameScene {
       new Activities(
         0.53125 * this.canvas.width,
         0.5357142857142857 * this.canvas.height,
-        3
+        FARMER
+      )
+    );
+    // Senate
+    this.areas.buildings.push(
+      new Activities(
+        0.78125 * this.canvas.width,
+        0.35714285714285715 * this.canvas.height,
+        SENATOR
+      )
+    );
+    // Barracks
+    this.areas.buildings.push(
+      new Activities(
+        0.234375 * this.canvas.width,
+        0.35714285714285715 * this.canvas.height,
+        SOLDIER
       )
     );
     this.newTurn = new Button(
