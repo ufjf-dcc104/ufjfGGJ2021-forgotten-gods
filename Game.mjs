@@ -13,6 +13,8 @@ assets.loadImage(`people${FARMER}`, "./assets/Farmer.png");
 assets.loadImage(`people${SOLDIER}`, "./assets/soldier.png");
 assets.loadImage(`people${SENATOR}`, "./assets/politician.png");
 assets.loadAudio(`theme`, "./assets/theme.mp3");
+assets.loadAudio(`lost`, "./assets/lost.mp3");
+assets.loadAudio(`win`, "./assets/win.mp3");
 
 
 export default class Game {

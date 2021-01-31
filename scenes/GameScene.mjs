@@ -49,6 +49,14 @@ export default class GameScene {
     total += totalGodReputations;
     this.game.messages.push("");
     this.game.messages.push(`TOTAL SCORE:\t\t${total}`);
+    this.game.score = total;
+    this.assets.stopAll();
+    if (total < 0) {
+      this.assets.play("lost");
+    } 
+    else {
+      this.assets.play("win");
+    }
   }
 
   setup() {

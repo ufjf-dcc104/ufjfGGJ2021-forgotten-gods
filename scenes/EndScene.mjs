@@ -15,14 +15,11 @@ export default class EndScene {
     this.createAreas();
   }
   start() {
-    this.assets.stopAll();
     requestAnimationFrame((t) => {
       this.step(t);
     });
   }
-  stop(){
-
-  }
+  stop() {}
   setup() {
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);
@@ -69,8 +66,14 @@ export default class EndScene {
     );
     this.ctx.font = "15px 'Skranji'";
     this.ctx.textAlign = "right";
-    for (let i = this.game.messages.length-1; i >= 0; i--) {
+
+    for (let i = this.game.messages.length - 1; i >= 0; i--) {
       const message = this.game.messages[i];
+      if (message.indexOf("-") >= 0) {
+        this.ctx.fillStyle = "red";
+      }else{
+        this.ctx.fillStyle = "hsl(0,0%,20%)";
+      }
       this.ctx.fillText(
         message,
         0.85 * this.canvas.width,
@@ -133,6 +136,4 @@ export default class EndScene {
     const newTouch = e.changedTouches[0];
     this.mousemove(newTouch);
   }
-
-
 }
