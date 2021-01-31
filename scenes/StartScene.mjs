@@ -86,7 +86,7 @@ export default class StartScene {
     );
     this.credits = new Button(
       0.5 * this.canvas.width,
-      0.83 * this.canvas.height,
+      0.8214285714285714 * this.canvas.height,
       0.25 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
       "Credits"
@@ -98,6 +98,12 @@ export default class StartScene {
     const y = e.pageY - this.canvas.offsetTop;
     if (this.newGame.hasPoint({ x, y })) {
       this.game.setScene("game");
+    }
+    if (this.credits.hasPoint({ x, y })) {
+      this.game.setScene("credits");
+    }
+    if (this.rules.hasPoint({ x, y })) {
+      this.game.setScene("rules");
     }
   }
   mouseup(e) {}
