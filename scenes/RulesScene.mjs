@@ -58,10 +58,38 @@ export default class RulesScene {
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     this.mainMenu.draw(this.ctx);
+
+    this.ctx.drawImage(
+      this.assets.img("menuBg"),
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
+    this.mainMenu.draw(this.ctx);
     this.ctx.fillStyle = "black";
-    this.ctx.font = "50px bold monospace";
+    let fontSize = 0.055 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`Rules`, this.canvas.width / 2, 0.2 * this.canvas.height );
+    this.ctx.fillText(`How to Play`, this.canvas.width/2, 0.35*this.canvas.height);
+
+    fontSize = 0.01951428571428571 * this.canvas.height;
+    this.ctx.font = `${fontSize}px 'Skranji'`;
+    this.ctx.fillText(`It is necessary to drag the cards around the scenario to`, 0.5*this.canvas.width, 0.40*this.canvas.height);
+    this.ctx.fillText(`the proposed locations. Send the right card to the      `, 0.5*this.canvas.width, 0.43*this.canvas.height);
+    this.ctx.fillText(`requested place within the time limit. get 1 point if   `, 0.5*this.canvas.width, 0.46*this.canvas.height);
+    this.ctx.fillText(`you get it right, and lose 1 point if you don't         `, 0.5*this.canvas.width, 0.49*this.canvas.height);
+    this.ctx.fillText(`(or get it wrong).Different scores when serving the gods`, 0.5*this.canvas.width, 0.52*this.canvas.height);
+    this.ctx.fillText(`(Grace Points), or your tribe (Reputation Points).In the`, 0.5*this.canvas.width, 0.55*this.canvas.height);
+    this.ctx.fillText(`the proposed locations. Send the right card to the      `, 0.5*this.canvas.width, 0.58*this.canvas.height);
+    this.ctx.fillText(`end it is added and to win you need to have a positive  `, 0.5*this.canvas.width, 0.61*this.canvas.height);
+    this.ctx.fillText(`score. When the marker for each tribe location is low,  `, 0.5*this.canvas.width, 0.64*this.canvas.height);
+    this.ctx.fillText(`it will generate less respwan of the cards. Store the   `, 0.5*this.canvas.width, 0.67*this.canvas.height);
+    this.ctx.fillText(`card in these places, it will remain in the reserve     `, 0.5*this.canvas.width, 0.70*this.canvas.height);
+    this.ctx.fillText(`until the next round is drawn. Any card that is brought `, 0.5*this.canvas.width, 0.73*this.canvas.height);
+    this.ctx.fillText(`to the Gods, it will be destroyed.                      `, 0.5*this.canvas.width, 0.76*this.canvas.height);   
+      
+        
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -71,7 +99,7 @@ export default class RulesScene {
   createAreas() {
     this.mainMenu = new Button(
       0.5 * this.canvas.width,
-      0.625 * this.canvas.height,
+      0.85 * this.canvas.height,
       0.25 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
       "Main Menu"
