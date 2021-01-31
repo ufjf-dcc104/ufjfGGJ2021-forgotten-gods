@@ -15,6 +15,8 @@ assets.loadImage(`people${SENATOR}`, "./assets/politician.png");
 assets.loadAudio(`theme`, "./assets/theme.mp3");
 assets.loadAudio(`lost`, "./assets/lost.mp3");
 assets.loadAudio(`win`, "./assets/win.mp3");
+assets.loadAudio(`gore`, "./assets/gore.mp3");
+assets.loadAudio(`thunder`, "./assets/thunder.mp3");
 
 
 export default class Game {

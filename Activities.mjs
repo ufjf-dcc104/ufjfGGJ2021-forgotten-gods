@@ -93,6 +93,12 @@ export default class Activities {
         this.loseRep();
         activity.expire = activity.total;
         this.sendToBottom(activity);
+        if (this.godMode && this.reputation < 2) {
+          game.assets.play("thunder", false, 0.3);
+          const idx = Math.floor(Math.random() * game.areas.ready.people.length);
+          const p = game.areas.ready.people.splice(idx, 1)[0];
+          if (p) game.areas.resting.add(p);
+        }
       }
     }
   }

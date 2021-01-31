@@ -29,6 +29,7 @@ export default class GameScene {
     this.animID = null;
   }
   start() {
+    this.assets.stopAll();
     //this.assets.play("theme", true, 0.1);
     this.animID = requestAnimationFrame((t) => {
       this.step(t);
@@ -105,9 +106,11 @@ export default class GameScene {
     this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
 
     this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
+    this.areas.gods[0].godMode = true;
     this.areas.gods[0].doSpawn = () => {};
     this.areas.gods[1].loadAll(ALL_GOD_B_CARDS, this.canvas);
     this.areas.gods[1].doSpawn = () => {};
+    this.areas.gods[1].godMode = true;
     this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS, this.canvas);
     this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS, this.canvas);
     this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS, this.canvas);
@@ -290,7 +293,9 @@ export default class GameScene {
         if (checked) {
           if (!checked.deliver(this.dragging.type)) {
             god.loseRep();
+            this.assets.play("thunder", false, 0.3);
           }
+          this.assets.play("gore");
           this.areas.died.add(this.dragging);
           this.areas.ready.delete(this.dragging);
           if (checked.demands.length === 0) {
