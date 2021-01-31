@@ -13,6 +13,7 @@ import { ALL_SENATE_CARDS } from "../data/AllSenateCards.mjs";
 import { ALL_TEMPLE_CARDS } from "../data/AllTempleCards.mjs";
 import { GAME_TIME } from "../data/AllTimeConstants.mjs";
 import { setPlayerSize, PW, PH } from "../data/AllTimeConstants.mjs";
+import Sacrifices from "../Sacrifices.mjs";
 
 export default class GameScene {
   constructor(canvas) {
@@ -208,8 +209,8 @@ export default class GameScene {
       )
     );
     this.areas.gods.push(
-      new Activities(
-        0.8125 * this.canvas.width,
+      new Sacrifices(
+        0.895 * this.canvas.width,
         0.14285714285714285 * this.canvas.height,
         0
       )
@@ -218,7 +219,7 @@ export default class GameScene {
     this.areas.buildings = [];
     // Temple
     this.areas.buildings.push(
-      new Activities(
+      new Sacrifices(
         this.canvas.width / 2,
         0.17857142857142858 * this.canvas.height,
         PRIEST
