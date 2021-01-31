@@ -3,9 +3,11 @@ export const FARMER = 1;
 export const SENATOR = 2;
 export const SOLDIER = 3;
 
-export const GAME_TIME = 5;
+export const GAME_TIME = 1;
+
 export const FAST = 20;
-export const SLOW = 40;
+export const SLOW = 30;
+export const SLOWEST = 40;
 
 export const TYPE_COLOR = {};
 

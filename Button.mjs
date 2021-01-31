@@ -12,7 +12,7 @@ export default class Button extends Sprite {
   draw(ctx) {
     ctx.beginPath();
     let size = 0.017857142857142856 * ctx.canvas.height;
-    ctx.font = `${size}px 'Skranji`;
+    ctx.font = `${size}px 'Skranji'`;
     ctx.textAlign="center";
     ctx.fillStyle = "white";
     ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);

@@ -19,7 +19,9 @@ export default class StartScene {
       this.step(t);
     });
   }
-
+  stop(){
+    
+  }
   setup() {
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);

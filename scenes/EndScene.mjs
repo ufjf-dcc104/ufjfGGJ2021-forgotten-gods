@@ -20,7 +20,9 @@ export default class EndScene {
       this.step(t);
     });
   }
+  stop(){
 
+  }
   setup() {
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);
@@ -58,9 +60,23 @@ export default class EndScene {
     this.mainMenu.draw(this.ctx);
     this.newGame.draw(this.ctx);
     this.ctx.fillStyle = "black";
-    this.ctx.font = "50px bold monospace";
+    this.ctx.font = "40px 'Skranji'";
     this.ctx.textAlign = "center";
-    this.ctx.fillText(`FIM`, this.canvas.width / 2, this.canvas.height / 2);
+    this.ctx.fillText(
+      `GAME OVER!`,
+      0.5 * this.canvas.width,
+      0.25 * this.canvas.height
+    );
+    this.ctx.font = "15px 'Skranji'";
+    this.ctx.textAlign = "right";
+    for (let i = this.game.messages.length-1; i >= 0; i--) {
+      const message = this.game.messages[i];
+      this.ctx.fillText(
+        message,
+        0.85 * this.canvas.width,
+        (0.35 + i * 0.04) * this.canvas.height
+      );
+    }
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -117,4 +133,6 @@ export default class EndScene {
     const newTouch = e.changedTouches[0];
     this.mousemove(newTouch);
   }
+
+
 }

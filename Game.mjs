@@ -19,12 +19,13 @@ export default class Game {
   constructor(canvas) {
     this.assets = assets;
     this.scenes = new Map();
+    this.messages = [];
     this.addScene("game", new GameScene(canvas));
     this.addScene("end", new EndScene(canvas));
     this.addScene("start", new StartScene(canvas));
     this.addScene("credits", new CreditsScene(canvas));
     this.addScene("rules", new RulesScene(canvas));
-    this.setScene("start");
+    this.setScene("end");
   }
   addScene(key, scene) {
     scene.game = this;
@@ -33,7 +34,7 @@ export default class Game {
   }
   setScene(scene) {
     if (this.scenes.has(scene)) {
-      console.log(scene);
+      this.scene?.stop();
       this.scene = this.scenes.get(scene);
       this.setup();
       this.start();

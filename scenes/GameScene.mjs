@@ -1,7 +1,7 @@
 import Ready from "../Ready.mjs";
 import Activities from "../Activities.mjs";
 import Area from "../Area.mjs";
-import { ALL_SACRIFICES, ALL_AVAILABLE } from "../AllCards.mjs";
+import { ALL_AVAILABLE } from "../data/AllCards.mjs";
 import People from "../People.mjs";
 import Button from "../Button.mjs";
 import { ALL_FARM_CARDS } from "../data/AllFarmCards.mjs";
@@ -31,6 +31,22 @@ export default class GameScene {
     this.animID = requestAnimationFrame((t) => {
       this.step(t);
     });
+  }
+  stop() {
+    this.game.messages = [];
+    const totalBuildReputations =
+      4 * this.areas.buildings.reduce((a, c) => a + c.reputation - 2, 0);
+    this.game.messages.push(
+      `Buildings Reputations:\t\t${totalBuildReputations}`
+    );
+    const totalGodReputations =
+      8 * this.areas.gods.reduce((a, c) => a + c.reputation - 2, 0);
+    this.game.messages.push(`GODS Grace:\t\t${totalGodReputations}`);
+    let total = 0;
+    total += totalBuildReputations;
+    total += totalGodReputations;
+    this.game.messages.push("");
+    this.game.messages.push(`TOTAL SCORE:\t\t${total}`);
   }
 
   setup() {

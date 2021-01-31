@@ -19,6 +19,9 @@ export default class RulesScene {
       this.step(t);
     });
   }
+  stop(){
+    
+  }
 
   setup() {
     this.canvas.onmousedown = (e) => {
