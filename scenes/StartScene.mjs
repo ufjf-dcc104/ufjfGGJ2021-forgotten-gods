@@ -56,6 +56,7 @@ export default class StartScene {
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     this.newGame.draw(this.ctx);
     this.credits.draw(this.ctx);
+    this.rules.draw(this.ctx);
     this.ctx.fillStyle = "black";
     this.ctx.font = "50px bold monospace";
     this.ctx.textAlign = "center";
@@ -76,9 +77,16 @@ export default class StartScene {
       0.05357142857142857 * this.canvas.height,
       "New Game"
     );
-    this.credits = new Button(
+    this.rules = new Button(
       0.5 * this.canvas.width,
       0.75 * this.canvas.height,
+      0.25 * this.canvas.width,
+      0.05357142857142857 * this.canvas.height,
+      "How to Play"
+    );
+    this.credits = new Button(
+      0.5 * this.canvas.width,
+      0.83 * this.canvas.height,
       0.25 * this.canvas.width,
       0.05357142857142857 * this.canvas.height,
       "Credits"
