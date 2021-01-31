@@ -73,7 +73,7 @@ export default class RulesScene {
     this.ctx.textAlign = "center";
     this.ctx.fillText(`How to Play`, this.canvas.width/2, 0.35*this.canvas.height);
 
-    fontSize = 0.01951428571428571 * this.canvas.height;
+    fontSize = 0.01901428571428571 * this.canvas.height;
     this.ctx.font = `${fontSize}px 'Skranji'`;
     this.ctx.fillText(`It is necessary to drag the cards around the scenario to`, 0.5*this.canvas.width, 0.40*this.canvas.height);
     this.ctx.fillText(`the proposed locations. Send the right card to the      `, 0.5*this.canvas.width, 0.43*this.canvas.height);
