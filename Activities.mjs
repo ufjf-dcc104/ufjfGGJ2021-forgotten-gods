@@ -13,10 +13,12 @@ export default class Activities {
     this.type = type;
   }
 
-  loadAll(activities) {
+  loadAll(activities, canvas) {
+    const w = 0.3125 * canvas.width;
+    const h = 0.17857142857142858 * canvas.height;
     activities.forEach((s) => {
       for (let c = 0; c < s.qty; c++) {
-        this.add(new Activity({ ...s, w: 200, h: 200 }));
+        this.add(new Activity({ ...s, w, h }));
       }
     });
     this.shuffle();
@@ -41,14 +43,18 @@ export default class Activities {
     }
     const x = this.x - 0.17 * canvas.width;
     const y = this.y + 0.095 * canvas.height;
-    const w = 0.33 * canvas.width;
+    const w = 0.25 * canvas.width;
     const h = 0.01 * canvas.height;
+    
+
+    // Draw spawn bar
+    // background
     ctx.fillStyle = "white";
     ctx.fillRect(x, y, w, h);
-    //draw spawn bar
-    ctx.fillStyle = "black";
+    //filling bar
     ctx.fillStyle = "red";
     ctx.fillRect(x, y, w * (1 - this.spawn), h);
+    // border
     ctx.strokeStyle = "hsl(120,50%,25%)";
     ctx.lineWidth = h / 3;
     ctx.strokeRect(x, y, w, h);

@@ -70,19 +70,19 @@ export default class GameScene {
       this.touchmove(e);
     };
 
+    const w = 0.115 * 0.75 * this.canvas.height;
+    const h = 0.115 * this.canvas.height;
+    this.areas.cardCount.add(new People({ type: PRIEST, w, h }));
+    this.areas.cardCount.add(new People({ type: SOLDIER, w, h }));
+    this.areas.cardCount.add(new People({ type: SENATOR, w, h }));
+    this.areas.cardCount.add(new People({ type: FARMER, w, h }));
 
-    const w = 0.115*0.75*this.canvas.height;
-    const h = 0.115*this.canvas.height;
-    this.areas.cardCount.add(new People({type: PRIEST, w,h}));
-    this.areas.cardCount.add(new People({type: SOLDIER, w,h}));
-    this.areas.cardCount.add(new People({type: SENATOR, w,h}));
-    this.areas.cardCount.add(new People({type: FARMER, w,h}));
-
-    this.areas.gods[0].loadAll(ALL_GOD_A_CARDS);
-    this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS);
-    this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS);
-    this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS);
-    this.areas.buildings[PRIEST].loadAll(ALL_TEMPLE_CARDS);
+    this.areas.gods[0].loadAll(ALL_GOD_A_CARDS, this.canvas);
+    this.areas.gods[1].loadAll(ALL_GOD_A_CARDS, this.canvas);
+    this.areas.buildings[SOLDIER].loadAll(ALL_BARRACKS_CARDS, this.canvas);
+    this.areas.buildings[FARMER].loadAll(ALL_FARM_CARDS, this.canvas);
+    this.areas.buildings[SENATOR].loadAll(ALL_SENATE_CARDS, this.canvas);
+    this.areas.buildings[PRIEST].loadAll(ALL_TEMPLE_CARDS, this.canvas);
   }
 
   step(t) {
@@ -92,7 +92,13 @@ export default class GameScene {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
     this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(this.assets.img("bg"), 0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(
+      this.assets.img("bg"),
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
 
     this.areas.cardCount.draw(this.ctx);
     this.areas.gods.forEach((god) => {
@@ -145,8 +151,11 @@ export default class GameScene {
   }
 
   createAreas() {
-
-    this.areas.ready = new Ready("Ready", 0.110*this.canvas.height, 0.73*this.canvas.height);
+    this.areas.ready = new Ready(
+      "Ready",
+      0.11 * this.canvas.height,
+      0.73 * this.canvas.height
+    );
     this.areas.cardCount = new Area(
       "Card Count",
       0.146875 * this.canvas.width,
@@ -171,21 +180,29 @@ export default class GameScene {
     this.areas.gods = [];
     this.areas.gods.push(
       new Activities(
-        0.13125 * this.canvas.width,
+        0.1875 * this.canvas.width,
         0.14285714285714285 * this.canvas.height,
         0
       )
     );
-    // this.areas.gods.push(new Activities(75, 200, 2));
+    this.areas.gods.push(
+      new Activities(
+        0.8125 * this.canvas.width,
+        0.14285714285714285 * this.canvas.height,
+        0
+      )
+    );
 
     this.areas.buildings = [];
+    // Temple
     this.areas.buildings.push(
       new Activities(
-        0.46875 * this.canvas.width,
+        this.canvas.width / 2,
         0.17857142857142858 * this.canvas.height,
         0
       )
     );
+    // Barracks
     this.areas.buildings.push(
       new Activities(
         0.234375 * this.canvas.width,
@@ -193,6 +210,7 @@ export default class GameScene {
         2
       )
     );
+    // Senate
     this.areas.buildings.push(
       new Activities(
         0.78125 * this.canvas.width,
@@ -200,6 +218,7 @@ export default class GameScene {
         1
       )
     );
+    // Farm
     this.areas.buildings.push(
       new Activities(
         0.53125 * this.canvas.width,
@@ -335,7 +354,7 @@ export default class GameScene {
     const newTouch = e.changedTouches[0];
     this.mousemove(newTouch);
   }
-  endTurn(){
+  endTurn() {
     this.areas.resting.addAll(this.areas.ready);
 
     if (this.areas.available.size() <= 5) {
