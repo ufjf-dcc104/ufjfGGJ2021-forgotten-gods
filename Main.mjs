@@ -1,10 +1,26 @@
 import Game from "./Game.mjs";
 
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+const ASPECT = 1.80149015434;
+const cw = document.body.clientWidth;
+const ch = document.body.clientHeight;
+if (ch > cw) {
+  canvas.height = ch;
+  canvas.width = ch / ASPECT;
+  if (canvas.width > cw) {
+    canvas.width = cw;
+    canvas.height = cw * ASPECT;
+  }
+} else {
+  canvas.width = cw;
+  canvas.height = cw * ASPECT;
+  if (canvas.height > ch) {
+    canvas.height = ch;
+    canvas.width = ch / ASPECT;
+  }
+}
 
-    const canvas = document.createElement("canvas");
-    canvas.width = 320*3;
-    canvas.height = 560*3;
-    document.body.appendChild(canvas);
-    const game = new Game(canvas);
-    game.setup();
-    game.start();
+const game = new Game(canvas);
+game.setup();
+game.start();
