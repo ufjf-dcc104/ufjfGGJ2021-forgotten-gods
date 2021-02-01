@@ -5,7 +5,7 @@ export default class StartScene {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
-    this.expire = 180;
+    this.expire = 1;
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
@@ -22,6 +22,7 @@ export default class StartScene {
   }
   stop() {}
   setup() {
+    this.expire = 1;
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);
     };
@@ -51,6 +52,7 @@ export default class StartScene {
   step(t) {
     this.t0 = this.t0 ?? t;
     this.dt = (t - this.t0) / 1000;
+    this.expire += this.expire > 0 ? -1 * this.dt : 0;
     this.ctx.fillStyle = "hsl(200, 7%, 84%)";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
@@ -64,15 +66,15 @@ export default class StartScene {
     );
 
     this.ctx.fillStyle = "black";
-    if (this.assets.progresso() < 100) {
-  
+    if (this.assets.progresso() < 100 || this.expire > 0) {
       let fontSize = 0.03571428571428571 * this.canvas.height;
       this.ctx.font = `${fontSize}px 'Skranji'`;
-      this.textAlign = "center";
+      this.ctx.textAlign = "center";
       this.ctx.fillText(
         `Loading... ${this.assets.progresso()}%`,
-        0.2 * this.canvas.width,
-        0.56 * this.canvas.height
+        0.5 * this.canvas.width,
+        0.56 * this.canvas.height,
+        this.canvas.width
       );
     } else {
       this.newGame.draw(this.ctx);
@@ -111,7 +113,7 @@ export default class StartScene {
   }
 
   mousedown(e) {
-    if (this.assets.progresso() < 100.0) {
+    if (this.assets.progresso() < 100.0 || this.expire > 0) {
       return;
     }
     const [x, y] = getXY(e, this.canvas);

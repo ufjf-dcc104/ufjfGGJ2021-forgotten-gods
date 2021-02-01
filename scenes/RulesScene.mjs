@@ -5,7 +5,7 @@ export default class RulesScene {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
-    this.expire = 180;
+    this.expire = 1;
     this.grace = 5;
     this.reputation = 5;
     this.dragging = null;
@@ -16,6 +16,7 @@ export default class RulesScene {
     this.createAreas();
   }
   start() {
+    this.expire = 1;
     requestAnimationFrame((t) => {
       this.step(t);
     });
@@ -25,6 +26,7 @@ export default class RulesScene {
   }
 
   setup() {
+    this.expire = 1;
     this.canvas.onmousedown = (e) => {
       this.mousedown(e);
     };
@@ -54,6 +56,7 @@ export default class RulesScene {
   step(t) {
     this.t0 = this.t0 ?? t;
     this.dt = (t - this.t0) / 1000;
+    this.expire += this.expire > 0 ? -1 * this.dt : 0;
     this.ctx.fillStyle = "hsl(200, 7%, 84%)";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.strokeStyle = "hsl(200, 7%, 74%)";
@@ -67,7 +70,8 @@ export default class RulesScene {
       this.canvas.width,
       this.canvas.height
     );
-    this.mainMenu.draw(this.ctx);
+    if (this.expire < 0) {
+      this.mainMenu.draw(this.ctx);}
     this.ctx.fillStyle = "black";
     let fontSize = 0.055 * this.canvas.height;
     this.ctx.font = `${fontSize}px 'Skranji'`;
@@ -108,6 +112,9 @@ export default class RulesScene {
   }
 
   mousedown(e) {
+    if (this.expire > 0) {
+      return;
+    }
     const [x,y] = getXY(e, this.canvas);
 
     if (this.mainMenu.hasPoint({ x, y })) {
