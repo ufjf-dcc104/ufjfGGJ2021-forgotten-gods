@@ -42,11 +42,11 @@ export default class GameScene {
     const totalBuildReputations =
       4 * this.areas.buildings.reduce((a, c) => a + c.reputation - 2, 0);
     this.game.messages.push(
-      `Buildings Reputations:\t\t${totalBuildReputations}`
+      `Building's Reputation:\t\t${totalBuildReputations}`
     );
     const totalGodReputations =
       8 * this.areas.gods.reduce((a, c) => a + c.reputation - 2, 0);
-    this.game.messages.push(`GODS Grace:\t\t${totalGodReputations}`);
+    this.game.messages.push(`God's Grace:\t\t${totalGodReputations}`);
     let total = 0;
     total += totalBuildReputations;
     total += totalGodReputations;
